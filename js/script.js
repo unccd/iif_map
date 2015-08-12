@@ -1,10 +1,9 @@
 window.app = {};
 
 $.getJSON('data/combined.json', function(data){
-  app.state = {};
-
-  app.summary = doSummary(data);
-  app.filters = doFilters(data);
+  app.data = new Backbone.Collection(data);
+  app.summary = doSummary(app.data);
+  app.filters = doFilters(app.data);
   app.map = doMap(data);
   return;
 })

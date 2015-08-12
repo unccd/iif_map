@@ -40,11 +40,22 @@
   </script>
 
   <script id='map' type="text/ractive">
+    <label>
+      Enter your name:
+      <input value='{{name}}'>
+    </label>
+    <p>Hello, {{name}}!</p>
+    <label>
+  <input type='checkbox' checked='{{checked}}'>
+  {{#if checked}}checked!{{else}}not checked{{/if}}
+</label>
   </script>
 
   <script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
   <script src='ext/zepto.min.js'></script>
   <script src='ext/lodash.min.js'></script>
+  <script src='ext/backbone.min.js'></script>
+  <script src='ext/ractive-backbone-adaptor.min.js'></script>
   <script src='js/script.js'></script>
 
 </body>
