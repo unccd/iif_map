@@ -353,15 +353,15 @@
   },
   {
     "iso3": "COD",
-    "name": "Democratic Republic of Congo",
-    "terr_name": "Congo, Democratic Republic of",
+    "name": "Democratic Republic of the Congo",
+    "terr_name": "Congo, Democratic Republic of the",
     "lat": "-2.686476",
     "abbrev": "COD",
     "lon": "23.275488"
   },
   {
     "iso3": "COG",
-    "name": "Republic of Congo",
+    "name": "Congo",
     "terr_name": "Congo, Republic of",
     "lat": "-0.176075",
     "abbrev": "COG",
@@ -905,8 +905,8 @@
   },
   {
     "iso3": "KGZ",
-    "name": "Kyrgyz Republic",
-    "terr_name": "Kyrgyz Republic",
+    "name": "Kyrgyzstan",
+    "terr_name": "Kyrgyzstan",
     "lat": "41.465055",
     "abbrev": "KGZ",
     "lon": "74.555597"
@@ -937,7 +937,7 @@
   },
   {
     "iso3": "KOR",
-    "name": "Korea (Republic of)",
+    "name": "Republic of Korea",
     "terr_name": "Korea, Republic of",
     "lat": "36.375089",
     "abbrev": "KOR",
@@ -1105,7 +1105,7 @@
   },
   {
     "iso3": "MKD",
-    "name": "Republic of Macedonia",
+    "name": "The former Yugoslav Republic of Macedonia",
     "terr_name": "Republic of Macedonia",
     "lat": "41.599682",
     "abbrev": "MKD",
@@ -1729,7 +1729,7 @@
   },
   {
     "iso3": "TZA",
-    "name": "Tanzania (United Republic of)",
+    "name": "United Republic of Tanzania",
     "terr_name": "Tanzania",
     "lat": "-6.270354",
     "abbrev": "TZA",
@@ -1761,7 +1761,7 @@
   },
   {
     "iso3": "USA",
-    "name": "United States",
+    "name": "United States of America",
     "terr_name": "United States",
     "lat": "40.382491",
     "abbrev": "USA",
@@ -1889,7 +1889,7 @@
   },
   {
     "iso3": "SVK",
-    "name": "Slovak Republic",
+    "name": "Slovakia",
     "terr_name": "Slovak Republic",
     "lat": "48.7",
     "abbrev": "SVK",
