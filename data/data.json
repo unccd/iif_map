@@ -296,7 +296,7 @@
   {
     "region": "Africa",
     "subregion": "Western Africa",
-    "country": "Cote d Ivoire",
+    "country": "Côte d'Ivoire",
     "iif_established": true,
     "description": "The National Agricultural Investment Program (French acronym: PNIA) 2012-2015. The NAP-CAD project is being finalized. "
   },
@@ -590,7 +590,7 @@
   {
     "region": "Asia",
     "subregion": "South East Asia",
-    "country": "Lao Peoples Democratic Republic",
+    "country": "Lao People's Democratic Republic",
     "iif_established": false,
     "description": "The IFS could be a next step as an activity in Laos, now that the enabling policy and capacity framework has been built in Laos supported by The Global Mechanism of the UNCCD and the EU."
   },
@@ -828,14 +828,14 @@
   {
     "region": "Latin America and the Caribbean",
     "subregion": "Andean",
-    "country": "Bolivia - Plurinational State of",
+    "country": "Bolivia (Plurinational State of)",
     "iif_established": false,
     "description": "The IIF will be defined during the NAP alignment process."
   },
   {
     "region": "Latin America and the Caribbean",
     "subregion": "Andean",
-    "country": "Colombia*",
+    "country": "Colombia",
     "iif_established": false,
     "description": "No existe un marco de inversión integrado específicamente para la Convención de Lucha Contra la Desertificación. No obstante, en la planeación del presupuesto nacional, se destinan recursos dirigidos a la lucha contra la desertificación, degradación de tierras y sequía."
   },

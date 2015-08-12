@@ -1,4 +1,4 @@
-$.getJSON('data/countries.json', function(data){
+$.getJSON('data/combined.json', function(data){
   console.dir(data); 
   doSummary(data);
   return doFilters(data);
