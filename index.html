@@ -24,19 +24,27 @@
 
   <script id='summary' type='text/ractive'>
     <h2>Summary of situation</h2>
-    {{countries.length}} countries
+    <div>{{countries.length}} countries</div>
+    <div>With IIFs: {{withIifs(countries).length}}</div>
+    <div>Without IIFs: {{withoutIifs(countries).length}}</div>
   </script>
 
   <script id='filters' type='text/ractive'>
     <ul>
       {{#each countries}}
-        <li>{{iso3}}</li>
+        <div>
+          <button on-click='clickCountry'>{{country}} ({{iso3}})</button>
+        </div>
       {{/each}}
     </ul>
   </script>
 
+  <script id='map' type="text/ractive">
+  </script>
+
   <script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
   <script src='ext/zepto.min.js'></script>
+  <script src='ext/lodash.min.js'></script>
   <script src='js/script.js'></script>
 
 </body>
