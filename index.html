@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang='en-GB'>
+<head>
+  <meta charset='utf-8'>
+  <title>UNCCD IIF Maps</title>
+  <link rel="stylesheet" type="text/css" href="css/normalize.css">
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
+</head>
+
+<body>
+  <h1>UNCCD IIF Maps</h1>
+
+  <div id='container' class="w-row container">
+    <div class="w-col w-col-4 controls">
+      <div class="summary">
+        <div>Summary of situation</div>
+      </div>
+      <div class="filters">
+        <div>List of countries</div>
+      </div>
+    </div>
+    <div class="w-col w-col-8 content">
+      <div class="map"></div>
+    </div>
+  </div>
+
+  <script id='summary' type='text/ractive'>
+    {{countries.length}} countries
+  </script>
+
+  <script id='filters' type='text/ractive'>
+    <ul>
+      {{#each countries}}
+        <li>{{iso3}}</li>
+      {{/each}}
+    </ul>
+  </script>
+
+  <script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
+  <script src='ext/zepto.min.js'></script>
+  <script src='js/script.js'></script>
+
+</body>
+</html>
