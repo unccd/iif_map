@@ -54,20 +54,19 @@ function drawMap(data) {
     map: 'world_merc',
     series: {
       regions: [{
-        values: app.getMapData(data),
+        values: getMapData(data),
         scale: ['#C8EEFF', '#0071A4'],
         normalizeFunction: 'polynomial'
       }]
     },
     onRegionClick: function(event, regionString) {
-      // console.log(regionString);
       country = app.data.findWhere({iso2: regionString});
       return app.explorer.set('selected', country);
     }
   });
 }
 
-app.getMapData = function (data) {
+function getMapData (data) {
   output = {};
   app.data.each(function(i){
     iso2 = i.get('iso2');
