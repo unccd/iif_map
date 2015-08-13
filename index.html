@@ -25,9 +25,9 @@
       </div>
       <div class="filters">
         <h2>List of countries</h2>
-        {{#selected}}
+        {{#if selected}}
           <div on-click='set("selected","")'>Selected country is: {{selected.get('country')}}
-        {{/selected}}
+        {{/if}}
         {{#each countries}}
           <div on-click='viewCountry(iso3)'>{{country}}</div> 
         {{/each}}

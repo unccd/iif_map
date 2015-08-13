@@ -1,8 +1,8 @@
 window.app = {};
 
-Countries = Backbone.Collection.extend({
+var Countries = Backbone.Collection.extend({
   comparator: 'iso3'
-})
+});
 
 $.getJSON('data/combined.json', function(data){
   app.data = new Countries(data);
@@ -11,21 +11,15 @@ $.getJSON('data/combined.json', function(data){
     console.log('Set filter event (check window.e)');
     window.e = event;
   });
-  window.m = $(".map").vectorMap({
-    map: 'world_merc',
-    onRegionClick: function(event, regionString) {
-      country = app.data.findWhere({iso2: regionString})
-      app.explorer.set('selected', country)
-    }
-  });
+  window.m = drawMap(app.data);
   return;
-})
+});
 
 function explorer(data) {
   return new Ractive({
     el: '.container',
     template: '#explorer',
-    data: { 
+    data: {
       selected: '',
       countries: data,
       withIifs: function(countries){
@@ -46,7 +40,6 @@ function explorer(data) {
     viewCountry: function(iso3) {
       var selectedCountry = app.data.findWhere({iso3: iso3});
       this.set('selected', selectedCountry);
-      console.log(selectedCountry.get('description'));
     }
   });
 }
@@ -56,3 +49,30 @@ function interestingStats(data) {
   return stats;
 }
 
+function drawMap(data) {
+  return $(".map").vectorMap({
+    map: 'world_merc',
+    series: {
+      regions: [{
+        values: app.getMapData(data),
+        scale: ['#C8EEFF', '#0071A4'],
+        normalizeFunction: 'polynomial'
+      }]
+    },
+    onRegionClick: function(event, regionString) {
+      // console.log(regionString);
+      country = app.data.findWhere({iso2: regionString});
+      return app.explorer.set('selected', country);
+    }
+  });
+}
+
+app.getMapData = function (data) {
+  output = {};
+  app.data.each(function(i){
+    iso2 = i.get('iso2');
+    iif_established = i.get('iif_established') ? 1 : 0;
+    output[iso2] = iif_established;
+  });
+  return output;
+}
