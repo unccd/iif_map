@@ -13,8 +13,9 @@ $.getJSON('data/combined.json', function(data){
   });
   window.m = $(".map").vectorMap({
     map: 'world_merc',
-    onRegionClick: function(e,str) {
-      window.e = e;
+    onRegionClick: function(event, regionString) {
+      country = app.data.findWhere({iso2: regionString})
+      app.explorer.set('selected', country)
     }
   });
   return;
