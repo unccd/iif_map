@@ -8,16 +8,17 @@ $.getJSON('data/combined.json', function(data){
   app.data = new Countries(data);
   app.explorer = explorer(app.data);
   app.explorer.on('setFilter', function(event){
+    console.log('Set filter event (check window.e)');
     window.e = event;
+  });
+  window.m = $(".map").vectorMap({
+    map: 'world_merc',
+    onRegionClick: function(e,str) {
+      window.e = e;
+    }
   });
   return;
 })
-
-Ractive.decorators.chosen.type.demo = function (node) {
-  return {
-      width: '90%'
-  }
-};
 
 function explorer(data) {
   return new Ractive({
