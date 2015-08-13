@@ -5,57 +5,51 @@
   <title>UNCCD IIF Maps</title>
   <link rel="stylesheet" type="text/css" href="css/normalize.css">
   <link rel="stylesheet" type="text/css" href="css/styles.css">
+  <link rel="stylesheet" type="text/css" href="ext/chosen.min.css">
 </head>
 
 <body>
   <h1>UNCCD IIF Maps</h1>
 
   <div id='container' class="w-row container">
+
+  </div>
+
+  <script id='explorer' type="text/ractive">
     <div class="w-col w-col-4 controls">
-      <div class="summary"></div>
+      <div class="summary">
+        <h2>Summary of situation</h2>
+        <div>{{countries.length}} countries</div>
+        <div on-click='addFilter("with_iifs")'>With IIFs: {{ withIifs(countries).length }}</div>
+        <div on-click='addFilter("without_iifs")'>Without IIFs: {{ withoutIifs(countries).length }}</div>
+      </div>
       <div class="filters">
-        <div>List of countries</div>
+        <h2>List of countries</h2>
+        {{#selected}}
+          <div on-click='set("selected","")'>Selected country is: {{selected.get('country')}}
+        {{/selected}}
+        {{#each countries}}
+          <div on-click='viewCountry(iso3)'>{{country}}</div> 
+        {{/each}}
       </div>
     </div>
     <div class="w-col w-col-8 content">
-      <div class="map"></div>
+      <div class="map">
+        {{#selected}}
+          {{description}}
+        {{/selected}}
+      </div>
     </div>
-  </div>
-
-  <script id='summary' type='text/ractive'>
-    <h2>Summary of situation</h2>
-    <div>{{countries.length}} countries</div>
-    <div>With IIFs: {{withIifs(countries).length}}</div>
-    <div>Without IIFs: {{withoutIifs(countries).length}}</div>
   </script>
 
-  <script id='filters' type='text/ractive'>
-    <ul>
-      {{#each countries}}
-        <div>
-          <button on-click='clickCountry'>{{country}} ({{iso3}})</button>
-        </div>
-      {{/each}}
-    </ul>
-  </script>
-
-  <script id='map' type="text/ractive">
-    <label>
-      Enter your name:
-      <input value='{{name}}'>
-    </label>
-    <p>Hello, {{name}}!</p>
-    <label>
-  <input type='checkbox' checked='{{checked}}'>
-  {{#if checked}}checked!{{else}}not checked{{/if}}
-</label>
-  </script>
 
   <script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
-  <script src='ext/zepto.min.js'></script>
+  <script src='ext/jquery.min.js'></script>
   <script src='ext/lodash.min.js'></script>
   <script src='ext/backbone.min.js'></script>
   <script src='ext/ractive-backbone-adaptor.min.js'></script>
+  <script src='ext/chosen.jquery.min.js'></script>
+  <script src='ext/ractive-chosen-decorator.min.js'></script>
   <script src='js/script.js'></script>
 
 </body>

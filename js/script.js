@@ -1,55 +1,56 @@
 window.app = {};
 
+Countries = Backbone.Collection.extend({
+  comparator: 'iso3'
+})
+
 $.getJSON('data/combined.json', function(data){
-  app.data = new Backbone.Collection(data);
-  app.summary = doSummary(app.data);
-  app.filters = doFilters(app.data);
-  app.map = doMap(data);
+  app.data = new Countries(data);
+  app.explorer = explorer(app.data);
+  app.explorer.on('setFilter', function(event){
+    window.e = event;
+  });
   return;
 })
 
-function doSummary(data) {
+Ractive.decorators.chosen.type.demo = function (node) {
+  return {
+      width: '90%'
+  }
+};
+
+function explorer(data) {
   return new Ractive({
-    el: '.summary',
-    template: '#summary',
+    el: '.container',
+    template: '#explorer',
     data: { 
+      selected: '',
       countries: data,
       withIifs: function(countries){
-        return _.select(countries, function(i){
-          return i.iif_established;
+        return countries.select(function(i){
+          return i.get('iif_established');
         });
       },
       withoutIifs: function(countries){
-        return _.select(countries, function(i){
-          return !i.iif_established;
+        return countries.select(function(i){
+          return !i.get('iif_established');
         });
       }
+    },
+    adapt: ['Backbone'],
+    addFilter: function(thing) {
+      console.log(thing);
+    },
+    viewCountry: function(iso3) {
+      var selectedCountry = app.data.findWhere({iso3: iso3});
+      this.set('selected', selectedCountry);
+      console.log(selectedCountry.get('description'));
     }
-
   });
-}
-
-function doFilters(data) {
-  ractive = new Ractive({
-    el: '.filters',
-    template: '#filters',
-    data: { countries: data }
-  });
-  ractive.on( 'clickCountry', function ( event ) {
-    return console.log(event.context.description);
-  });
-  return ractive;
-}
-
-function doMap(data) {
-  return new Ractive({
-    el: '.map',
-    template: '#map',
-    data: { countries: data }
-  })
 }
 
 function interestingStats(data) {
-
+  var stats = {};
   return stats;
 }
+

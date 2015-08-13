@@ -4,6 +4,11 @@
   fill: rgb(125, 125, 125);
 }
 
+.hotdog {
+  margin: 0 auto;
+  float: left;
+}
+
 
 html {
   height: 100%;
@@ -14,6 +19,11 @@ body {
   min-height: 100%;
   background-color: #fff;
   color: #333;
+}
+
+h1, h2 {
+  margin: 0;
+  line-height: 100%;
 }
 
 ul {
@@ -121,7 +131,7 @@ body {
 }
 
 .filters {
-  height: auto;
+  height: 120px;
   background-color: #f8981d;
 }
 
