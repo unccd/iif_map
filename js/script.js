@@ -59,8 +59,14 @@ function drawMap(data) {
     series: {
       regions: [{
         values: getMapData(data),
-        scale: ['#C8EEFF', '#0071A4'],
-        normalizeFunction: 'polynomial'
+        // scale: {'0': 'red', '1': 'blue'},
+        scale: ['#eee', '#bbb'],
+        normalizeFunction: 'linear',
+        attribute: 'fill',
+        legend: {
+          horizontal: true,
+          title: 'IIF established',
+        }
       }]
     },
     onRegionClick: function(event, regionString) {
@@ -88,7 +94,7 @@ function getMapData(data) {
   output = {};
   app.data.each(function(i) {
     iso2 = i.get('iso2');
-    iif_established = i.get('iif_established') ? 1 : 0;
+    iif_established = i.get('iif_established') ? 10 : 0;
     output[iso2] = iif_established;
   });
   return output;

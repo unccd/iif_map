@@ -125,6 +125,11 @@ body {
   padding-left: 0px;
 }
 
+.detail {
+  height: 120px;
+  background-color: red;
+}
+
 .summary {
   height: 120px;
   background-color: #61bc62;
@@ -137,5 +142,15 @@ body {
 
 .map {
   height: 450px;
+}
+
+.hidden {
+  position: fixed;
+  transform: translate3d(-250px,0,0);
+}
+
+.visible {
+  transform: translate3d(0,0,0);
+  transition: transform 0.5s;
 }
 
