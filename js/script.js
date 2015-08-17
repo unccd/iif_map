@@ -58,11 +58,14 @@ function drawMap(data) {
     map: 'world_merc',
     series: {
       regions: [{
-        values: getMapData(data),
-        // scale: {'0': 'red', '1': 'blue'},
-        scale: ['#eee', '#bbb'],
-        normalizeFunction: 'linear',
         attribute: 'fill',
+        scale: {
+          '0': '#eee', 
+          '1': '#bbb'
+        },
+        values: getMapData(data),
+        // scale: ['#eee', '#bbb'],
+        // normalizeFunction: 'linear',
         legend: {
           horizontal: true,
           title: 'IIF established',
@@ -94,8 +97,9 @@ function getMapData(data) {
   output = {};
   app.data.each(function(i) {
     iso2 = i.get('iso2');
-    iif_established = i.get('iif_established') ? 10 : 0;
+    iif_established = i.get('iif_established') ? 1 : 0;
     output[iso2] = iif_established;
   });
+  window.data = output;
   return output;
 }
