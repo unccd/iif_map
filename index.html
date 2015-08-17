@@ -3,44 +3,42 @@
 <head>
   <meta charset='utf-8'>
   <title>UNCCD IIF Maps</title>
-  <link rel="stylesheet" type="text/css" href="css/normalize.css">
+  <link rel="stylesheet" type="text/css" href="ext/normalize.css">
+  <link rel="stylesheet" type="text/css" href="ext/webflow.css">
+  <link rel="stylesheet" type="text/css" href="css/unccd.css">
   <link rel="stylesheet" type="text/css" href="css/styles.css">
   <link rel="stylesheet" type="text/css" href="ext/jquery-jvectormap-2.0.4.css">
 </head>
 
 <body>
-  <h1>UNCCD IIF Maps</h1>
-
   <div id='container' class="w-row container">
 
   </div>
 
   <script id='explorer' type="text/html">
-    <div class="w-col w-col-4 controls hidden">
-      <div class="detail"></div>
-    </div>
     <div class="w-col w-col-4 controls">
       <div class="summary">
-        <h2>Summary of situation</h2>
-        <div>{{countries.length}} countries</div>
-        <div on-click='addFilter("with_iifs")'>With IIFs: {{ withIifs(countries).length }}</div>
-        <div on-click='addFilter("without_iifs")'>Without IIFs: {{ withoutIifs(countries).length }}</div>
+        {{#selected}}
+          <div on-click='set("selected", false)'>
+            <h1>{{selected ? selected.get('country') : ''}}</h1>
+            <div class='description'>{{description}}</div>
+          </div>
+        {{else}}
+          <div class="section-heading summary-section">Summary of situation</div>
+          <div class='summary-text'>{{countries.length}} countries</div>
+          <div class='summary-text' on-click='addFilter("with_iifs")'>With IIFs: {{ withIifs(countries).length }}</div>
+          <div class='summary-text' on-click='addFilter("without_iifs")'>Without IIFs: {{ withoutIifs(countries).length }}</div>
+        {{/selected}}
       </div>
       <div class="filters">
-        <h2>List of countries</h2>
-        {{#selected}}
-          <div on-click='set("selected", false)'>Selected country is: {{selected ? selected.get('country') : ''}}</div>
-        {{/selected}}
+        <div class="section-heading list">List of countries</div>
         {{#each countries}}
-          <div on-click='viewCountry(iso3)'>{{country}}</div> 
+          <div class='summary-text' on-click='viewCountry(iso3)'>{{country}}</div> 
         {{/each}}
       </div>
     </div>
     <div class="w-col w-col-8 content">
       <div class="map">
-        {{#selected}}
-          {{description}}
-        {{/selected}}
       </div>
     </div>
   </script>
