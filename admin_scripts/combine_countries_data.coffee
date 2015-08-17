@@ -4,7 +4,7 @@ _   = require 'lodash'
 class Process
   constructor: ->
     dataFile = fs.realpathSync(__dirname + '/../data/data.json')
-    data = JSON.parse(fs.readFileSync(dataFile, encoding: 'utf8'))
+    data = JSON.parse(fs.readFileSync(dataFile, encoding: 'utf8')).rows
 
     countriesFile = fs.realpathSync(__dirname + '/../data/countries.json')
     countries = JSON.parse(fs.readFileSync(countriesFile, encoding: 'utf8'))
