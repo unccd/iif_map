@@ -6,7 +6,7 @@
   "subregion": "Central Africa",
   "country": "Burundi",
   "srap": false,
-  "iif_established": true,
+  "iif_established": true, // true or false
   "plan": "plan_exists",
   "planned_other_voluntary_national_target": null,
   "iso3": "BDI",
@@ -19,15 +19,19 @@
 
 ### Keys from above example:
 
-  - region
-  - subregion
-  - country
-  - srap
-  - iif_established
-  - plan
-  - planned_other_voluntary_national_target
-  - iso3
-  - iso2
-  - lat
-  - lon
-  - description
+  - `region`
+  - `subregion`
+  - `country`
+  - `srap`
+  - `iif_established`
+  - `plan`
+  - `planned_other_voluntary_national_target`
+  - `iso3`
+  - `iso2`
+  - `lat`
+  - `lon`
+  - `description`
+
+
+## Options for `plan` field
+
