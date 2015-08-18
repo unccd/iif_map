@@ -6,7 +6,7 @@
   "subregion": "Central Africa",
   "country": "Burundi",
   "srap": false,
-  "iif_established": true, // true or false
+  "iif_established": true,
   "plan": "plan_exists",
   "planned_other_voluntary_national_target": null,
   "iso3": "BDI",
@@ -35,3 +35,9 @@
 
 ## Options for `plan` field
 
+  - `plan_exists`
+  - `2014_2015`
+  - `2016_2017`
+  - `2018_2019`
+  - `no_plan`
+  - `no_answer`
