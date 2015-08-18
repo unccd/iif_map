@@ -7,10 +7,10 @@ class Process
     dataFile = fs.realpathSync(__dirname + '/../data/data.json')
     data = JSON.parse(fs.readFileSync(dataFile, encoding: 'utf8')).rows
 
-    countriesFile = fs.realpathSync(__dirname + '/../data/countries.json')
+    countriesFile = fs.realpathSync(__dirname + '/../data/ssc_countries.json')
     countries = JSON.parse(fs.readFileSync(countriesFile, encoding: 'utf8'))
 
-    iso2_to_3File = fs.realpathSync(__dirname + '/../data/iso2_to_3.json')
+    iso2_to_3File = fs.realpathSync(__dirname + '/../data/fao_countries.json')
     iso2_to_3 = JSON.parse(fs.readFileSync(iso2_to_3File, encoding: 'utf8'))
     
     # console.log data.length, 'data entries'
@@ -43,6 +43,7 @@ class Process
     output = output.map (line) ->
       description = line.description
       delete line.description
+      console.log line
       line.description = description
       return line
 
