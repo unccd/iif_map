@@ -17,22 +17,6 @@
 }
 ```
 
-### Keys from above example:
-
-  - `region`
-  - `subregion`
-  - `country`
-  - `srap`
-  - `iif_established`
-  - `plan`
-  - `planned_other_voluntary_national_target`
-  - `iso3`
-  - `iso2`
-  - `lat`
-  - `lon`
-  - `description`
-
-
 ## Options for `plan` field
 
   - `plan_exists`
