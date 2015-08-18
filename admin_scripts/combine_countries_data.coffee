@@ -1,5 +1,6 @@
 fs  = require 'fs'
 _   = require 'lodash'
+json2csv = require 'json2csv'
 
 class Process
   constructor: ->
@@ -38,6 +39,18 @@ class Process
         line.iso2 = found.iso2
       return line
 
-    fs.writeFileSync(__dirname + '/../data/combined.json', JSON.stringify(output))
+    # fs.writeFileSync(__dirname + '/../data/combined.json', JSON.stringify(output))
+
+    # Create and write CSV version
+    fields = _.keys(output[0])
+    json2csv {
+      data: output
+      fields: fields
+    }, (err, csv) ->
+      if err
+        console.log err
+      fs.writeFileSync(__dirname + '/../data/combined.csv', csv)
+      return
+
 
 new Process
