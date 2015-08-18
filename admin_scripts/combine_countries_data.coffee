@@ -39,6 +39,13 @@ class Process
         line.iso2 = found.iso2
       return line
 
+    # Move description to last property (for human-readable display)
+    output = output.map (line) ->
+      description = line.description
+      delete line.description
+      line.description = description
+      return line
+
     # fs.writeFileSync(__dirname + '/../data/combined.json', JSON.stringify(output))
 
     # Create and write CSV version
