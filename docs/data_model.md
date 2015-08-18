@@ -1,6 +1,7 @@
 ## Example IIFStatus record model
 
-```  {
+```  
+{
   region: Africa,
   subregion: Central Africa,
   country: Burundi,
@@ -13,7 +14,7 @@
   lat: -3.356175,
   lon: 29.887145,
   description: Burundi is implementing a detailed program for developing agriculture in Africa (PDDAA), as well as an action plan regarding NEPAD’s environmental initiative.
-  }
+}
 ```
 
 ### Keys from above example:
