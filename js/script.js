@@ -4,7 +4,7 @@ window.app || (window.app = {});
 // App launch
 // 
 
-$.getJSON('data/combined.json', function(data) {
+$.getJSON('data/iif_status.json', function(data) {
   app.data = new Countries(data);
   app.explorer = explorer(app.data);
 

@@ -1090,7 +1090,7 @@
     "gaul": "160"
   },
   {
-    "official_name": "the united Mexican States",
+    "official_name": "the United Mexican States",
     "faostat": "138",
     "short_name": "Mexico",
     "iso3": "MEX",
@@ -1820,9 +1820,9 @@
     "gaul": "254"
   },
   {
-    "official_name": "the united Arab Emirates",
+    "official_name": "the United Arab Emirates",
     "faostat": "225",
-    "short_name": "united Arab Emirates",
+    "short_name": "United Arab Emirates",
     "iso3": "ARE",
     "uni": "784",
     "undp": "UAE",
@@ -1830,9 +1830,9 @@
     "gaul": "255"
   },
   {
-    "official_name": "the united Kingdom of Great Britain and Northern Ireland",
+    "official_name": "the United Kingdom of Great Britain and Northern Ireland",
     "faostat": "229",
-    "short_name": "united Kingdom",
+    "short_name": "United Kingdom",
     "iso3": "GBR",
     "uni": "826",
     "undp": "UKM",
@@ -1840,9 +1840,9 @@
     "gaul": "256"
   },
   {
-    "official_name": "the united Republic of Tanzania",
+    "official_name": "the United Republic of Tanzania",
     "faostat": "215",
-    "short_name": "united Republic of Tanzania",
+    "short_name": "United Republic of Tanzania",
     "iso3": "TZA",
     "uni": "834",
     "undp": "URT",
@@ -1850,9 +1850,9 @@
     "gaul": "257"
   },
   {
-    "official_name": "the united States of America",
+    "official_name": "the United States of America",
     "faostat": "231",
-    "short_name": "united States of America",
+    "short_name": "United States of America",
     "iso3": "USA",
     "uni": "840",
     "undp": "USA",
