@@ -18,9 +18,9 @@
   <script id='explorer' type="text/html">
     <div class="w-col w-col-4 controls">
       <div class="summary">
-        {{#selected}}
-          <div on-click='set("selected", false)'>
-            <h1>{{selected ? selected.get('country') : ''}}</h1>
+        {{#selectedCountry}}
+          <div on-click='set("selectedCountry", false)'>
+            <h1>{{selectedCountry ? selectedCountry.get('country') : ''}}</h1>
             <div class='description'>IIF established: {{iif_established ? 'yes!' : 'no...'}}</div>
             <div class='description'>{{description}}</div>
           </div>
@@ -29,7 +29,7 @@
           <div class='summary-text'>{{countries.length}} countries</div>
           <div class='summary-text' on-click='addFilter("with_iifs")'>With IIFs: {{ withIifs(countries).length }}</div>
           <div class='summary-text' on-click='addFilter("without_iifs")'>Without IIFs: {{ withoutIifs(countries).length }}</div>
-        {{/selected}}
+        {{/selectedCountry}}
       </div>
       <div class="filters">
         <div class="section-heading list">List of countries</div>

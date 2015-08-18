@@ -1,3 +1,5 @@
+// App
+
 window.app = {};
 
 var Countries = Backbone.Collection.extend({
@@ -7,21 +9,31 @@ var Countries = Backbone.Collection.extend({
 $.getJSON('data/combined.json', function(data) {
   app.data = new Countries(data);
   app.explorer = explorer(app.data);
-  app.explorer.on('setFilter', function(event) {
-    console.log('Set filter event (check window.e)');
-    window.e = event;
-  });
+
+  // app.explorer.on('change', function(changeObject) { 
+  //   if (changeObject.selectedCountry != undefined) {
+  //     if (changeObject.selectedCountry) { 
+  //       return console.log('change selectedCountry to', changeObject.selectedCountry);
+  //     } else {
+  //       return console.log('reset selectedCountry ');
+  //     }
+  //   };
+  //   return;
+  // });
+
   window.m = drawMap(app.data);
   window.mo = m.vectorMap('get', 'mapObject');
   return;
 });
+
+// Explorer view
 
 function explorer(data) {
   return new Ractive({
     el: '.container',
     template: '#explorer',
     data: {
-      selected: '',
+      selectedCountry: '',
       countries: data,
       withIifs: function(countries) {
         return countries.select(function(i) {
@@ -35,14 +47,14 @@ function explorer(data) {
       }
     },
     adapt: ['Backbone'],
-    addFilter: function(thing) {
-      console.log(thing);
+    addFilter: function(filterState) {
+      console.log(filterState);
     },
     viewCountry: function(iso3) {
       var selectedCountry = app.data.findWhere({
         iso3: iso3
       });
-      this.set('selected', selectedCountry);
+      this.set('selectedCountry', selectedCountry);
     }
   });
 }
@@ -58,14 +70,15 @@ function drawMap(data) {
     map: 'world_merc',
     series: {
       regions: [{
-        attribute: 'fill',
+        // scale: ['#4169E1', '#FF69B4'],
         scale: {
-          '0': '#eee', 
-          '1': '#bbb'
+          'yes': '#990032', 
+          'plan': 'green',
+          'no plan': 'lightgreen'
         },
+        normalizeFunction: 'ordinal',
+        attribute: 'fill',
         values: getMapData(data),
-        // scale: ['#eee', '#bbb'],
-        // normalizeFunction: 'linear',
         legend: {
           horizontal: true,
           title: 'IIF established',
@@ -76,15 +89,15 @@ function drawMap(data) {
       country = app.data.findWhere({
         iso2: regionString
       });
-      if (app.explorer.get('selected') == country) {
-        app.explorer.set('selected', false);
+      if (app.explorer.get('selectedCountry') == country) {
+        app.explorer.set('selectedCountry', false);
         return mo.setFocus({
           scale: mo.baseScale,
           x: mo.baseTransX,
           y: mo.baseTransY
         });
       } else {
-        app.explorer.set('selected', country);
+        app.explorer.set('selectedCountry', country);
         return mo.setFocus({
           region: regionString
         });
@@ -95,11 +108,16 @@ function drawMap(data) {
 
 function getMapData(data) {
   output = {};
-  app.data.each(function(i) {
+  app.data.forEach(function(i) {
+    // Good to put this all on the collection
+    if(i.get('srap')){return}; // Don't render SRAPs
     iso2 = i.get('iso2');
-    iif_established = i.get('iif_established') ? 1 : 0;
+    iif_established = i.get('iif_established') ? 'yes' : 'no';
+    if (iif_established == 'no') {
+      iif_established = _.includes(['2014_2015', '2016_2017', '2018_2019', 'plan_exists'], i.get('plan')) ? 'plan' : 'no plan';
+      
+    }
     output[iso2] = iif_established;
   });
-  window.data = output;
   return output;
 }
