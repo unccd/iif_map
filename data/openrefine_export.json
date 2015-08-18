@@ -165,7 +165,7 @@
       "subregion" : "Eastern Africa",
       "country" : "Somalia",
       "srap" : false,
-      "description" : "N/A",
+      "description" : "",
       "iif_established" : false,
       "plan" : "no_plan",
       "planned_other_voluntary_national_target" : null
@@ -885,7 +885,7 @@
       "subregion" : "South East Asia",
       "country" : "Singapore",
       "srap" : false,
-      "description" : "`",
+      "description" : "",
       "iif_established" : false,
       "plan" : "no_plan",
       "planned_other_voluntary_national_target" : null
@@ -1515,7 +1515,7 @@
       "subregion" : "Northern Mediterranean",
       "country" : "Albania",
       "srap" : false,
-      "description" : "Not applicable",
+      "description" : "",
       "iif_established" : false,
       "plan" : "no_plan",
       "planned_other_voluntary_national_target" : null

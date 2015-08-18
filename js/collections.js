@@ -5,5 +5,5 @@ window.app || (window.app = {});
 // 
 
 var Countries = Backbone.Collection.extend({
-  comparator: 'iso3'
+  comparator: 'country'
 });
