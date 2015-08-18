@@ -22,6 +22,7 @@
           <div on-click='set("selectedCountry", false)'>
             <h1>{{selectedCountry ? selectedCountry.get('country') : ''}}</h1>
             <div class='description'>IIF established: {{iif_established ? 'yes!' : 'no...'}}</div>
+            <div class='description'>IIF planned: {{plan}}</div>
             <div class='description'>{{description}}</div>
           </div>
         {{else}}

@@ -6,15 +6,14 @@ window.app || (window.app = {});
 
 function drawMap(data) {
   return $(".map").vectorMap({
-    backgroundColor: 'lightgrey',
+    backgroundColor: '#feba2b',
     map: 'world_merc',
     series: {
       regions: [{
-        // scale: ['#4169E1', '#FF69B4'],
         scale: {
-          'yes': '#990032', 
-          'plan': 'green',
-          'no plan': 'lightgreen'
+          'yes': '#F47730', 
+          'plan': '#579DD4',
+          'no plan': '#005BA9'
         },
         normalizeFunction: 'ordinal',
         attribute: 'fill',
