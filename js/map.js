@@ -43,6 +43,7 @@ function drawMap(collection) {
       }
     }
   });
+  return map.vectorMap('get', 'mapObject');
 }
 
 function getMapData(collection) {
