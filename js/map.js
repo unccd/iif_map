@@ -4,7 +4,7 @@ window.app || (window.app = {});
 // Setup map
 // 
 
-function drawMap(data) {
+function drawMap(collection) {
   return $(".map").vectorMap({
     backgroundColor: '#feba2b',
     map: 'world_merc',
@@ -17,7 +17,7 @@ function drawMap(data) {
         },
         normalizeFunction: 'ordinal',
         attribute: 'fill',
-        values: getMapData(data),
+        values: getMapData(collection),
         legend: {
           horizontal: true,
           title: 'IIF established',
@@ -25,7 +25,7 @@ function drawMap(data) {
       }]
     },
     onRegionClick: function(event, regionString) {
-      country = app.data.findWhere({
+      country = collection.findWhere({
         iso2: regionString
       });
       if (app.explorer.get('selectedCountry') == country) {
@@ -45,9 +45,9 @@ function drawMap(data) {
   });
 }
 
-function getMapData(data) {
+function getMapData(collection) {
   output = {};
-  data.forEach(function(i) {
+  collection.forEach(function(i) {
     // Good to put this all on the collection
     if(i.get('srap')){return}; // Don't render SRAPs
     iso2 = i.get('iso2');

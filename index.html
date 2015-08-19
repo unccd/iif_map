@@ -28,8 +28,8 @@
         {{else}}
           <div class="section-heading summary-section">Summary of situation</div>
           <div class='summary-text'>{{countries.length}} countries</div>
-          <div class='summary-text' on-click='addFilter("with_iifs")'>With IIFs: {{ withIifs(countries).length }}</div>
-          <div class='summary-text' on-click='addFilter("without_iifs")'>Without IIFs: {{ withoutIifs(countries).length }}</div>
+          <div class='summary-text' on-click='setFilter("with_iifs")'>With IIFs: {{ withIifs(countries).length }}</div>
+          <div class='summary-text' on-click='setFilter("without_iifs")'>Without IIFs: {{ withoutIifs(countries).length }}</div>
         {{/selectedCountry}}
       </div>
       <div class="filters">
@@ -49,7 +49,7 @@
   <script src='ext/jquery.min.js'></script>
   <script src='ext/lodash.min.js'></script>
   <script src='ext/backbone.min.js'></script>
-  <script src='ext/backbone-filtered-collection.js'></script>
+  <script src='ext/backbone.obscura.js'></script>
   <script src='ext/ractive-backbone-adaptor.min.js'></script>
   <script src='ext/jquery-jvectormap-2.0.4.min.js'></script>
   <script src='ext/jquery-jvectormap-world-merc.js'></script>

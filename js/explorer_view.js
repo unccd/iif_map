@@ -4,13 +4,13 @@ window.app || (window.app = {});
 // Explorer view
 // 
 
-function explorer(data) {
+function explorer(collection) {
   return new Ractive({
     el: '.container',
     template: '#explorer',
     data: {
       selectedCountry: '',
-      countries: data,
+      countries: collection,
       withIifs: function(countries) {
         return countries.select(function(i) {
           return i.get('iif_established');
@@ -23,14 +23,26 @@ function explorer(data) {
       }
     },
     adapt: ['Backbone'],
-    addFilter: function(filterState) {
-      console.log(filterState);
+    setFilter: function(filterState) {
+      if (filterState == 'with_iifs') {
+        collection.filterBy(filterState, {iif_established: true})
+      } else if (filterState == 'without_iifs') {
+        collection.filterBy(filterState, {iif_established: false})
+      };
+      return;
     },
     viewCountry: function(iso3) {
-      var selectedCountry = app.data.findWhere({
+      var selectedCountry = collection.findWhere({
         iso3: iso3
       });
       this.set('selectedCountry', selectedCountry);
+    },
+    otherFunction: function(value) {
+      console.log(value);
     }
   });
+}
+
+function figureFilter(filterState, collection) {
+
 }
