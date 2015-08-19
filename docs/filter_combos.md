@@ -13,21 +13,36 @@ Getting a handle on how to combine filters, states - what makes sense, and how t
 
 **Status (complex)**
 
-- `iif_status`: _main_ filter field, range of possible options [below](#detail_for_iif_status)
+- `iif_or_plan`: _main_ filter field, range of possible options [below](#detail_for_iif_or_plan)
 
 
 **Subregional Action Programmes**
 
 - `srap`: possible use as a pop-up, but not main switch of any kind
 
-- `iif_established`: boolean (included in `iif_status`)
+- `iif_established`: boolean (included in `iif_or_plan`)
 - `planned_other_voluntary_national_target`: not used - 
 - `iso3`, `iso2`, `lat`, `lon`: not used
 - `use_centre_point`: only used for presentation (i.e. markers for small places)
 - `description`: no 
 
 
-## Detail for `iif_status`
+## Field options
+
+**`iif_or_plan`:**
+
+- `iif` - has an IIF
+- `plan` - has a plan for an IIF
+- `no plan` - has no IIF, and no plan for an IIF
+- `unknown` - no information
+
+**`iif_plan_year`:**
+
+- `2014_2015`
+- `2016_2017`
+- `2018_2019`
+- `(blank)` - either has IIF, or has no plan, or is unknown
+
 
 ### Three views they want: 
 
@@ -37,6 +52,6 @@ Getting a handle on how to combine filters, states - what makes sense, and how t
 
 ### Queries for each
 
-1. iif_status == 'plan_exists' OR NOT
-2. above is true and (iif_status == 'no_plan' OR NOT)
+1. iif_or_plan == 'plan_exists' OR NOT
+2. above is true and (iif_or_plan == 'no_plan' OR NOT)
 3. receives_gm_support == true OR NOT
