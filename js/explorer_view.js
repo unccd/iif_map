@@ -14,6 +14,17 @@ function explorer(collection, filters) {
       countries: collection,
       filters: filters
     },
+    computed: {
+      countryCount: function () {
+        return this.get('countries').where({srap: false}).length;
+      },
+      srapCount: function () {
+        return this.get('countries').where({srap: true}).length;
+      },
+      filterFacetCounts: function () {
+        return this.get('countries').length;
+      }
+    },
     adapt: ['Backbone'],
     setFilter: function() {
       var filter = this.event.node.dataset.filter;
@@ -51,7 +62,6 @@ function handleFilter(filterModel) {
 
       // Then add filter to collection
       collection.filterBy(filterModel.id, filterModel.get('filterState'))
-      console.log(collection.getFilters());
     }
 
 
@@ -61,10 +71,4 @@ function handleFilter(filterModel) {
 
   }
   
-  // if (filterState == 'with_iifs') {
-  //   collection.filterBy(filterState, {iif_status: 'plan_exists'})
-  // } else if (filterState == 'without_iifs') {
-  //   collection.filterBy(filterState, {iif_established: false})
-  // };
-  // return;
 }

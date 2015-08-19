@@ -44,7 +44,8 @@
   <script id='summary' type='text/html'>
     <div class="summary">
       <div class="section-heading summary-section">Summary of situation</div>
-      <div class='summary-text'>{{countries.length}} countries</div>
+      <div class='summary-text'>Countries: {{countryCount}}</div>
+      <div class='summary-text'>SRAPs: {{srapCount}}</div>
     </div>
   </script>
 
@@ -53,7 +54,7 @@
     <div class="filters">
       <div class="section-heading list">Collection - List of other filters</div>
         <p>Select countries with...</p>
-        <ul>
+        <ul class='filters-list'>
           {{#each filters}}
             <li on-click='setFilter()' data-filter='{{short_name}}'>{{title}}</li>
           {{/each}}

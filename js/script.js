@@ -10,17 +10,15 @@ $.getJSON('data/iif_status.json', function(data) {
 
   // Possible Filters collection
   app.filters = new Filters([
-    {title: 'With IIF', short_name: 'with_iif', filterState: {iif_or_plan: 'iif'}, exclusive: true}, 
-    {title: 'No IIF, plan exists', short_name: 'with_plan', filterState: {iif_or_plan: 'plan'}, exclusive: true}, 
-    {title: 'No IIF, no plan', short_name: 'no_plan', filterState: {iif_or_plan: 'no_plan'}, exclusive: true},
-    {title: 'No data', short_name: 'unknown', filterState: {iif_or_plan: 'unknown'}, exclusive: true},
-    {title: 'Planned 2014-2015', short_name: '2014_2015', filterState: {iif_plan_start: '2014_2015'}, exclusive: true},
-    {title: 'Planned 2016-2017', short_name: '2016_2017', filterState: {iif_plan_start: '2016_2017'}, exclusive: true},
-    {title: 'Planned 2018-2019', short_name: '2018_2019', filterState: {iif_plan_start: '2018_2019'}, exclusive: true},
-    {title: 'GM supported', short_name: 'gm_supported', filterState: {gm_supported: true}, exclusive: true}
-  ],{
-    onCollection: app.filtered_data
-  });
+    {attribute: 'iif_or_plan', title: 'With IIF', short_name: 'with_iif', filterState: {iif_or_plan: 'iif'}, exclusive: true}, 
+    {attribute: 'iif_or_plan', title: 'No IIF, plan exists', short_name: 'with_plan', filterState: {iif_or_plan: 'plan'}, exclusive: true}, 
+    {attribute: 'iif_or_plan', title: 'No IIF, no plan', short_name: 'no_plan', filterState: {iif_or_plan: 'no_plan'}, exclusive: true},
+    {attribute: 'iif_or_plan', title: 'No data', short_name: 'unknown', filterState: {iif_or_plan: 'unknown'}, exclusive: true},
+    {attribute: 'iif_or_plan', title: 'Planned 2014-2015', short_name: '2014_2015', filterState: {iif_plan_start: '2014_2015'}, exclusive: true},
+    {attribute: 'iif_or_plan', title: 'Planned 2016-2017', short_name: '2016_2017', filterState: {iif_plan_start: '2016_2017'}, exclusive: true},
+    {attribute: 'iif_or_plan', title: 'Planned 2018-2019', short_name: '2018_2019', filterState: {iif_plan_start: '2018_2019'}, exclusive: true},
+    {attribute: 'iif_or_plan', title: 'GM supported', short_name: 'gm_supported', filterState: {gm_supported: true}, exclusive: true}
+  ]);
 
   
   // Ractive view containing all components
