@@ -11,16 +11,25 @@ function drawMap(collection) {
     series: {
       regions: [{
         scale: {
-          'yes': '#F47730', 
+          'iif': '#F47730', 
           'plan': '#579DD4',
-          'no plan': '#005BA9'
+          'no_plan': '#005BA9',
+          'unknown': 'pink'
         },
         normalizeFunction: 'ordinal',
         attribute: 'fill',
         values: getMapData(collection),
         legend: {
-          horizontal: true,
-          title: 'IIF established',
+          // horizontal: true,
+          // title: 'IIF established',
+          labelRender: function(v){
+            return {
+              iif: 'IIF exists',
+              plan: 'IIF planned',
+              no_plan: 'No plan',
+              unknown: 'No data'
+            }[v];
+          }
         }
       }]
     },
@@ -28,6 +37,7 @@ function drawMap(collection) {
       country = collection.findWhere({
         iso2: regionString
       });
+      if(country == undefined) { return }
       if (app.explorer.get('selectedCountry') == country) {
         app.explorer.set('selectedCountry', false);
         return app.map.setFocus({
@@ -41,6 +51,16 @@ function drawMap(collection) {
           region: regionString
         });
       }
+    },
+    onRegionTipShow: function(event, label, code) {
+      var country = collection.findWhere({iso2: code})
+      if (country) {
+        var status = country.get('iif_or_plan');
+        label.html(
+          '<b>'+label.html()+'</b></br>'+
+          '<b>Status: </b>' + status
+        );
+      }
     }
   });
   return map.vectorMap('get', 'mapObject');
@@ -52,12 +72,8 @@ function getMapData(collection) {
     // Good to put this all on the collection
     if(i.get('srap')){return}; // Don't render SRAPs
     iso2 = i.get('iso2');
-    iif_established = i.get('iif_established') ? 'yes' : 'no';
-    if (iif_established == 'no') {
-      iif_established = _.includes(['2014_2015', '2016_2017', '2018_2019', 'plan_exists'], i.get('plan')) ? 'plan' : 'no plan';
-      
-    }
-    output[iso2] = iif_established;
+    iif_or_plan = i.get('iif_or_plan');
+    output[iso2] = iif_or_plan;
   });
   return output;
 }

@@ -6,8 +6,8 @@
   <link rel="stylesheet" type="text/css" href="ext/normalize.css">
   <link rel="stylesheet" type="text/css" href="ext/webflow.css">
   <link rel="stylesheet" type="text/css" href="css/unccd.css">
-  <link rel="stylesheet" type="text/css" href="css/styles.css">
   <link rel="stylesheet" type="text/css" href="ext/jquery-jvectormap-2.0.4.css">
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 
 <body>
@@ -21,14 +21,14 @@
         {{#selectedCountry}}
           <div on-click='set("selectedCountry", false)'>
             <h1>{{selectedCountry ? selectedCountry.get('country') : ''}}</h1>
-            <div class='description'>IIF status: {{iif_status}}</div>
+            <div class='description'>IIF status: {{iif_or_plan}}</div>
+            <div class='description'>IIF planned: {{iif_plan_start}}</div>
             <div class='description'>{{description}}</div>
           </div>
         {{else}}
           <div class="section-heading summary-section">Summary of situation</div>
           <div class='summary-text'>{{countries.length}} countries</div>
-          <div class='summary-text' on-click='setFilter({iif_exists: true})'>With IIFs: {{ withIifs.length }}</div>
-          <div class='summary-text' on-click='setFilter({iif_exists: false})'>Without IIFs: {{ withoutIifs.length }}</div>
+          <div class='summary-text' on-click='toggleFilter("iif_exists")'>With IIFs: {{ withIIFs.length }}</div>
         {{/selectedCountry}}
       </div>
       <div class="filters">
