@@ -52,6 +52,6 @@ Getting a handle on how to combine filters, states - what makes sense, and how t
 
 ### Queries for each
 
-1. iif_or_plan == 'plan_exists' OR NOT
-2. above is true and (iif_or_plan == 'no_plan' OR NOT)
+1. iif_or_plan 
+2. iif_or_plan == 'plan'
 3. receives_gm_support == true OR NOT
