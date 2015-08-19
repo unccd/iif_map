@@ -5,7 +5,7 @@ window.app || (window.app = {});
 // 
 
 function drawMap(collection) {
-  return $(".map").vectorMap({
+  var map = $(".map").vectorMap({
     backgroundColor: '#feba2b',
     map: 'world_merc',
     series: {

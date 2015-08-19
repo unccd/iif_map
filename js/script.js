@@ -19,7 +19,5 @@ $.getJSON('data/iif_status.json', function(data) {
   //   return console.log('changed list');
   // });
 
-  map = drawMap(app.filtered_data);
-  app.map = map.vectorMap('get', 'mapObject');
   return;
 });
