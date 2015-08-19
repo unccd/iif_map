@@ -13,6 +13,7 @@
   "iso2": "BI",
   "lat": "-3.356175",
   "lon": "29.887145",
+  "use_centre_point": false,
   "description": "Burundi is implementing a detailed program for developing agriculture in Africa (PDDAA), as well as an action plan regarding NEPAD’s environmental initiative."
 }
 ```
