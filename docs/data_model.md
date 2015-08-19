@@ -6,8 +6,8 @@
   "subregion": "Central Africa",
   "country": "Burundi",
   "srap": false,
+  "iif_status": "plan_exists",
   "iif_established": true,
-  "plan": "plan_exists",
   "planned_other_voluntary_national_target": null,
   "iso3": "BDI",
   "iso2": "BI",
@@ -26,3 +26,12 @@
   - `2018_2019`
   - `no_plan`
   - `no_answer`
+
+
+## Example of Explorer view data model
+
+```
+{
+  selectedCountry: CountryModel
+}
+```
