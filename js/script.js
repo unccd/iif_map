@@ -34,16 +34,17 @@ $.getJSON('data/iif_status.json', function(data) {
   app.map = drawMap(app.filtered_data);
 
 
-  // app.explorer.on('change', function(changeObject) { 
-  //   // if (changeObject.selectedCountry != undefined) {
-  //   //   if (changeObject.selectedCountry) { 
-  //   //     return console.log('change selectedCountry to', changeObject.selectedCountry);
-  //   //   } else {
-  //   //     return console.log('reset selectedCountry ');
-  //   //   }
-  //   // };
-  //   return console.log('changed list');
-  // });
+  app.explorer.on('change', function(changeObject) { 
+    if (changeObject.selectedCountry != undefined) {
+      if (changeObject.selectedCountry) { 
+        console.log('change selectedCountry to', changeObject.selectedCountry);
+        return zoomMapToSelected(changeObject.selectedCountry.iso2);
+      } else {
+        console.log('reset selectedCountry ');
+        return zoomMapToAll();
+      }
+    };
+  });
 
   return;
 });

@@ -31,23 +31,17 @@ function drawMap(collection) {
         }
       }]
     },
-    onRegionClick: function(event, regionString) {
+    onRegionClick: function(event, regionCode) {
       country = collection.findWhere({
-        iso2: regionString
+        iso2: regionCode
       });
       if(country == undefined) { return }
+
+      // TODO: Refactor to zoomIn and reset zoom functions
       if (app.explorer.get('selectedCountry') == country) {
         app.explorer.set('selectedCountry', false);
-        return app.map.setFocus({
-          scale: app.map.baseScale,
-          x: app.map.baseTransX,
-          y: app.map.baseTransY
-        });
       } else {
         app.explorer.set('selectedCountry', country);
-        return app.map.setFocus({
-          region: regionString
-        });
       }
     },
     onRegionTipShow: function(event, label, code) {
@@ -79,4 +73,19 @@ function getMapData(collection) {
 function updateMap() {
   app.map.reset();
   return app.map.series.regions[0].setValues(getMapData(app.filtered_data));
+}
+
+function zoomMapToSelected(regionCode) {
+  console.log(regionCode);
+  return app.map.setFocus({
+    region: regionCode
+  });
+}
+
+function zoomMapToAll() {
+  return app.map.setFocus({
+    scale: app.map.baseScale,
+    x: app.map.baseTransX,
+    y: app.map.baseTransY
+  });
 }
