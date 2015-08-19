@@ -16,6 +16,19 @@
   </div>
 
   <script id='explorer' type="text/html">
+    <div class="w-col w-col-4 controls">
+      {{>detail}}
+      {{>summary}}
+      {{>filters}}
+    </div>
+    <div class="w-col w-col-8 content">
+      <div class="map">
+      </div>
+    </div>
+  </script>
+
+  <!-- COUNTRY DETAIL PARTIAL -->
+  <script id='detail' type="text/html">
     {{#selectedCountry}}
       <div class="detail" on-click='set("selectedCountry", false)'>
         <h1>{{selectedCountry ? selectedCountry.get('country') : ''}}</h1>
@@ -24,24 +37,28 @@
         <div class='description'>{{description}}</div>
       </div>
     {{/selectedCountry}}
-    <div class="w-col w-col-4 controls">
-      <div class="summary">
-        <div class="section-heading summary-section">Summary of situation</div>
-        <div class='summary-text'>{{countries.length}} countries</div>
-        <div class='summary-text' on-click='toggleFilter("iif_exists")'>With IIFs: {{ withIIFs.length }}</div>
-      </div>
-      <div class="filters">
-        <div class="section-heading list">List of countries</div>
-        {{#each countries}}
-          <div class='summary-text' on-click='viewCountry(iso3)'>{{country}}</div> 
-        {{/each}}
-      </div>
-    </div>
-    <div class="w-col w-col-8 content">
-      <div class="map">
-      </div>
+  </script>
+
+
+  <!-- SUMMARY PARTIAL -->
+  <script id='summary' type='text/html'>
+    <div class="summary">
+      <div class="section-heading summary-section">Summary of situation</div>
+      <div class='summary-text'>{{countries.length}} countries</div>
+      <div class='summary-text' on-click='toggleFilter("iif_exists")'>With IIFs: {{ withIIFs.length }}</div>
     </div>
   </script>
+
+  <!-- FILTERS PARTIAL -->
+  <script id='filters' type="text/html">
+    <div class="filters">
+      <div class="section-heading list">List of countries</div>
+      {{#each countries}}
+        <div class='summary-text' on-click='viewCountry(iso3)'>{{country}}</div> 
+      {{/each}}
+    </div>
+  </script>
+
 
   <script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
   <script src='ext/jquery.min.js'></script>

@@ -1,7 +1,8 @@
 /* Detail div*/
 .detail {
-  height: auto;
-  z-index: 1;
+  height: 450px;
+  width: 100%;
+  z-index: 10;
   position: absolute;
   background: rgba(211, 239, 53, 0.95);
 }
