@@ -11,14 +11,16 @@ function explorer(collection) {
     data: {
       selectedCountry: '',
       countries: collection,
-      withIifs: function(countries) {
-        return countries.select(function(i) {
-          return i.get('iif_established');
+    // },
+    // computed: {
+      withIifs: function() {
+        return this.get('countries').select(function(i) {
+          return i.get('iif_status') == 'plan_exists';
         });
       },
-      withoutIifs: function(countries) {
-        return countries.select(function(i) {
-          return !i.get('iif_established');
+      withoutIifs: function() {
+        return this.get('countries').select(function(i) {
+          return !i.get('iif_status') == 'plan_exists';
         });
       }
     },
