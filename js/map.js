@@ -14,14 +14,12 @@ function drawMap(collection) {
           'iif': '#F47730', 
           'plan': '#579DD4',
           'no_plan': '#005BA9',
-          'unknown': 'pink'
+          'unknown': 'rgb(105, 40, 90)'
         },
         normalizeFunction: 'ordinal',
         attribute: 'fill',
         values: getMapData(collection),
         legend: {
-          // horizontal: true,
-          // title: 'IIF established',
           labelRender: function(v){
             return {
               iif: 'IIF exists',

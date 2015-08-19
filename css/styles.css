@@ -1,3 +1,15 @@
+/* Detail div*/
+.detail {
+  height: auto;
+  z-index: 1;
+  position: absolute;
+  background: rgba(211, 239, 53, 0.95);
+}
+
+
+
+/*jVectormap customisation*/
+
 .jvectormap-legend {
   background: rgba(0, 0, 0, 0.28);
   color: white;

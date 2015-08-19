@@ -16,20 +16,19 @@
   </div>
 
   <script id='explorer' type="text/html">
+    {{#selectedCountry}}
+      <div class="detail" on-click='set("selectedCountry", false)'>
+        <h1>{{selectedCountry ? selectedCountry.get('country') : ''}}</h1>
+        <div class='description'>IIF status: {{iif_or_plan}}</div>
+        <div class='description'>IIF planned: {{iif_plan_start}}</div>
+        <div class='description'>{{description}}</div>
+      </div>
+    {{/selectedCountry}}
     <div class="w-col w-col-4 controls">
       <div class="summary">
-        {{#selectedCountry}}
-          <div on-click='set("selectedCountry", false)'>
-            <h1>{{selectedCountry ? selectedCountry.get('country') : ''}}</h1>
-            <div class='description'>IIF status: {{iif_or_plan}}</div>
-            <div class='description'>IIF planned: {{iif_plan_start}}</div>
-            <div class='description'>{{description}}</div>
-          </div>
-        {{else}}
-          <div class="section-heading summary-section">Summary of situation</div>
-          <div class='summary-text'>{{countries.length}} countries</div>
-          <div class='summary-text' on-click='toggleFilter("iif_exists")'>With IIFs: {{ withIIFs.length }}</div>
-        {{/selectedCountry}}
+        <div class="section-heading summary-section">Summary of situation</div>
+        <div class='summary-text'>{{countries.length}} countries</div>
+        <div class='summary-text' on-click='toggleFilter("iif_exists")'>With IIFs: {{ withIIFs.length }}</div>
       </div>
       <div class="filters">
         <div class="section-heading list">List of countries</div>

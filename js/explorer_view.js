@@ -6,28 +6,23 @@ window.app || (window.app = {});
 
 function explorer(collection) {
   return new Ractive({
-    el: '.container',
+    el: '#container',
     template: '#explorer',
     data: {
       selectedCountry: '',
-      countries: collection,
-    // },
-    // computed: {
-      withIifs: function() {
+      countries: collection
+    },
+    computed: {
+      withIIFs: function() {
         return this.get('countries').select(function(i) {
-          return i.get('iif_status') == 'plan_exists';
-        });
-      },
-      withoutIifs: function() {
-        return this.get('countries').select(function(i) {
-          return !i.get('iif_status') == 'plan_exists';
+          return i.get('iif_or_plan') == 'iif';
         });
       }
     },
     adapt: ['Backbone'],
     setFilter: function(filterState) {
       if (filterState == 'with_iifs') {
-        collection.filterBy(filterState, {iif_established: true})
+        collection.filterBy(filterState, {iif_status: 'plan_exists'})
       } else if (filterState == 'without_iifs') {
         collection.filterBy(filterState, {iif_established: false})
       };
