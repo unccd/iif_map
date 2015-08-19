@@ -5,8 +5,14 @@ window.app || (window.app = {});
 // 
 
 $.getJSON('data/iif_status.json', function(data) {
+  // Backbone.Obscura collection for filtering
   app.filtered_data = new Backbone.Obscura(new Countries(data));
+  
+  // Ractive view containing all components
   app.explorer = explorer(app.filtered_data);
+  
+  // jVectormap map
+  app.map = drawMap(app.filtered_data);
 
   // app.explorer.on('change', function(changeObject) { 
   //   // if (changeObject.selectedCountry != undefined) {
