@@ -25,7 +25,7 @@ class Process
       searchCountry = line.country
       foundCountry = _.findWhere(countries, short_name: searchCountry)
       if foundCountry
-        picked = _.pick(foundCountry, 'iso3', 'iso2', 'terr_name', 'lat', 'lon')
+        picked = _.pick(foundCountry, 'iso3', 'iso2', 'terr_name', 'lat', 'lon', 'use_centre_point')
         line = _.extend(line, picked)
       return line
 
