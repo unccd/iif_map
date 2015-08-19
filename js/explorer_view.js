@@ -33,14 +33,32 @@ function explorer(collection, filters) {
 }
 
 // Interacts directly with app.filtered_data, kinda like a controller
+// 
+// filterModel.id === filterModel.get('shortName')
+// 
 function handleFilter(filterModel) {
   var collection = app.filtered_data;
   if (_.isObject(filterModel)){
-    collection.filterBy(filterModel.get('short_name'), filterModel.get('filterState'))
-    console.log(collection.getFilters());
-    return 
+
+    // Remove Filter if already set
+    if (_.includes(collection.getFilters(), filterModel.id)) {
+      collection.removeFilter(filterModel.id)
+    } else {
+      // Remove all others if it is an 'exclusive' type
+      if (filterModel.get('exclusive')) {
+        collection.resetFilters()
+      }
+
+      // Then add filter to collection
+      collection.filterBy(filterModel.id, filterModel.get('filterState'))
+      console.log(collection.getFilters());
+    }
+
+
   } else {
-    return console.log(filterState, collection.getFilters());
+
+    console.log('not an object', filterState, collection.getFilters());
+
   }
   
   // if (filterState == 'with_iifs') {

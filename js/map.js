@@ -76,3 +76,7 @@ function getMapData(collection) {
   return output;
 }
 
+function updateMap() {
+  app.map.reset();
+  return app.map.series.regions[0].setValues(getMapData(app.filtered_data));
+}
