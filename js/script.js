@@ -6,7 +6,8 @@ window.app || (window.app = {});
 
 $.getJSON('data/iif_status.json', function(data) {
   app.data = new Countries(data);
-  app.explorer = explorer(app.data);
+  app.filtered_data = new FilteredCollection(app.data);
+  app.explorer = explorer(app.filtered_data);
 
   // app.explorer.on('change', function(changeObject) { 
   //   if (changeObject.selectedCountry != undefined) {
