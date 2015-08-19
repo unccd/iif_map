@@ -30,14 +30,14 @@ function drawMap(data) {
       });
       if (app.explorer.get('selectedCountry') == country) {
         app.explorer.set('selectedCountry', false);
-        return mo.setFocus({
-          scale: mo.baseScale,
-          x: mo.baseTransX,
-          y: mo.baseTransY
+        return app.map.setFocus({
+          scale: app.map.baseScale,
+          x: app.map.baseTransX,
+          y: app.map.baseTransY
         });
       } else {
         app.explorer.set('selectedCountry', country);
-        return mo.setFocus({
+        return app.map.setFocus({
           region: regionString
         });
       }
@@ -47,7 +47,7 @@ function drawMap(data) {
 
 function getMapData(data) {
   output = {};
-  app.data.forEach(function(i) {
+  data.forEach(function(i) {
     // Good to put this all on the collection
     if(i.get('srap')){return}; // Don't render SRAPs
     iso2 = i.get('iso2');
