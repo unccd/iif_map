@@ -45,13 +45,31 @@
     <div class="summary">
       <div class="section-heading summary-section">Summary of situation</div>
       <div class='summary-text'>{{countries.length}} countries</div>
-      <div class='summary-text' on-click='toggleFilter("iif_exists")'>With IIFs: {{ withIIFs.length }}</div>
     </div>
   </script>
 
   <!-- FILTERS PARTIAL -->
   <script id='filters' type="text/html">
     <div class="filters">
+      <div class="section-heading list">Collection - List of other filters</div>
+        <p>Select countries with...</p>
+        <ul>
+          {{#each filters}}
+            <li on-click='setFilter()' data-filter='{{short_name}}'>{{title}}</li>
+          {{/each}}
+        </ul>
+      <div class="section-heading list">List of other filters</div>
+        <p>Select countries with...</p>
+        <ul>
+          <li on-click='setFilter({iif_or_plan: "iif"})'>IIF exists</li>
+          <li on-click='setFilter("Without IIF, but with a plan")'>Without IIF, but with a plan</li>
+          <li on-click='setFilter("Without IIF, and with no plan")'>Without IIF, and with no plan</li>
+          <li on-click='setFilter("Planned for 2014-2015 biennium")'>Planned for 2014-2015 biennium</li>
+          <li on-click='setFilter("Planned for 2016-2017 biennium")'>Planned for 2016-2017 biennium</li>
+          <li on-click='setFilter("Planned for 2018-2019 biennium")'>Planned for 2018-2019 biennium</li>
+          <li on-click='setFilter("No information")'>No information</li>
+          <li on-click='setFilter("Receives GM support")'>Receives GM support</li>
+        </ul>
       <div class="section-heading list">List of countries</div>
       {{#each countries}}
         <div class='summary-text' on-click='viewCountry(iso3)'>{{country}}</div> 

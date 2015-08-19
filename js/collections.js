@@ -1,7 +1,7 @@
 window.app || (window.app = {});
 
 // 
-// Models
+// Countries
 // 
 
 var Country = Backbone.Model.extend({
@@ -9,14 +9,17 @@ var Country = Backbone.Model.extend({
   // }
 })
 
+var Countries = Backbone.Collection.extend({
+  comparator: 'country',
+  model: Country
+});
+
+
 // 
-// Collections
+// Filters
 // 
 
-var Countries = Backbone.Collection.extend({
-  model: Country,
-  // initialize: function() {
-  //   return console.log('init collection');
-  // },
-  comparator: 'country'
-});
+
+var Filters = Backbone.Collection.extend({
+  model: Backbone.Model.extend({idAttribute: 'short_name'})
+})

@@ -4,29 +4,21 @@ window.app || (window.app = {});
 // Explorer view
 // 
 
-function explorer(collection) {
+function explorer(collection, filters) {
+  var collection = collection;
   return new Ractive({
     el: '#container',
     template: '#explorer',
     data: {
       selectedCountry: '',
-      countries: collection
-    },
-    computed: {
-      withIIFs: function() {
-        return this.get('countries').select(function(i) {
-          return i.get('iif_or_plan') == 'iif';
-        });
-      }
+      countries: collection,
+      filters: filters
     },
     adapt: ['Backbone'],
-    setFilter: function(filterState) {
-      if (filterState == 'with_iifs') {
-        collection.filterBy(filterState, {iif_status: 'plan_exists'})
-      } else if (filterState == 'without_iifs') {
-        collection.filterBy(filterState, {iif_established: false})
-      };
-      return;
+    setFilter: function() {
+      var filter = this.event.node.dataset.filter;
+      var filterModel = app.filters.get(filter);
+      return handleFilter(filterModel);
     },
     viewCountry: function(iso3) {
       var selectedCountry = collection.findWhere({
@@ -40,6 +32,21 @@ function explorer(collection) {
   });
 }
 
-function figureFilter(filterState, collection) {
-
+// Interacts directly with app.filtered_data, kinda like a controller
+function handleFilter(filterModel) {
+  var collection = app.filtered_data;
+  if (_.isObject(filterModel)){
+    collection.filterBy(filterModel.get('short_name'), filterModel.get('filterState'))
+    console.log(collection.getFilters());
+    return 
+  } else {
+    return console.log(filterState, collection.getFilters());
+  }
+  
+  // if (filterState == 'with_iifs') {
+  //   collection.filterBy(filterState, {iif_status: 'plan_exists'})
+  // } else if (filterState == 'without_iifs') {
+  //   collection.filterBy(filterState, {iif_established: false})
+  // };
+  // return;
 }
