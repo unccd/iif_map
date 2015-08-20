@@ -6,7 +6,7 @@ window.app || (window.app = {});
 
 function drawMap(collection) {
   var map = $(".map").vectorMap({
-    backgroundColor: '#feba2b',
+    backgroundColor: 'white',
     map: 'world_merc',
     series: {
       regions: [{
@@ -30,6 +30,19 @@ function drawMap(collection) {
           }
         }
       }]
+    },
+    regionStyle: {
+      initial: {
+        fill: '#E2E2E2'
+      },
+      selected: {
+        stroke: 'green',
+        'stroke-width': 1,
+        fill: 'pink'
+      },
+      hover: {
+        fill: 'grey'
+      }
     },
     onRegionClick: function(event, regionCode) {
       country = collection.findWhere({
