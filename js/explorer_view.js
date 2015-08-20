@@ -9,6 +9,7 @@ function explorer(collection, filters) {
   return new Ractive({
     el: '#container',
     template: '#explorer',
+    components: { MapViewSelector: MapViewSelector },
     data: {
       selectedCountry: '',
       countries: collection,

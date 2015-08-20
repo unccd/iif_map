@@ -17,9 +17,8 @@
 
   <script id='explorer' type="text/html">
     <div class="w-col w-col-4 controls">
-      {{>detail}}
+      {{>countryDetail}}
       {{>summary}}
-      {{>filters}}
     </div>
     <div class="w-col w-col-8 content">
       <div class="map">
@@ -28,9 +27,10 @@
   </script>
 
   <!-- COUNTRY DETAIL PARTIAL -->
-  <script id='detail' type="text/html">
+  <script id='countryDetail' type="text/html">
     {{#selectedCountry}}
-      <div class="detail" on-click='set("selectedCountry", false)'>
+      <div class="detail">
+        <div on-click='set("selectedCountry", false)'>&lt; Back</div>
         <h1>{{selectedCountry ? selectedCountry.get('country') : ''}}</h1>
         <div class='description'>IIF status: {{iif_or_plan}}</div>
         <div class='description'>IIF planned: {{iif_plan_start}}</div>
@@ -43,28 +43,31 @@
   <!-- SUMMARY PARTIAL -->
   <script id='summary' type='text/html'>
     <div class="summary">
-      <div class="section-heading summary-section">Summary of situation</div>
+      <div class="section-heading">Summary of situation</div>
       <div class='summary-text'>Viewing ALL COUNTRIES</div>
-      <div class='summary-text'>Countries: {{countryCount}} (and {{srapCount}} SRAPs)</div>
+      <div on-click='viewCountry("BR")' class='summary-text'>Countries: {{countryCount}} (and {{srapCount}} SRAPs)</div>
+      <MapViewSelector>
     </div>
   </script>
 
-  <!-- FILTERS PARTIAL -->
-  <script id='filters' type="text/html">
-    <div class="filters">
-      <div class="section-heading list">Filter</div>
-        <p>Click button to select countries with...</p>
-        <ul class='filters-list'>
-          {{#each filters}}
-            <button on-click='setFilter()' data-filter='{{short_name}}'>{{title}}</button>
-          {{/each}}
-        </ul>
-      <div class="section-heading list">List of countries</div>
-      {{#each countries}}
-        <button on-click='viewCountry(iso3)'>{{country}}</button> 
-      {{/each}}
+  <!-- MAP VIEW SELECTOR -->
+  <script id='mapViewSelector' type='text/html'>
+    <div class="accordion">
+      <h4 class="accordion-toggle">Accordion 1</h4>
+      <div class="accordion-content default">
+        <p>Cras malesuada ultrices augue molestie risus.</p>
+      </div>
+      <h4 class="accordion-toggle">Accordion 2</h4>
+      <div class="accordion-content">
+        <p>Lorem ipsum dolor sit amet mauris eu turpis.</p>
+      </div>
+      <h4 class="accordion-toggle">Accordion 3</h4>
+      <div class="accordion-content">
+        <p>Vivamus facilisisnibh scelerisque laoreet.</p>
+      </div>
     </div>
   </script>
+  
 
 
   <script src='ext/ractive.min.js'></script>

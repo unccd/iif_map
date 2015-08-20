@@ -3,6 +3,25 @@ window.app || (window.app = {});
 // 
 // App launch
 // 
+// 
+
+var MapViewSelector = Ractive.extend({
+  isolated: false,
+  template: '#mapViewSelector',
+  hitThis: function () {
+    return console.log('hit it');
+  }
+});
+
+// $(document).ready(function($) {
+//   $('.accordion .accordion-toggle').click(function(){
+//     console.log('clicked');
+//     //Expand or collapse this panel
+//     $(this).next().slideToggle('fast');
+//     //Hide the other panels
+//     $(".accordion-content").not($(this).next()).slideUp('fast');
+//   });
+// });
 
 $.getJSON('data/iif_status.json', function(data) {
   // Backbone.Obscura collection for filtering
@@ -18,10 +37,7 @@ $.getJSON('data/iif_status.json', function(data) {
     {attribute: 'iif_or_plan', title: 'Planned 2014-2015', short_name: '2014_2015', filterState: {iif_plan_start: '2014_2015'}, exclusive: true},
     {attribute: 'iif_or_plan', title: 'Planned 2016-2017', short_name: '2016_2017', filterState: {iif_plan_start: '2016_2017'}, exclusive: true},
     {attribute: 'iif_or_plan', title: 'Planned 2018-2019', short_name: '2018_2019', filterState: {iif_plan_start: '2018_2019'}, exclusive: true},
-    {attribute: 'iif_or_plan', title: 'GM supported', short_name: 'gm_supported', filterState: {gm_supported: true}, exclusive: true},
-    {attribute: 'region', title: 'Africa', short_name: 'africa', filterState: {region: 'Africa'}, exclusive: false},
-    {attribute: 'region', title: 'Asia', short_name: 'asia', filterState: {region: 'Asia'}, exclusive: false},
-    {attribute: 'subregion', title: 'Central Asia', short_name: 'central_asia', filterState: {subregion: 'Central Asia'}, exclusive: false}
+    {attribute: 'iif_or_plan', title: 'GM supported', short_name: 'gm_supported', filterState: {gm_supported: true}, exclusive: true}
   ]);
 
   
@@ -50,3 +66,4 @@ $.getJSON('data/iif_status.json', function(data) {
 
   return;
 });
+

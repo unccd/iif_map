@@ -41,3 +41,8 @@ ul.filters-list > button {
   border: 0;
   border-radius: 2px;
 }
+
+/* Accordion */
+.accordion-toggle {cursor: pointer;}
+.accordion-content {display: none;}
+.accordion-content.default {display: block;}
