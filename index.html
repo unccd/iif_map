@@ -30,11 +30,14 @@
   <script id='countryDetail' type="text/html">
     {{#selectedCountry}}
       <div class="detail">
-        <div on-click='set("selectedCountry", false)'>&lt; Back</div>
-        <h1>{{selectedCountry ? selectedCountry.get('country') : ''}}</h1>
-        <div class='description'>IIF status: {{iif_or_plan}}</div>
-        <div class='description'>IIF planned: {{iif_plan_start}}</div>
-        <div class='description'>{{description}}</div>
+        <button on-click='set("selectedCountry", false)' class='back'>&lt; Back</button>
+        <div class='country-name'>{{selectedCountry ? selectedCountry.get('country') : ''}}</div>
+        <div class='status'>IIF status <span class='status-label'>{{iif_or_plan}}</span></div>
+        <div class='plan'>{{#if iif_plan_start}}IIF planned: {{format(iif_plan_start)}}{{/if}}</div>
+        <div class='description'>
+          <div class="description-title">Complimentary information provided</div>
+          <div class='description-text'>{{description}}</div>
+        </div>
       </div>
     {{/selectedCountry}}
   </script>
@@ -43,9 +46,7 @@
   <!-- SUMMARY PARTIAL -->
   <script id='summary' type='text/html'>
     <div class="summary">
-      <div class="section-heading">Summary of situation</div>
-      <div class='summary-text'>Viewing ALL COUNTRIES</div>
-      <div on-click='viewCountry("BR")' class='summary-text'>Countries: {{countryCount}} (and {{srapCount}} SRAPs)</div>
+      <div class="section-heading">Map of Integrated Investment Frameworks</div>
       <MapViewSelector>
     </div>
   </script>
@@ -56,7 +57,7 @@
       <div class="accordion-section">
         <div on-click='set("mapView", 1)' class="accordion-toggle">IIFs established</div>
         <div class="accordion-content {{#if mapView == 1}}default{{/if}}">
-          <p>The map shows country parties and regions with IIFs already established.</p>
+          <p>The map shows {{countryCount}} country parties and regions with IIFs already established.</p>
         </div>
       </div>
       <div class="accordion-section">

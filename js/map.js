@@ -6,7 +6,7 @@ window.app || (window.app = {});
 
 function drawMap(collection) {
   var map = $(".map").vectorMap({
-    backgroundColor: 'white',
+    backgroundColor: 'white', // #feba2b
     map: 'world_merc',
     series: {
       regions: [{
@@ -33,7 +33,9 @@ function drawMap(collection) {
     },
     regionStyle: {
       initial: {
-        fill: '#E2E2E2'
+        fill: '#E2E2E2',
+        stroke: 'lightgrey',
+        'stroke-width': 1
       },
       selected: {
         stroke: 'green',

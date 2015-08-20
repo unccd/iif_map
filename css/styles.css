@@ -4,7 +4,38 @@
   width: 100%;
   z-index: 10;
   position: absolute;
-  background: rgba(211, 239, 53, 0.95);
+  background: rgb(228, 228, 228);
+  padding: 10px;
+}
+.country-name {
+  font-size: 25px;
+  line-height: 28px;
+  font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 12px;
+}
+div.status {
+  margin-bottom: 10px;
+}
+span.status-label {
+  border: 1px #B0FFD6 solid;
+  background-color: #79CC6A;
+  padding: 0px 5px;
+  color: white;
+}
+button.back {
+  cursor: pointer;
+  background-color: #F5F5F5;
+  border: 1px solid #D0D0D0;
+}
+.description-title {
+  font-weight: bold;
+  color: #8A8A8A;
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+.description-text {
+
 }
 
 
