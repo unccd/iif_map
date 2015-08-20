@@ -1,3 +1,15 @@
+/* Container */
+.container {
+  border: 1px #E0E0E0 solid;
+}
+.controls {
+}
+.content {
+}
+.map {
+  height: 448px;
+}
+
 /* Detail div*/
 .detail {
   height: 450px;
@@ -26,7 +38,7 @@ span.status-label {
 button.back {
   cursor: pointer;
   background-color: #F5F5F5;
-  border: 1px solid #D0D0D0;
+  border: 1px solid #ADADAD;
 }
 .description-title {
   font-weight: bold;
