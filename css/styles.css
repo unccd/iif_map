@@ -103,3 +103,13 @@ ul.filters-list > button {
 }
 .accordion-content {display: none;padding: 5px;}
 .accordion-content.default {display: block;}
+
+/* Search */
+.search {
+  height: auto;
+  width: 40%;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+}

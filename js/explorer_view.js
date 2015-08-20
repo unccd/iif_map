@@ -50,6 +50,9 @@ function explorer(collection, filters) {
     },
     otherFunction: function(value) {
       console.log(value);
+    },
+    shoutAboutIt: function () {
+      return console.log('YES');
     }
   });
 }
@@ -110,3 +113,21 @@ function explorerEvents (explorer) {
   
   return;
 }
+
+// 
+// Decorators
+// 
+
+var chosen = function (node) {
+  $(node).chosen({width: '100%'});
+
+  return {
+    teardown: function () {
+      $(node).chosen('destroy');
+    }
+  };
+};
+
+Ractive.decorators.chosen = chosen;
+
+
