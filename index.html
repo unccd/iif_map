@@ -36,7 +36,13 @@
         <div class='plan'>{{#if iif_plan_start}}IIF planned: {{format(iif_plan_start)}}{{/if}}</div>
         <div class='description'>
           <div class="description-title">Complimentary information provided</div>
-          <div class='description-text'>{{description}}</div>
+          <div class='description-text'>
+            {{#if description}}
+              {{description}}
+            {{else}}
+              Not provided
+            {{/if}}
+          </div>
         </div>
       </div>
     {{/selectedCountry}}
