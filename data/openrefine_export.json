@@ -1651,8 +1651,8 @@
       "planned_other_voluntary_national_target" : null
     },
     {
-      "region" : "No region",
-      "subregion" : "No region",
+      "region" : "Other",
+      "subregion" : "Other",
       "country" : "United States of America",
       "srap" : false,
       "iif_or_plan" : "no_plan",
