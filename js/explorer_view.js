@@ -19,6 +19,7 @@ function explorer(collection, filters) {
     // 
     data: {
       selectedCountry: '',
+      mapView: 1,
       countries: collection,
       filters: filters
     },
@@ -36,9 +37,6 @@ function explorer(collection, filters) {
     // 
     // ACTIONS
     // 
-    dance: function () {
-      return console.log('this?');
-    },
     setFilter: function() {
       var filter = this.event.node.dataset.filter;
       var filterModel = app.filters.get(filter);

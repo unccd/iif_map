@@ -43,6 +43,20 @@ ul.filters-list > button {
 }
 
 /* Accordion */
-.accordion-toggle {cursor: pointer;}
-.accordion-content {display: none;}
+.accordion {
+  border: 1px solid lightgrey;
+  margin: 5px;
+}
+.accordion-section {
+  /* padding: 3px; */
+}
+.accordion-toggle {
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+  border-bottom: 1px #CCCCCC solid;
+  padding: 5px;
+  background-color: #DADADA;
+}
+.accordion-content {display: none;padding: 5px;}
 .accordion-content.default {display: block;}
