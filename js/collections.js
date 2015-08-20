@@ -19,9 +19,15 @@ var Countries = Backbone.Collection.extend({
 // Filters
 // 
 
+var Filter = Backbone.Model.extend({
+  idAttribute: 'short_name',
+  addThis: function () {
+    return console.log(this);
+  }
+})
 
 var Filters = Backbone.Collection.extend({
-  model: Backbone.Model.extend({idAttribute: 'short_name'}),
+  model: Filter,
   facetCountsFor: function(collection) {
     return this.map(function (filter) {
       return {

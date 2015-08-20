@@ -14,6 +14,13 @@ ul.filters-list {
   list-style: none;
 }
 
+ul.filters-list > button {
+  padding: 2px 7px;
+  margin: 5px;
+}
+
+
+
 /*jVectormap customisation*/
 
 .jvectormap-legend {

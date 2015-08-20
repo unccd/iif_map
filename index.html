@@ -44,24 +44,24 @@
   <script id='summary' type='text/html'>
     <div class="summary">
       <div class="section-heading summary-section">Summary of situation</div>
-      <div class='summary-text'>Countries: {{countryCount}}</div>
-      <div class='summary-text'>SRAPs: {{srapCount}}</div>
+      <div class='summary-text'>Viewing ALL COUNTRIES</div>
+      <div class='summary-text'>Countries: {{countryCount}} (and {{srapCount}} SRAPs)</div>
     </div>
   </script>
 
   <!-- FILTERS PARTIAL -->
   <script id='filters' type="text/html">
     <div class="filters">
-      <div class="section-heading list">Collection - List of other filters</div>
-        <p>Select countries with...</p>
+      <div class="section-heading list">Filter</div>
+        <p>Click button to select countries with...</p>
         <ul class='filters-list'>
           {{#each filters}}
-            <li on-click='setFilter()' data-filter='{{short_name}}'>{{title}}</li>
+            <button on-click='setFilter()' data-filter='{{short_name}}'>{{title}}</button>
           {{/each}}
         </ul>
       <div class="section-heading list">List of countries</div>
       {{#each countries}}
-        <div class='summary-text' on-click='viewCountry(iso3)'>{{country}}</div> 
+        <button on-click='viewCountry(iso3)'>{{country}}</button> 
       {{/each}}
     </div>
   </script>

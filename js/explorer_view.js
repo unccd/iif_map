@@ -57,6 +57,7 @@ function handleFilter(filterModel) {
     } else {
       // Remove all others if it is an 'exclusive' type
       if (filterModel.get('exclusive')) {
+        console.log('resetting');
         collection.resetFilters()
       }
 
