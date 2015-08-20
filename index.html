@@ -45,7 +45,7 @@
     <div class="summary">
       <div class="section-heading">Summary of situation</div>
       <div class='summary-text'>Viewing ALL COUNTRIES</div>
-      <div on-click='viewCountry("BR")' class='summary-text'>Countries: {{countryCount}} (and {{srapCount}} SRAPs)</div>
+      <div class='summary-text'>Countries: {{countryCount}} (and {{srapCount}} SRAPs)</div>
       <MapViewSelector>
     </div>
   </script>
@@ -53,16 +53,16 @@
   <!-- MAP VIEW SELECTOR -->
   <script id='mapViewSelector' type='text/html'>
     <div class="accordion">
-      <h4 class="accordion-toggle">Accordion 1</h4>
-      <div class="accordion-content default">
+      <h4 on-click='set("mapView", 1)' class="accordion-toggle">IIFs established</h4>
+      <div class="accordion-content {{#if mapView == 1}}default{{/if}}">
         <p>Cras malesuada ultrices augue molestie risus.</p>
       </div>
-      <h4 class="accordion-toggle">Accordion 2</h4>
-      <div class="accordion-content">
-        <p>Lorem ipsum dolor sit amet mauris eu turpis.</p>
+      <h4 on-click='set("mapView", 2)' class="accordion-toggle">IIFs planned</h4>
+      <div class="accordion-content {{#if mapView == 2}}default{{/if}}">
+        <p>These include IIFs with no specific date.</p>
       </div>
-      <h4 class="accordion-toggle">Accordion 3</h4>
-      <div class="accordion-content">
+      <h4 on-click='set("mapView", 3)' class="accordion-toggle">GM support</h4>
+      <div class="accordion-content {{#if mapView == 3}}default{{/if}}">
         <p>Vivamus facilisisnibh scelerisque laoreet.</p>
       </div>
     </div>
@@ -82,6 +82,7 @@
   <script src='js/collections.js'></script>
   <script src='js/explorer_view.js'></script>
   <script src='js/map.js'></script>
+  <script src='js/map-selector.js'></script>
   <script src='js/script.js'></script>
 
 </body>

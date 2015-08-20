@@ -18,7 +18,7 @@ function drawMap(collection) {
         },
         normalizeFunction: 'ordinal',
         attribute: 'fill',
-        values: getMapData(collection),
+        values: prepareMapData(collection),
         legend: {
           labelRender: function(v){
             return {
@@ -71,7 +71,7 @@ function drawMap(collection) {
   return map.vectorMap('get', 'mapObject');
 }
 
-function getMapData(collection) {
+function prepareMapData(collection) {
   output = {};
   collection.forEach(function(i) {
     // Good to put this all on the collection
@@ -85,7 +85,7 @@ function getMapData(collection) {
 
 function updateMap() {
   app.map.reset();
-  return app.map.series.regions[0].setValues(getMapData(app.filtered_data));
+  return app.map.series.regions[0].setValues(prepareMapData(app.filtered_data));
 }
 
 function zoomMapToSelected(regionCode) {

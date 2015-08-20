@@ -7,9 +7,16 @@ window.app || (window.app = {});
 function explorer(collection, filters) {
   var collection = collection;
   return new Ractive({
+    // 
+    // CONFIG
+    // 
     el: '#container',
     template: '#explorer',
     components: { MapViewSelector: MapViewSelector },
+    adapt: ['Backbone'],
+    // 
+    // DATA
+    // 
     data: {
       selectedCountry: '',
       countries: collection,
@@ -26,7 +33,12 @@ function explorer(collection, filters) {
         return this.get('countries').length;
       }
     },
-    adapt: ['Backbone'],
+    // 
+    // ACTIONS
+    // 
+    dance: function () {
+      return console.log('this?');
+    },
     setFilter: function() {
       var filter = this.event.node.dataset.filter;
       var filterModel = app.filters.get(filter);
@@ -73,4 +85,30 @@ function handleFilter(filterModel) {
 
   }
   
+}
+
+// 
+// Explorer events
+// 
+
+function explorerEvents (explorer) {
+  explorer.on('dance', function(event, object){
+    return console.log('here', object);
+  });
+  
+  explorer.on('change', function(changeObject) { 
+    if (changeObject.selectedCountry != undefined) {
+      if (changeObject.selectedCountry) { 
+        console.log('change selectedCountry to', changeObject.selectedCountry);
+        return zoomMapToSelected(changeObject.selectedCountry.iso2);
+      } else {
+        console.log('reset selectedCountry ');
+        return zoomMapToAll();
+      }
+    } else {
+      return console.log(changeObject);
+    }
+  });
+  
+  return;
 }

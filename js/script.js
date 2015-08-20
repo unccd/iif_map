@@ -5,24 +5,6 @@ window.app || (window.app = {});
 // 
 // 
 
-var MapViewSelector = Ractive.extend({
-  isolated: false,
-  template: '#mapViewSelector',
-  hitThis: function () {
-    return console.log('hit it');
-  }
-});
-
-// $(document).ready(function($) {
-//   $('.accordion .accordion-toggle').click(function(){
-//     console.log('clicked');
-//     //Expand or collapse this panel
-//     $(this).next().slideToggle('fast');
-//     //Hide the other panels
-//     $(".accordion-content").not($(this).next()).slideUp('fast');
-//   });
-// });
-
 $.getJSON('data/iif_status.json', function(data) {
   // Backbone.Obscura collection for filtering
   app.filtered_data = new Backbone.Obscura(new Countries(data));
@@ -51,19 +33,9 @@ $.getJSON('data/iif_status.json', function(data) {
   // jVectormap map
   app.map = drawMap(app.filtered_data);
 
-
-  app.explorer.on('change', function(changeObject) { 
-    if (changeObject.selectedCountry != undefined) {
-      if (changeObject.selectedCountry) { 
-        console.log('change selectedCountry to', changeObject.selectedCountry);
-        return zoomMapToSelected(changeObject.selectedCountry.iso2);
-      } else {
-        console.log('reset selectedCountry ');
-        return zoomMapToAll();
-      }
-    };
-  });
+  explorerEvents(app.explorer);
 
   return;
 });
+
 
