@@ -5,7 +5,6 @@ window.app || (window.app = {});
 // 
 
 function explorer(collection, filters) {
-  var collection = collection;
   return new Ractive({
     // 
     // CONFIG
@@ -20,13 +19,13 @@ function explorer(collection, filters) {
     data: {
       mapView: 1,
       parties: collection,
-      iif_status_filters: filters.iif_status,
-      geo_filters: filters.geo,
-      plan_filters: filters.plan,
-      gm_support_filters: filters.gm_support,
       selected: ''
     },
     computed: {
+      iif_status_filters: function() {return app.filters.select(function(i){return i.get('type') == 'iif_status'})},
+      geo_filters: function() {return app.filters.select(function(i){return i.get('type') == 'geo'})},
+      plan_filters: function() {return app.filters.select(function(i){return i.get('type') == 'plan'})},
+      gm_support_filters: function() {return app.filters.select(function(i){return i.get('type') == 'gm_support'})},
       selectedParty: {
         get: '${selected}',
         set: function (term) {
@@ -35,7 +34,7 @@ function explorer(collection, filters) {
         }
       },
       geo_search: function() {
-        return app.filters.geo.displayFor(['region', 'subregion', 'party']);
+        return app.filters.displayFor(['region', 'subregion', 'party']);
       },
       partyCount: function () {
         return this.get('parties').where({srap: false}).length;
@@ -51,9 +50,9 @@ function explorer(collection, filters) {
     // ACTIONS
     // 
     setFilter: function() {
-      var filter = this.event.node.dataset.filter;
-      var filterModel = app.filters.get(filter);
-      return handleFilter(filterModel);
+      // var filter = this.event.node.dataset.filter;
+      // var filterModel = app.filters.get(filter);
+      // return handleFilter(filterModel);
     },
     otherFunction: function(value) {
       console.log(value);
@@ -104,21 +103,35 @@ function handleFilter(filterModel) {
 // 
 
 function initExplorerEvents (explorer) {
-  explorer.on('dance', function(event, object){
-    return console.log('here', object);
+  explorer.on('MapViewSelector.toggleFilter', function(event, object){
+    return app.filters.get(event.context.id).toggle('active');
   });
+  explorer.on('MapViewSelector.allOn', function(event, object){
+    // console.log('allOn', object);
+    return _.each(app.filters.where({type: object}), function(i){ return i.set('active', true)});
+  });
+  explorer.on('MapViewSelector.allOff', function(event, object){
+    // console.log('allOff', object);
+    return _.each(app.filters.where({type: object}), function(i){ return i.set('active', false)});
+  });
+
+  explorer.on('toggleFilter', function(event, object) {
+    return console.log('change to view index', object);
+  })
 
   explorer.on('change', function(changeObject) { 
     if (changeObject.selectedParty != undefined) {
       if (changeObject.selectedParty) { 
         console.log('change selectedParty to', changeObject.selectedParty);
-        return zoomMapToSelected(changeObject.selectedParty.iso2);
+        zoomMapToSelected(changeObject.selectedParty.iso2);
       } else {
         console.log('reset selectedParty ');
-        return zoomMapToAll();
+        zoomMapToAll();
       }
+    } else if (changeObject.mapView != undefined) {
+      console.log('change map view to', changeObject.mapView);
     } else {
-      return console.log(changeObject);
+      console.log('Other change', changeObject);
     }
   });
   

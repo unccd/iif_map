@@ -79,15 +79,17 @@
   </script>
 
   <!-- MAP SELECTOR COMPONENT -->
+  <!-- Everything is under "MapViewSelector" namespace -->
   <script id='mapViewSelector' type='text/html'>
     <div class="accordion">
       <div class="accordion-section">
         <div on-click='set("mapView", 1)' class="accordion-toggle">IIFs established</div>
         <div class="accordion-content {{#if mapView == 1}}default{{/if}}">
           <p>The map shows {{partyCount}} party parties and regions with IIFs already established.</p>
+          <div class="filter-controls"><span on-click='allOn: iif_status'>All</span> | <span class='allOff' on-click='allOff: iif_status'>None</span></div>
           <ul class='filters-list'>
             {{#each iif_status_filters}}
-              <li>{{title}}</li>
+              <li on-click="toggleFilter" class='{{#active}}active{{/active}}'>{{title}}</li>
             {{/each}}
           </ul>
         </div>
@@ -97,9 +99,10 @@
         <div class="accordion-content {{#if mapView == 2}}default{{/if}}">
           <p>These are Voluntary National Targets. These include IIFs with no specific date.</p>
           <p>Look at all these subfilters for each biennium!</p>
+          <div class="filter-controls"><span on-click='allOn: plan'>All</span> | <span class='allOff' on-click='allOff: plan'>None</span></div>
           <ul class='filters-list'>
             {{#each plan_filters}}
-              <li>{{title}}</li>
+              <li on-click="toggleFilter" class='{{#active}}active{{/active}}'>{{title}}</li>
             {{/each}}
           </ul>
         </div>
@@ -108,9 +111,10 @@
         <div on-click='set("mapView", 3)' class="accordion-toggle">GM support</div>
         <div class="accordion-content {{#if mapView == 3}}default{{/if}}">
           <p>The map shows parties which are receiving support from GM.</p>
+          <div class="filter-controls"><span on-click='allOn: gm_support'>All</span> | <span class='allOff' on-click='allOff: gm_support'>None</span></div>
           <ul class='filters-list'>
             {{#each gm_support_filters}}
-              <li>{{title}}</li>
+              <li on-click="toggleFilter" class='{{#active}}active{{/active}}'>{{title}}</li>
             {{/each}}
           </ul>
         </div>
@@ -118,7 +122,6 @@
     </div>
   </script>
   
-
   <!-- Core libraries -->
   <script src='ext/ractive.min.js'></script>
   <script src='ext/jquery.min.js'></script>

@@ -20,11 +20,18 @@ var Parties = Backbone.Collection.extend({
 // 
 
 var Filter = Backbone.Model.extend({
-  initialize: function() {
-    return this.addOnInit();
+  initialize: function(model) {
+    if (!model.active) {
+      this.set('active', false);
+    };
   },
   addOnInit: function () {
     // return console.log(this);
+  },
+  toggle: function(attr, silent) {
+    var data = {}, value = this.get(attr);
+    data[attr] = !value;
+    return this.set(data, {silent: silent});
   }
 })
 
