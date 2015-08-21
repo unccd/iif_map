@@ -61,10 +61,10 @@
   <!-- SEARCH PARTIAL -->
   <script id="searchPartial" type="text/html">
     <div class='search'>
-      <select decorator='chosen:geosearch' value="{{selectedParty}}" data-observe='parties' data-placeholder="{{partyCount}} Search party, region">
+      <select decorator='chosen:geoSearch' value="{{geoSearch}}" data-observe='parties' data-placeholder="{{partyCount}} Search party, region">
         <option value=""></option>
         {{#each geo_search:category}}
-          <optgroup label="{{category}}">
+          <optgroup label="{{ titleCase( category ) }}">
             {{#each .}}            
               {{#iso3}}
                 <option value="{{iso3}}">{{party}}</option>
@@ -83,9 +83,9 @@
   <script id='mapViewSelector' type='text/html'>
     <div class="accordion">
       <div class="accordion-section">
-        <div on-click='set("mapView", 1)' class="accordion-toggle">IIFs established</div>
+        <div on-click='changeMapView: 1' class="accordion-toggle">IIFs established</div>
         <div class="accordion-content {{#if mapView == 1}}default{{/if}}">
-          <p>The map shows {{partyCount}} party parties and regions with IIFs already established.</p>
+          <p>The map shows {{partyCount}} party parties and {{srapCount}} Subregional Action Programmes with IIFs already established.</p>
           <div class="filter-controls"><span on-click='allOn: iif_status'>All</span> | <span class='allOff' on-click='allOff: iif_status'>None</span></div>
           <ul class='filters-list'>
             {{#each iif_status_filters}}
@@ -95,7 +95,7 @@
         </div>
       </div>
       <div class="accordion-section">
-        <div on-click='set("mapView", 2)' class="accordion-toggle">IIFs planned</div>
+        <div on-click='changeMapView: 2' class="accordion-toggle">IIFs planned</div>
         <div class="accordion-content {{#if mapView == 2}}default{{/if}}">
           <p>These are Voluntary National Targets. These include IIFs with no specific date.</p>
           <p>Look at all these subfilters for each biennium!</p>
@@ -108,12 +108,12 @@
         </div>
       </div>
       <div class="accordion-section">
-        <div on-click='set("mapView", 3)' class="accordion-toggle">GM support</div>
+        <div on-click='changeMapView: 3' class="accordion-toggle">GM support</div>
         <div class="accordion-content {{#if mapView == 3}}default{{/if}}">
           <p>The map shows parties which are receiving support from GM.</p>
-          <div class="filter-controls"><span on-click='allOn: gm_support'>All</span> | <span class='allOff' on-click='allOff: gm_support'>None</span></div>
+          <div class="filter-controls"><span on-click='allOn: gm_supported'>All</span> | <span class='allOff' on-click='allOff: gm_supported'>None</span></div>
           <ul class='filters-list'>
-            {{#each gm_support_filters}}
+            {{#each gm_supported_filters}}
               <li on-click="toggleFilter" class='{{#active}}active{{/active}}'>{{title}}</li>
             {{/each}}
           </ul>
@@ -141,7 +141,8 @@
   <script src='js/ractive.chosen.mod.js'></script>
 
   <!-- Application -->
-  <script src='js/collections.js'></script>
+  <script src='js/parties.js'></script>
+  <script src='js/filters.js'></script>
   <script src='js/explorer_view.js'></script>
   <script src='js/map.js'></script>
   <script src='js/map-selector.js'></script>

@@ -54,4 +54,4 @@ Getting a handle on how to combine filters, states - what makes sense, and how t
 
 1. iif_or_plan 
 2. iif_or_plan == 'plan'
-3. receives_gm_support == true OR NOT
+3. receives_gm_supported == true OR NOT
