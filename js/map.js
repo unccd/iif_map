@@ -85,7 +85,7 @@ function prepareMapData(collection) {
 
 function updateMap() {
   app.map.reset();
-  return app.map.series.regions[0].setValues(prepareMapData(app.filtered_data));
+  return app.map.series.regions[0].setValues(prepareMapData(app.data));
 }
 
 function zoomMapToSelected(regionCode) {

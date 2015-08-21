@@ -38,16 +38,16 @@ $.getJSON('data/iif_status.json', function(data) {
   };
 
   // Create Ractive view containing all components
-  app.explorer = explorer(app.filtered_data, app.filters);
+  app.explorer = explorer(app.data, app.filters);
 
   
   // jVectormap map
-  app.map = drawMap(app.filtered_data);
+  app.map = drawMap(app.data);
 
   // Config Ractive events
   initExplorerEvents(app.explorer);
 
-  app.filtered_data.on('reset', function(){
+  app.data.on('reset', function(){
     return updateMap()
   })
 

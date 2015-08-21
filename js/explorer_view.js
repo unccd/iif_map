@@ -54,12 +54,12 @@ function explorer(collection, filters) {
   });
 }
 
-// Interacts directly with app.filtered_data, kinda like a controller
+// Interacts directly with app.data, kinda like a controller
 // 
 // filterModel.id === filterModel.get('shortName')
 // 
 function handleFilter(filterModel) {
-  var collection = app.filtered_data;
+  var collection = app.data;
   if (_.isObject(filterModel)){
 
     // Remove Filter if already set
