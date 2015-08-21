@@ -89,6 +89,22 @@
       });
     }
 
+    // Check for additional attributes to observe
+    if (node._ractive.binding.element.node.dataset.observe) {
+      observer = ractive.observe(node._ractive.binding.element.node.dataset.observe, function(newvalue, oldvalue) {
+        if (!setting) {
+          setting = true;
+          window.setTimeout(function() {
+            if (newvalue === '' || newvalue !== oldvalue)
+              $(node).trigger('chosen:updated');
+
+            $(node).change();
+            setting = false;
+          }, 0);
+        }
+      });
+    }
+
     // Pull changes from chosen to ractive
     $(node).chosen(options).on('change', function() {
       if (!setting) {
