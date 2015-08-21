@@ -61,7 +61,7 @@
   <!-- SEARCH PARTIAL -->
   <script id="searchPartial" type="text/html">
     <div class='search'>
-      <select decorator='chosen:geosearch' value="{{selectedCountry}}" data-placeholder="{{countryCount}} Search country, region">
+      <select decorator='chosen:geosearch' value="{{selectedCountry}}" data-observe='countries' data-placeholder="{{countryCount}} Search country, region">
         <option value=""></option>
         {{#each countries}}
           <option value="{{iso3}}">{{country}}</option>
@@ -112,7 +112,7 @@
 
   <!-- Chosen + Ractive-adaptor -->
   <script src='ext/chosen.jquery.min.js'></script>
-  <script src='ext/ractive.chosen.js'></script>
+  <script src='js/ractive.chosen.mod.js'></script>
 
   <!-- Application -->
   <script src='js/collections.js'></script>
