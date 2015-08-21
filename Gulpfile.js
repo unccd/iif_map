@@ -9,7 +9,7 @@ gulp.task('serve', function() {
     },
     open: false
   });
-  gulp.watch("**/*", [], browserSync.reload);
+  gulp.watch("**/*", browserSync.reload);
 });
 
 // Default taks
