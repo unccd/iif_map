@@ -1,5 +1,5 @@
 // 
-// Filters
+// Init
 // 
 
 function initFilters (collectionToFilter) {
@@ -49,6 +49,10 @@ function initFilters (collectionToFilter) {
   return filters;
 }
 
+// 
+// UTILITY
+// 
+
 function composeFilterId (type, id) {
   return (type + ":" + id);
 }
@@ -57,6 +61,11 @@ function decomposeFilterId (filterId) {
   if (!pieces) { throw "FilterId is wrong", filterId}
   return {type: pieces[0], id: pieces[1]};
 }
+
+
+// 
+// Model and Collection
+// 
 
 var Filter = Backbone.Model.extend({
   initialize: function(model) {

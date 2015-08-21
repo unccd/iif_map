@@ -61,7 +61,7 @@
   <!-- SEARCH PARTIAL -->
   <script id="searchPartial" type="text/html">
     <div class='search'>
-      <select decorator='chosen:geosearch' value="{{selectedParty}}" data-observe='parties' data-placeholder="{{partyCount}} Search party, region">
+      <select decorator='chosen:geoSearch' value="{{geoSearch}}" data-observe='parties' data-placeholder="{{partyCount}} Search party, region">
         <option value=""></option>
         {{#each geo_search:category}}
           <optgroup label="{{ titleCase( category ) }}">

@@ -14,7 +14,7 @@ $.getJSON('data/iif_status.json', function(data) {
 
 
   // Init Ractive decorators
-  Ractive.decorators.chosen.type.geosearch = function(node){
+  Ractive.decorators.chosen.type.geoSearch = function(node){
     return {
       width: '100%'
     }

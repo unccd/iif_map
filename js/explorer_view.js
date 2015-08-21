@@ -109,17 +109,12 @@ function initExplorerEvents (explorer) {
     this.set('mapView', mapViewIndex);
   })
 
-
-
   explorer.on('change', function(changeObject) { 
-    if (changeObject.selectedParty != undefined) {
-      if (changeObject.selectedParty) { 
-        console.log('change selectedParty to', changeObject.selectedParty);
-        zoomMapToSelected(changeObject.selectedParty.iso2);
-      } else {
-        console.log('reset selectedParty ');
-        zoomMapToAll();
-      }
+    if (changeObject.geoSearch != undefined) {
+      var searchObject = decomposeFilterId(changeObject.geoSearch);
+      var type = searchObject.type, id = searchObject.id;
+      var filter = _.object([type], [id]);
+      app.data.filterBy(filter);
     } else if (changeObject.mapView != undefined) {
       console.log('change map view to', changeObject.mapView);
     } else {
