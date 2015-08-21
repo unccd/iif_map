@@ -85,7 +85,7 @@
         <div on-click='set("mapView", 1)' class="accordion-toggle">IIFs established</div>
         <div class="accordion-content {{#if mapView == 1}}default{{/if}}">
           <p>The map shows {{partyCount}} party parties and regions with IIFs already established.</p>
-          <ul>
+          <ul class='filters-list'>
             {{#each iif_status_filters}}
               <li>{{title}}</li>
             {{/each}}
@@ -97,7 +97,7 @@
         <div class="accordion-content {{#if mapView == 2}}default{{/if}}">
           <p>These are Voluntary National Targets. These include IIFs with no specific date.</p>
           <p>Look at all these subfilters for each biennium!</p>
-          <ul>
+          <ul class='filters-list'>
             {{#each plan_filters}}
               <li>{{title}}</li>
             {{/each}}
@@ -108,7 +108,7 @@
         <div on-click='set("mapView", 3)' class="accordion-toggle">GM support</div>
         <div class="accordion-content {{#if mapView == 3}}default{{/if}}">
           <p>The map shows parties which are receiving support from GM.</p>
-          <ul>
+          <ul class='filters-list'>
             {{#each gm_support_filters}}
               <li>{{title}}</li>
             {{/each}}

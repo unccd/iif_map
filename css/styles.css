@@ -55,11 +55,17 @@ button.back {
 ul.filters-list {
   padding: 0;
   list-style: none;
+  margin-top: 15px;
 }
 
-ul.filters-list > button {
-  padding: 2px 7px;
-  margin: 5px;
+ul.filters-list > li {
+  padding: 1px 8px;
+  margin: 3px 3px;
+  cursor: pointer;
+  background: #E2E2E2;
+  font-size: 12px;
+  border: 1px #C7C7C7 solid;
+  line-height: 19px;
 }
 
 
