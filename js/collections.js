@@ -38,7 +38,7 @@ var Filter = Backbone.Model.extend({
 var Filters = Backbone.Collection.extend({
   model: Filter,
   initialize: function (models, options) {
-    return this.addResetOption(options);
+    return;
   },
   displayFor: function (attributes) {
     if (!_.isArray(attributes)) { return };
@@ -46,11 +46,11 @@ var Filters = Backbone.Collection.extend({
       return _(app.data.pluck(attribute)).uniq().sort().value();
     }));
   },
-  addResetOption: function (options) {
-  //   if (options.type) {
-  //     console.log('add reset option for', options.type, 'filter');
-  //   };
-    return;
+  allOn: function(type) {
+    return _.each(this.where({type: type}), function(i){ return i.set('active', true)});
+  },
+  allOff: function(type) {
+    return _.each(this.where({type: type}), function(i){ return i.set('active', false)});
   },
   facetCountsFor: function(collection) {
   //   return this.map(function (filter) {

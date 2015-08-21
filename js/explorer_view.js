@@ -106,13 +106,11 @@ function initExplorerEvents (explorer) {
   explorer.on('MapViewSelector.toggleFilter', function(event, object){
     return app.filters.get(event.context.id).toggle('active');
   });
-  explorer.on('MapViewSelector.allOn', function(event, object){
-    // console.log('allOn', object);
-    return _.each(app.filters.where({type: object}), function(i){ return i.set('active', true)});
+  explorer.on('MapViewSelector.allOn', function(event, type){
+    return app.filters.allOn(type);
   });
-  explorer.on('MapViewSelector.allOff', function(event, object){
-    // console.log('allOff', object);
-    return _.each(app.filters.where({type: object}), function(i){ return i.set('active', false)});
+  explorer.on('MapViewSelector.allOff', function(event, type){
+    return app.filters.allOff(type);
   });
 
   explorer.on('toggleFilter', function(event, object) {

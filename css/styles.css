@@ -70,12 +70,13 @@ ul.filters-list > li {
   color: #B1B1B1;
 }
 
+ul.filters-list > li:hover {
+  background: #EFDEC1;
+}
+
 ul.filters-list > li.active {
   border-left: 8px solid #FFA80A;
   color: inherit;
-}
-ul.filters-list > li.active:hover {
-  background: #EFDEC1;
 }
 
 .filter-controls {
