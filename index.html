@@ -111,9 +111,9 @@
         <div on-click='changeMapView: 3' class="accordion-toggle">GM support</div>
         <div class="accordion-content {{#if mapView == 3}}default{{/if}}">
           <p>The map shows parties which are receiving support from GM.</p>
-          <div class="filter-controls"><span on-click='allOn: gm_support'>All</span> | <span class='allOff' on-click='allOff: gm_support'>None</span></div>
+          <div class="filter-controls"><span on-click='allOn: gm_supported'>All</span> | <span class='allOff' on-click='allOff: gm_supported'>None</span></div>
           <ul class='filters-list'>
-            {{#each gm_support_filters}}
+            {{#each gm_supported_filters}}
               <li on-click="toggleFilter" class='{{#active}}active{{/active}}'>{{title}}</li>
             {{/each}}
           </ul>

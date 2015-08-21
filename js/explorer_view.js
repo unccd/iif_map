@@ -25,7 +25,7 @@ function explorer(collection, filters) {
       iif_status_filters: function() {return app.filters.select(function(i){return i.get('type') == 'iif_status'})},
       geo_filters: function() {return app.filters.select(function(i){return i.get('type') == 'geo'})},
       plan_filters: function() {return app.filters.select(function(i){return i.get('type') == 'plan'})},
-      gm_support_filters: function() {return app.filters.select(function(i){return i.get('type') == 'gm_support'})},
+      gm_supported_filters: function() {return app.filters.select(function(i){return i.get('type') == 'gm_supported'})},
       selectedParty: {
         get: '${selected}',
         set: function (term) {

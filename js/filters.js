@@ -19,10 +19,10 @@ function initFilters (collectionToFilter) {
     {type: 'plan', title: 'Planned 2016-2017', id: '2016_2017', filterState: {iif_plan_start: '2016_2017'}},
     {type: 'plan', title: 'Planned 2018-2019', id: '2018_2019', filterState: {iif_plan_start: '2018_2019'}},
   ]);
-  // gm_support filters
+  // gm_supported filters
   filters.add([
-    {type: 'gm_support', title: 'Receiving support', id: 'receiving_support', filterState: {gm_support: true}},
-    {type: 'gm_support', title: 'Not receiving support', id: 'not_receiving_support', filterState: {gm_support: false}}
+    {type: 'gm_supported', title: 'Receiving support', id: 'receiving_support', filterState: {gm_supported: true}},
+    {type: 'gm_supported', title: 'Not receiving support', id: 'not_receiving_support', filterState: {gm_supported: false}}
   ]);
 
 
