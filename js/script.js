@@ -22,18 +22,27 @@ $.getJSON('data/iif_status.json', function(data) {
     {attribute: 'iif_or_plan', title: 'GM supported', short_name: 'gm_supported', filterState: {gm_supported: true}, exclusive: true}
   ]);
 
-  
-  // Ractive view containing all components
+
+  // Init Ractive decorators
+  Ractive.decorators.chosen.type.geosearch = function(node){
+    return {
+      width: '100%'
+    }
+  };
+
+  // Create Ractive view containing all components
   app.explorer = explorer(app.filtered_data, app.filters);
 
-  app.filtered_data.on('reset', function(){
-    return updateMap()
-  })
   
   // jVectormap map
   app.map = drawMap(app.filtered_data);
 
-  explorerEvents(app.explorer);
+  // Config Ractive events
+  initExplorerEvents(app.explorer);
+
+  app.filtered_data.on('reset', function(){
+    return updateMap()
+  })
 
   return;
 });

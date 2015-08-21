@@ -61,12 +61,11 @@
   <!-- SEARCH PARTIAL -->
   <script id="searchPartial" type="text/html">
     <div class='search'>
-      <select decorator='chosen' on-change='shoutAboutIt' data-placeholder="Search country, region">
-          <option value=""></option>
+      <select decorator='chosen:geosearch' value="{{selectedCountry}}" data-placeholder="{{countryCount}} Search country, region">
+        <option value=""></option>
         {{#each countries}}
           <option value="{{iso3}}">{{country}}</option>
         {{/each}}
-        }
       </select>
     </div>    
   </script>
@@ -83,7 +82,8 @@
       <div class="accordion-section">
         <div on-click='set("mapView", 2)' class="accordion-toggle">IIFs planned</div>
         <div class="accordion-content {{#if mapView == 2}}default{{/if}}">
-          <p>These include IIFs with no specific date.</p>
+          <p>These are Voluntary National Targets. These include IIFs with no specific date.</p>
+          <p>Look at all these subfilters for each biennium!</p>
         </div>
       </div>
       <div class="accordion-section">
@@ -96,22 +96,31 @@
   </script>
   
 
-
+  <!-- Core libraries -->
   <script src='ext/ractive.min.js'></script>
   <script src='ext/jquery.min.js'></script>
   <script src='ext/lodash.min.js'></script>
+
+  <!-- Backbone + Ractive-adaptor -->
   <script src='ext/backbone.min.js'></script>
   <script src='ext/backbone.obscura.js'></script>
   <script src='ext/ractive-backbone-adaptor.min.js'></script>
+
+  <!-- jVectorMap -->
   <script src='ext/jquery-jvectormap-2.0.4.min.js'></script>
   <script src='ext/jquery-jvectormap-world-merc.js'></script>
+
+  <!-- Chosen + Ractive-adaptor -->
   <script src='ext/chosen.jquery.min.js'></script>
+  <script src='ext/ractive.chosen.js'></script>
+
   <!-- Application -->
   <script src='js/collections.js'></script>
   <script src='js/explorer_view.js'></script>
   <script src='js/map.js'></script>
   <script src='js/map-selector.js'></script>
   <script src='js/script.js'></script>
+
 
 </body>
 </html>

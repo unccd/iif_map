@@ -33,9 +33,7 @@ function drawMap(collection) {
     },
     regionStyle: {
       initial: {
-        fill: '#E2E2E2',
-        stroke: 'lightgrey',
-        'stroke-width': 1
+        fill: '#E2E2E2'
       },
       selected: {
         stroke: 'green',
