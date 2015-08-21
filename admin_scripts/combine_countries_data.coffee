@@ -15,17 +15,17 @@ class Process
 
     # Check for correct country names
     data.forEach (line) ->
-      searchCountry = line.country
-      foundCountry = _.findWhere(countries, short_name: searchCountry)
-      unless foundCountry
-        console.log 'Nothing found for', searchCountry
+      searchParty = line.country
+      foundParty = _.findWhere(countries, short_name: searchParty)
+      unless foundParty
+        console.log 'Nothing found for', searchParty
 
     # Add country data to iif_status.json
     output = data.map (line) ->
-      searchCountry = line.country
-      foundCountry = _.findWhere(countries, short_name: searchCountry)
-      if foundCountry
-        picked = _.pick(foundCountry, 'iso3', 'iso2', 'terr_name', 'lat', 'lon', 'use_centre_point')
+      searchParty = line.country
+      foundParty = _.findWhere(countries, short_name: searchParty)
+      if foundParty
+        picked = _.pick(foundParty, 'iso3', 'iso2', 'terr_name', 'lat', 'lon', 'use_centre_point')
         line = _.extend(line, picked)
       return line
 

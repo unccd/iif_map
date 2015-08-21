@@ -23,6 +23,6 @@
 
 ```
 {
-  selectedCountry: CountryModel
+  selectedParty: PartyModel
 }
 ```

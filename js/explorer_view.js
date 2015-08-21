@@ -18,7 +18,7 @@ function explorer(collection, filters) {
     // DATA
     // 
     data: {
-      selectedCountry: '',
+      selectedParty: '',
       mapView: 1,
       countries: collection,
       filters: filters
@@ -42,11 +42,11 @@ function explorer(collection, filters) {
       var filterModel = app.filters.get(filter);
       return handleFilter(filterModel);
     },
-    viewCountry: function(iso3) {
-      var selectedCountry = collection.findWhere({
+    viewParty: function(iso3) {
+      var selectedParty = collection.findWhere({
         iso3: iso3
       });
-      this.set('selectedCountry', selectedCountry);
+      this.set('selectedParty', selectedParty);
     },
     otherFunction: function(value) {
       console.log(value);
@@ -95,12 +95,12 @@ function initExplorerEvents (explorer) {
   });
   
   explorer.on('change', function(changeObject) { 
-    if (changeObject.selectedCountry != undefined) {
-      if (changeObject.selectedCountry) { 
-        console.log('change selectedCountry to', changeObject.selectedCountry);
-        return zoomMapToSelected(changeObject.selectedCountry.iso2);
+    if (changeObject.selectedParty != undefined) {
+      if (changeObject.selectedParty) { 
+        console.log('change selectedParty to', changeObject.selectedParty);
+        return zoomMapToSelected(changeObject.selectedParty.iso2);
       } else {
-        console.log('reset selectedCountry ');
+        console.log('reset selectedParty ');
         return zoomMapToAll();
       }
     } else {

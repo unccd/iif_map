@@ -1,17 +1,17 @@
 window.app || (window.app = {});
 
 // 
-// Countries
+// Parties
 // 
 
-var Country = Backbone.Model.extend({
+var Party = Backbone.Model.extend({
   // initialize: function() {
   // }
 })
 
-var Countries = Backbone.Collection.extend({
+var Parties = Backbone.Collection.extend({
   comparator: 'country',
-  model: Country
+  model: Party
 });
 
 

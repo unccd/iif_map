@@ -51,10 +51,10 @@ function drawMap(collection) {
       if(country == undefined) { return }
 
       // TODO: Refactor to zoomIn and reset zoom functions
-      if (app.explorer.get('selectedCountry') == country) {
-        app.explorer.set('selectedCountry', false);
+      if (app.explorer.get('selectedParty') == country) {
+        app.explorer.set('selectedParty', false);
       } else {
-        app.explorer.set('selectedCountry', country);
+        app.explorer.set('selectedParty', country);
       }
     },
     onRegionTipShow: function(event, label, code) {

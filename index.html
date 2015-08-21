@@ -30,10 +30,10 @@
 
   <!-- COUNTRY DETAIL PARTIAL -->
   <script id='countryDetailPartial' type="text/html">
-    {{#selectedCountry}}
+    {{#selectedParty}}
       <div class="detail">
-        <button on-click='set("selectedCountry", false)' class='back'>&lt; Back</button>
-        <div class='country-name'>{{selectedCountry ? selectedCountry.get('country') : ''}}</div>
+        <button on-click='set("selectedParty", false)' class='back'>&lt; Back</button>
+        <div class='country-name'>{{selectedParty ? selectedParty.get('country') : ''}}</div>
         <div class='status'>IIF status <span class='status-label'>{{iif_or_plan}}</span></div>
         <div class='plan'>{{#if iif_plan_start}}IIF planned: {{format(iif_plan_start)}}{{/if}}</div>
         <div class='description'>
@@ -47,7 +47,7 @@
           </div>
         </div>
       </div>
-    {{/selectedCountry}}
+    {{/selectedParty}}
   </script>
 
   <!-- SUMMARY PARTIAL -->
@@ -61,7 +61,7 @@
   <!-- SEARCH PARTIAL -->
   <script id="searchPartial" type="text/html">
     <div class='search'>
-      <select decorator='chosen:geosearch' value="{{selectedCountry}}" data-observe='countries' data-placeholder="{{countryCount}} Search country, region">
+      <select decorator='chosen:geosearch' value="{{selectedParty}}" data-observe='countries' data-placeholder="{{countryCount}} Search country, region">
         <option value=""></option>
         {{#each countries}}
           <option value="{{iso3}}">{{country}}</option>
