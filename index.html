@@ -63,10 +63,14 @@
     <div class='search'>
       <select decorator='chosen:geosearch' value="{{selectedParty}}" data-observe='parties' data-placeholder="{{partyCount}} Search party, region">
         <option value=""></option>
-        {{#each geo_search}}
-          <optgroup label="{{.[0]}}">
-            {{#each .[1]}}            
-              <option value="{{iso3}}">{{party}}</option>
+        {{#each geo_search:category}}
+          <optgroup label="{{category}}">
+            {{#each .}}            
+              {{#iso3}}
+                <option value="{{iso3}}">{{party}}</option>
+              {{else}}
+                <option value="{{category}}:{{.}}">{{.}}</option>
+              {{/iso3}}
             {{/each}}
           </optgroup>
         {{/each}}
@@ -82,7 +86,7 @@
         <div class="accordion-content {{#if mapView == 1}}default{{/if}}">
           <p>The map shows {{partyCount}} party parties and regions with IIFs already established.</p>
           <ul>
-            {{#each geo_filters}}
+            {{#each iif_status_filters}}
               <li>{{title}}</li>
             {{/each}}
           </ul>
@@ -104,6 +108,11 @@
         <div on-click='set("mapView", 3)' class="accordion-toggle">GM support</div>
         <div class="accordion-content {{#if mapView == 3}}default{{/if}}">
           <p>The map shows parties which are receiving support from GM.</p>
+          <ul>
+            {{#each gm_support_filters}}
+              <li>{{title}}</li>
+            {{/each}}
+          </ul>
         </div>
       </div>
     </div>

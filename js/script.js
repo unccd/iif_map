@@ -16,11 +16,7 @@ $.getJSON('data/iif_status.json', function(data) {
     {title: 'With IIF', id: 'with_iif', filterState: {iif_or_plan: 'iif'}}, 
     {title: 'No IIF, plan exists', id: 'with_plan', filterState: {iif_or_plan: 'plan'}}, 
     {title: 'No IIF, no plan', id: 'no_plan', filterState: {iif_or_plan: 'no_plan'}},
-    {title: 'No data', id: 'unknown', filterState: {iif_or_plan: 'unknown'}},
-    {title: 'Planned 2014-2015', id: '2014_2015', filterState: {iif_plan_start: '2014_2015'}},
-    {title: 'Planned 2016-2017', id: '2016_2017', filterState: {iif_plan_start: '2016_2017'}},
-    {title: 'Planned 2018-2019', id: '2018_2019', filterState: {iif_plan_start: '2018_2019'}},
-    {title: 'GM supported', id: 'gm_supported', filterState: {gm_supported: true}}
+    {title: 'No data', id: 'unknown', filterState: {iif_or_plan: 'unknown'}}
   ], {type: 'iif_status'});
 
   app.filters.geo = new Filters([
@@ -30,7 +26,14 @@ $.getJSON('data/iif_status.json', function(data) {
   ], {type: 'geo'});
 
   app.filters.plan = new Filters([
-    {title: '2014-2015', id: '2014_2015', filterState: {iif_plan: '2014_2015'}}
+    {title: 'Planned 2014-2015', id: '2014_2015', filterState: {iif_plan_start: '2014_2015'}},
+    {title: 'Planned 2016-2017', id: '2016_2017', filterState: {iif_plan_start: '2016_2017'}},
+    {title: 'Planned 2018-2019', id: '2018_2019', filterState: {iif_plan_start: '2018_2019'}},
+  ], {type: 'plan'});
+
+  app.filters.gm_support = new Filters([
+    {title: 'Receiving support', id: 'receiving_support', filterState: {gm_support: true}},
+    {title: 'Not receiving support', id: 'not_receiving_support', filterState: {gm_support: false}}
   ], {type: 'plan'});
 
 

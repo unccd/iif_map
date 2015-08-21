@@ -89,7 +89,6 @@ function updateMap() {
 }
 
 function zoomMapToSelected(regionCode) {
-  console.log(regionCode);
   return app.map.setFocus({
     region: regionCode
   });

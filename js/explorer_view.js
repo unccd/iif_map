@@ -18,16 +18,24 @@ function explorer(collection, filters) {
     // DATA
     // 
     data: {
-      selectedParty: '',
       mapView: 1,
       parties: collection,
+      iif_status_filters: filters.iif_status,
       geo_filters: filters.geo,
-      plan_filters: filters.plan
+      plan_filters: filters.plan,
+      gm_support_filters: filters.gm_support,
+      selected: ''
     },
     computed: {
+      selectedParty: {
+        get: '${selected}',
+        set: function (term) {
+          console.log(term);
+          return this.set('selected', app.data.first());
+        }
+      },
       geo_search: function() {
-        // Returns array of arrays: [['Africa', [africa_parties]], ['Asia', [asia_parties]],...]
-        return _.sortBy(_.pairs(app.data.groupBy('region')), function(i){return i[0];});
+        return app.filters.geo.displayFor(['region', 'subregion', 'party']);
       },
       partyCount: function () {
         return this.get('parties').where({srap: false}).length;
@@ -46,12 +54,6 @@ function explorer(collection, filters) {
       var filter = this.event.node.dataset.filter;
       var filterModel = app.filters.get(filter);
       return handleFilter(filterModel);
-    },
-    viewParty: function(iso3) {
-      var selectedParty = collection.findWhere({
-        iso3: iso3
-      });
-      this.set('selectedParty', selectedParty);
     },
     otherFunction: function(value) {
       console.log(value);
@@ -90,6 +92,13 @@ function handleFilter(filterModel) {
   
 }
 
+// function handleGeoSearch(location){
+//   if (_.isObject(location)) {
+//     console.log('probably got a Party model');
+//   }
+//   return;
+// }
+
 // 
 // Explorer events
 // 
@@ -98,7 +107,7 @@ function initExplorerEvents (explorer) {
   explorer.on('dance', function(event, object){
     return console.log('here', object);
   });
-  
+
   explorer.on('change', function(changeObject) { 
     if (changeObject.selectedParty != undefined) {
       if (changeObject.selectedParty) { 
