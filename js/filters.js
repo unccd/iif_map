@@ -26,15 +26,23 @@ function initFilters (collectionToFilter) {
   ]);
 
 
-  filters.on('change', function(changeObject, b){
-    var type = changeObject.get('type'), id = changeObject.id, active = changeObject.get('active');
+  filters.on('change', function(filter, b){
+    var _this = this;
+    var type = filter.get('type'), id = filter.id, active = filter.get('active');
     var currentFilters = this.collectionToFilter.getFilters();
     var filterId = composeFilterId(type, id);
     if (_.includes(currentFilters, filterId)) {
+      filter.set('active', false);
       this.collectionToFilter.removeFilter(filterId);
     } else {
-      var filter = changeObject.get('filterState')
-      this.collectionToFilter.filterBy(filterId, filter)
+      var filterState = filter.get('filterState');
+      _.each(currentFilters, function(currentFilter){
+        var currentFilterId = decomposeFilterId(currentFilter).id;
+        _this.get(currentFilterId).set('active', false);
+        return _this.collectionToFilter.removeFilter(currentFilter);
+      });
+      filter.set('active', true);
+      this.collectionToFilter.filterBy(filterId, filterState)
     }
   });
 
@@ -53,7 +61,7 @@ function decomposeFilterId (filterId) {
 var Filter = Backbone.Model.extend({
   initialize: function(model) {
     if (!model.active) {
-      this.set('active', true);
+      this.set('active', false);
     };
   },
   toggle: function(attr, silent) {
