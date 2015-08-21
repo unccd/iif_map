@@ -7,19 +7,35 @@ window.app || (window.app = {});
 
 $.getJSON('data/iif_status.json', function(data) {
   // Backbone.Obscura collection for filtering
-  app.filtered_data = new Backbone.Obscura(new Countries(data));
+  app.data = new Backbone.Obscura(new Parties(data));
 
   // Possible Filters collection
-  app.filters = new Filters([
-    {attribute: '', title: 'All', short_name: 'all', filterState: {}, exclusive: true}, 
-    {attribute: 'iif_or_plan', title: 'With IIF', short_name: 'with_iif', filterState: {iif_or_plan: 'iif'}, exclusive: true}, 
-    {attribute: 'iif_or_plan', title: 'No IIF, plan exists', short_name: 'with_plan', filterState: {iif_or_plan: 'plan'}, exclusive: true}, 
-    {attribute: 'iif_or_plan', title: 'No IIF, no plan', short_name: 'no_plan', filterState: {iif_or_plan: 'no_plan'}, exclusive: true},
-    {attribute: 'iif_or_plan', title: 'No data', short_name: 'unknown', filterState: {iif_or_plan: 'unknown'}, exclusive: true},
-    {attribute: 'iif_or_plan', title: 'Planned 2014-2015', short_name: '2014_2015', filterState: {iif_plan_start: '2014_2015'}, exclusive: true},
-    {attribute: 'iif_or_plan', title: 'Planned 2016-2017', short_name: '2016_2017', filterState: {iif_plan_start: '2016_2017'}, exclusive: true},
-    {attribute: 'iif_or_plan', title: 'Planned 2018-2019', short_name: '2018_2019', filterState: {iif_plan_start: '2018_2019'}, exclusive: true},
-    {attribute: 'iif_or_plan', title: 'GM supported', short_name: 'gm_supported', filterState: {gm_supported: true}, exclusive: true}
+  app.filters = {}
+  app.filters = new Filters()
+
+  // IIF Status filters
+  app.filters.add([
+    {active: true, type: 'iif_status', title: 'With IIF', id: 'with_iif', filterState: {iif_or_plan: 'iif'}}, 
+    {active: true, type: 'iif_status', title: 'No IIF, plan exists', id: 'with_plan', filterState: {iif_or_plan: 'plan'}}, 
+    {active: true, type: 'iif_status', title: 'No IIF, no plan', id: 'no_plan', filterState: {iif_or_plan: 'no_plan'}},
+    {active: true, type: 'iif_status', title: 'No data', id: 'unknown', filterState: {iif_or_plan: 'unknown'}}
+  ]);
+  // Geo filters
+  app.filters.add([
+    {type: 'geo', title: 'Spain', id: 'spain', filterState: {iso3: 'spa'}},
+    {active: true, type: 'geo', title: 'Europe', id: 'europe', filterState: {region: 'europe'}},
+    {type: 'geo', title: 'Southern Europe', id: 'southern_europe', filterState: {subregion: 'southern_europe'}}
+  ]);
+  // Plan filters
+  app.filters.add([
+    {active: true, type: 'plan', title: 'Planned 2014-2015', id: '2014_2015', filterState: {iif_plan_start: '2014_2015'}},
+    {active: true, type: 'plan', title: 'Planned 2016-2017', id: '2016_2017', filterState: {iif_plan_start: '2016_2017'}},
+    {active: true, type: 'plan', title: 'Planned 2018-2019', id: '2018_2019', filterState: {iif_plan_start: '2018_2019'}},
+  ]);
+  // gm_support filters
+  app.filters.add([
+    {active: true, type: 'gm_support', title: 'Receiving support', id: 'receiving_support', filterState: {gm_support: true}},
+    {active: true, type: 'gm_support', title: 'Not receiving support', id: 'not_receiving_support', filterState: {gm_support: false}}
   ]);
 
 
@@ -31,20 +47,23 @@ $.getJSON('data/iif_status.json', function(data) {
   };
 
   // Create Ractive view containing all components
-  app.explorer = explorer(app.filtered_data, app.filters);
+  app.explorer = explorer(app.data, app.filters);
 
   
   // jVectormap map
-  app.map = drawMap(app.filtered_data);
+  app.map = drawMap(app.data);
 
   // Config Ractive events
   initExplorerEvents(app.explorer);
 
-  app.filtered_data.on('reset', function(){
+  app.data.on('reset', function(){
     return updateMap()
   })
 
+  app.explorer.on( 'activate', function ( event ) {
+    alert( 'Activating!' );
+  });
+
   return;
 });
-
 

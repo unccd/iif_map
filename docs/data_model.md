@@ -4,7 +4,7 @@
 {
   "region": "Africa",
   "subregion": "Central Africa",
-  "country": "Burundi",
+  "party": "Burundi",
   "srap": false,
   "iif_or_plan": "plan",
   "iif_plan_year": 2015_2016,
@@ -23,6 +23,6 @@
 
 ```
 {
-  selectedCountry: CountryModel
+  selectedParty: PartyModel
 }
 ```

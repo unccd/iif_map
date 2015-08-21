@@ -27,12 +27,12 @@ class Process
 
 
     # Combine fao_countries with SSC file centre points
-    output = _.map(fao_countries, (country) ->
-      ssc_country = _.findWhere(ssc_countries, iso3: country.iso3)
-      country.lat = ssc_country.lat
-      country.lon = ssc_country.lon
-      country.use_centre_point = _.includes(iso2_missing_from_jvec, country.iso2)
-      return country
+    output = _.map(fao_countries, (party) ->
+      ssc_party = _.findWhere(ssc_countries, iso3: party.iso3)
+      party.lat = ssc_party.lat
+      party.lon = ssc_party.lon
+      party.use_centre_point = _.includes(iso2_missing_from_jvec, party.iso2)
+      return party
     )
 
     # Write file

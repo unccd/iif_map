@@ -8,7 +8,7 @@ Getting a handle on how to combine filters, states - what makes sense, and how t
 
   - `region`: single one at a time
   - `subregion`: single one at a time
-  - `country`: single one at a time
+  - `party`: single one at a time
 
 
 **Status (complex)**

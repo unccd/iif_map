@@ -19,7 +19,7 @@
   background: rgb(228, 228, 228);
   padding: 10px;
 }
-.country-name {
+.party-name {
   font-size: 25px;
   line-height: 28px;
   font-weight: bold;
@@ -55,13 +55,42 @@ button.back {
 ul.filters-list {
   padding: 0;
   list-style: none;
+  margin-top: 15px;
+  clear: both;
 }
 
-ul.filters-list > button {
-  padding: 2px 7px;
-  margin: 5px;
+ul.filters-list > li {
+  padding: 1px 8px;
+  margin: 3px 3px;
+  cursor: pointer;
+  background: #E4E4E4;
+  font-size: 12px;
+  line-height: 19px;
+  border-left: 8px solid rgba(255, 168, 10, 0);
+  color: #B1B1B1;
 }
 
+ul.filters-list > li.active {
+  border-left: 8px solid #FFA80A;
+  color: inherit;
+}
+ul.filters-list > li.active:hover {
+  background: #EFDEC1;
+}
+
+.filter-controls {
+  font-size: 10px;
+  float: right;
+}
+.filter-controls > span {
+  cursor: pointer;
+}
+.filter-controls > span:hover {
+  color: #83C783;
+}
+.filter-controls > span.allOff:hover {
+  color: #CC8080;
+}
 
 
 /*jVectormap customisation*/
