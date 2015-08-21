@@ -64,7 +64,7 @@
       <select decorator='chosen:geosearch' value="{{selectedParty}}" data-observe='parties' data-placeholder="{{partyCount}} Search party, region">
         <option value=""></option>
         {{#each geo_search:category}}
-          <optgroup label="{{category}}">
+          <optgroup label="{{ titleCase( category ) }}">
             {{#each .}}            
               {{#iso3}}
                 <option value="{{iso3}}">{{party}}</option>

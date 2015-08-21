@@ -19,11 +19,13 @@ function explorer(collection, filters) {
     data: {
       mapView: 1,
       parties: collection,
-      selected: ''
+      selected: '',
+      titleCase: function (str) {
+        return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+      }
     },
     computed: {
       iif_status_filters: function() {return app.filters.select(function(i){return i.get('type') == 'iif_status'})},
-      geo_filters: function() {return app.filters.select(function(i){return i.get('type') == 'geo'})},
       plan_filters: function() {return app.filters.select(function(i){return i.get('type') == 'plan'})},
       gm_supported_filters: function() {return app.filters.select(function(i){return i.get('type') == 'gm_supported'})},
       selectedParty: {
@@ -42,17 +44,6 @@ function explorer(collection, filters) {
       srapCount: function () {
         return this.get('parties').where({srap: true}).length;
       }
-    },
-    // 
-    // ACTIONS
-    // 
-    setFilter: function() {
-      // var filter = this.event.node.dataset.filter;
-      // var filterModel = app.filters.get(filter);
-      // return handleFilter(filterModel);
-    },
-    otherFunction: function(value) {
-      console.log(value);
     }
   });
 }
