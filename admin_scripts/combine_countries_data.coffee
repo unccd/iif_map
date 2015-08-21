@@ -13,16 +13,16 @@ class Process
     # console.log data.length, 'data entries'
     # console.log countries.length, 'countries entries'
 
-    # Check for correct country names
+    # Check for correct party names
     data.forEach (line) ->
-      searchParty = line.country
+      searchParty = line.party
       foundParty = _.findWhere(countries, short_name: searchParty)
       unless foundParty
         console.log 'Nothing found for', searchParty
 
-    # Add country data to iif_status.json
+    # Add party data to iif_status.json
     output = data.map (line) ->
-      searchParty = line.country
+      searchParty = line.party
       foundParty = _.findWhere(countries, short_name: searchParty)
       if foundParty
         picked = _.pick(foundParty, 'iso3', 'iso2', 'terr_name', 'lat', 'lon', 'use_centre_point')

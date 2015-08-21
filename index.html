@@ -18,7 +18,7 @@
 
   <script id='explorer' type="text/html">
     <div class="w-col w-col-4 controls">
-      {{>countryDetailPartial}}
+      {{>partyDetailPartial}}
       {{>summaryPartial}}
     </div>
     <div class="w-col w-col-8 content">
@@ -29,11 +29,11 @@
   </script>
 
   <!-- COUNTRY DETAIL PARTIAL -->
-  <script id='countryDetailPartial' type="text/html">
+  <script id='partyDetailPartial' type="text/html">
     {{#selectedParty}}
       <div class="detail">
         <button on-click='set("selectedParty", false)' class='back'>&lt; Back</button>
-        <div class='country-name'>{{selectedParty ? selectedParty.get('country') : ''}}</div>
+        <div class='party-name'>{{selectedParty ? selectedParty.get('party') : ''}}</div>
         <div class='status'>IIF status <span class='status-label'>{{iif_or_plan}}</span></div>
         <div class='plan'>{{#if iif_plan_start}}IIF planned: {{format(iif_plan_start)}}{{/if}}</div>
         <div class='description'>
@@ -61,10 +61,10 @@
   <!-- SEARCH PARTIAL -->
   <script id="searchPartial" type="text/html">
     <div class='search'>
-      <select decorator='chosen:geosearch' value="{{selectedParty}}" data-observe='countries' data-placeholder="{{countryCount}} Search country, region">
+      <select decorator='chosen:geosearch' value="{{selectedParty}}" data-observe='parties' data-placeholder="{{partyCount}} Search party, region">
         <option value=""></option>
-        {{#each countries}}
-          <option value="{{iso3}}">{{country}}</option>
+        {{#each parties}}
+          <option value="{{iso3}}">{{party}}</option>
         {{/each}}
       </select>
     </div>    
@@ -76,7 +76,7 @@
       <div class="accordion-section">
         <div on-click='set("mapView", 1)' class="accordion-toggle">IIFs established</div>
         <div class="accordion-content {{#if mapView == 1}}default{{/if}}">
-          <p>The map shows {{countryCount}} country parties and regions with IIFs already established.</p>
+          <p>The map shows {{partyCount}} party parties and regions with IIFs already established.</p>
         </div>
       </div>
       <div class="accordion-section">
@@ -89,7 +89,7 @@
       <div class="accordion-section">
         <div on-click='set("mapView", 3)' class="accordion-toggle">GM support</div>
         <div class="accordion-content {{#if mapView == 3}}default{{/if}}">
-          <p>The map shows countries which are receiving support from GM.</p>
+          <p>The map shows parties which are receiving support from GM.</p>
         </div>
       </div>
     </div>

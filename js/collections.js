@@ -10,7 +10,7 @@ var Party = Backbone.Model.extend({
 })
 
 var Parties = Backbone.Collection.extend({
-  comparator: 'country',
+  comparator: 'party',
   model: Party
 });
 

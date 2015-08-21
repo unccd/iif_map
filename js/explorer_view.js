@@ -20,18 +20,18 @@ function explorer(collection, filters) {
     data: {
       selectedParty: '',
       mapView: 1,
-      countries: collection,
+      parties: collection,
       filters: filters
     },
     computed: {
-      countryCount: function () {
-        return this.get('countries').where({srap: false}).length;
+      partyCount: function () {
+        return this.get('parties').where({srap: false}).length;
       },
       srapCount: function () {
-        return this.get('countries').where({srap: true}).length;
+        return this.get('parties').where({srap: true}).length;
       },
       filterFacetCounts: function () {
-        return this.get('countries').length;
+        return this.get('parties').length;
       }
     },
     // 

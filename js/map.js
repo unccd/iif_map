@@ -45,22 +45,22 @@ function drawMap(collection) {
       }
     },
     onRegionClick: function(event, regionCode) {
-      country = collection.findWhere({
+      party = collection.findWhere({
         iso2: regionCode
       });
-      if(country == undefined) { return }
+      if(party == undefined) { return }
 
       // TODO: Refactor to zoomIn and reset zoom functions
-      if (app.explorer.get('selectedParty') == country) {
+      if (app.explorer.get('selectedParty') == party) {
         app.explorer.set('selectedParty', false);
       } else {
-        app.explorer.set('selectedParty', country);
+        app.explorer.set('selectedParty', party);
       }
     },
     onRegionTipShow: function(event, label, code) {
-      var country = collection.findWhere({iso2: code})
-      if (country) {
-        var status = country.get('iif_or_plan');
+      var party = collection.findWhere({iso2: code})
+      if (party) {
+        var status = party.get('iif_or_plan');
         label.html(
           '<b>'+label.html()+'</b></br>'+
           '<b>Status: </b>' + status
