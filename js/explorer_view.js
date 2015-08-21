@@ -41,9 +41,6 @@ function explorer(collection, filters) {
       },
       srapCount: function () {
         return this.get('parties').where({srap: true}).length;
-      },
-      filterFacetCounts: function () {
-        return this.get('parties').length;
       }
     },
     // 
@@ -103,7 +100,12 @@ function handleFilter(filterModel) {
 // 
 
 function initExplorerEvents (explorer) {
-  explorer.on('MapViewSelector.toggleFilter', function(event, object){
+  // Explorer
+  explorer.on('selectParty', function(event, object){});
+
+
+  // MapViewSelector Component
+  explorer.on('MapViewSelector.toggleFilter', function(event){
     return app.filters.get(event.context.id).toggle('active');
   });
   explorer.on('MapViewSelector.allOn', function(event, type){
@@ -112,10 +114,11 @@ function initExplorerEvents (explorer) {
   explorer.on('MapViewSelector.allOff', function(event, type){
     return app.filters.allOff(type);
   });
-
-  explorer.on('toggleFilter', function(event, object) {
-    return console.log('change to view index', object);
+  explorer.on('MapViewSelector.changeMapView', function(event, mapViewIndex) {
+    this.set('mapView', mapViewIndex);
   })
+
+
 
   explorer.on('change', function(changeObject) { 
     if (changeObject.selectedParty != undefined) {
