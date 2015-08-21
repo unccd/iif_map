@@ -20,19 +20,29 @@ var Countries = Backbone.Collection.extend({
 // 
 
 var Filter = Backbone.Model.extend({
-  idAttribute: 'short_name',
-  addThis: function () {
-    return console.log(this);
+  initialize: function() {
+    return this.addOnInit();
+  },
+  addOnInit: function () {
+    // return console.log(this);
   }
 })
 
 var Filters = Backbone.Collection.extend({
   model: Filter,
+  initialize: function (models, options) {
+    return this.addResetOption(options);
+  },
+  addResetOption: function (options) {
+    if (options.type) {
+      console.log('add reset option for', options.type, 'filter');
+    };
+    return;
+  },
   facetCountsFor: function(collection) {
     return this.map(function (filter) {
       return {
-        name: filter.id
-        ,
+        name: filter.id,
         count: collection.where(filter.get('filterState')).length
       }
     })
