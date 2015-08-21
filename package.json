@@ -11,5 +11,9 @@
   "dependencies": {
     "json2csv": "^2.9.0",
     "lodash": "^3.10.1"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.8.2",
+    "gulp": "^3.9.0"
   }
 }
