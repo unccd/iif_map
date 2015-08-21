@@ -7,7 +7,7 @@ window.app || (window.app = {});
 
 $.getJSON('data/iif_status.json', function(data) {
   // Backbone.Obscura collection for filtering
-  app.data = new Backbone.Obscura(new Parties(data));
+  app.data = new Parties(data);
 
   // Filters collection
   app.filters = initFilters(app.data);

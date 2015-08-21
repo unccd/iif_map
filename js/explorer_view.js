@@ -20,6 +20,7 @@ function explorer(collection, filters) {
       mapView: 1,
       parties: collection,
       selected: '',
+      filters: filters,
       titleCase: function (str) {
         return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
       }
