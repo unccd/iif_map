@@ -63,8 +63,12 @@
     <div class='search'>
       <select decorator='chosen:geosearch' value="{{selectedParty}}" data-observe='parties' data-placeholder="{{partyCount}} Search party, region">
         <option value=""></option>
-        {{#each parties}}
-          <option value="{{iso3}}">{{party}}</option>
+        {{#each geo_search}}
+          <optgroup label="{{.[0]}}">
+            {{#each .[1]}}            
+              <option value="{{iso3}}">{{party}}</option>
+            {{/each}}
+          </optgroup>
         {{/each}}
       </select>
     </div>    
@@ -77,6 +81,11 @@
         <div on-click='set("mapView", 1)' class="accordion-toggle">IIFs established</div>
         <div class="accordion-content {{#if mapView == 1}}default{{/if}}">
           <p>The map shows {{partyCount}} party parties and regions with IIFs already established.</p>
+          <ul>
+            {{#each geo_filters}}
+              <li>{{title}}</li>
+            {{/each}}
+          </ul>
         </div>
       </div>
       <div class="accordion-section">
@@ -84,6 +93,11 @@
         <div class="accordion-content {{#if mapView == 2}}default{{/if}}">
           <p>These are Voluntary National Targets. These include IIFs with no specific date.</p>
           <p>Look at all these subfilters for each biennium!</p>
+          <ul>
+            {{#each plan_filters}}
+              <li>{{title}}</li>
+            {{/each}}
+          </ul>
         </div>
       </div>
       <div class="accordion-section">

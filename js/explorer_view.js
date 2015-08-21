@@ -21,9 +21,14 @@ function explorer(collection, filters) {
       selectedParty: '',
       mapView: 1,
       parties: collection,
-      filters: filters
+      geo_filters: filters.geo,
+      plan_filters: filters.plan
     },
     computed: {
+      geo_search: function() {
+        // Returns array of arrays: [['Africa', [africa_parties]], ['Asia', [asia_parties]],...]
+        return _.sortBy(_.pairs(app.data.groupBy('region')), function(i){return i[0];});
+      },
       partyCount: function () {
         return this.get('parties').where({srap: false}).length;
       },

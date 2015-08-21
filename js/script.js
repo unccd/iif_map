@@ -27,7 +27,11 @@ $.getJSON('data/iif_status.json', function(data) {
     {title: 'Spain', id: 'spain', filterState: {iso3: 'spa'}},
     {title: 'Europe', id: 'europe', filterState: {region: 'europe'}},
     {title: 'Southern Europe', id: 'southern_europe', filterState: {subregion: 'southern_europe'}}
-  ], {type: 'geo'})
+  ], {type: 'geo'});
+
+  app.filters.plan = new Filters([
+    {title: '2014-2015', id: '2014_2015', filterState: {iif_plan: '2014_2015'}}
+  ], {type: 'plan'});
 
 
   // Init Ractive decorators
@@ -53,5 +57,4 @@ $.getJSON('data/iif_status.json', function(data) {
 
   return;
 });
-
 
