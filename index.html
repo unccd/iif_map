@@ -71,7 +71,9 @@
           </optgroup>
         {{/each}}
       </select>
-      <div on-click='resetGeoSearch' class="reset-geoSearch">Reset</div>
+      {{#if geoSearch != ''}}
+        <div on-click='resetGeoSearch' class="reset-geoSearch"><span class='reset-x'>x</span>Show all</div>
+      {{/if}}
     </div>    
   </script>
 
