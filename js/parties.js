@@ -17,6 +17,9 @@ var Parties = Backbone.Collection.extend({
   },
   resetWithQuery: function (queryObject) {
     return this.reset(this._superset.query(queryObject));
+  },
+  crazyCount: function (argument) {
+    return argument;
   }
 });
 

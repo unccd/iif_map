@@ -4,7 +4,7 @@ window.app || (window.app = {});
 // Explorer view
 // 
 
-function explorer(collection, filters) {
+function explorer(parties, filters) {
   return new Ractive({
     // 
     // CONFIG
@@ -17,17 +17,19 @@ function explorer(collection, filters) {
     // DATA
     // 
     data: {
+      // Collections
+      parties: parties,
+      filters: filters,
+      // State
       mapView: 1,
-      parties: collection,
       selected: '',
+      // Format helpers
       titleCase: function (str) {
         return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
       }
     },
     computed: {
-      iif_or_plan_filters: function() {return app.filters.select(function(i){return i.get('attribute') == 'iif_or_plan'})},
-      plan_filters: function() {return app.filters.select(function(i){return i.get('attribute') == 'iif_plan_start'})},
-      gm_supported_filters: function() {return app.filters.select(function(i){return i.get('attribute') == 'gm_supported'})},
+      crazyCount: function() { this.get('filters'); return app.data.crazyCount(app.filters.length);},
       selectedParty: {
         get: '${selected}',
         set: function (term) {
@@ -35,15 +37,13 @@ function explorer(collection, filters) {
           return this.set('selected', app.data.first());
         }
       },
-      geo_search: function() {
-        return app.filters.displayFor(['region', 'subregion', 'party']);
-      },
-      partyCount: function () {
-        return this.get('parties').where({srap: false}).length;
-      },
-      srapCount: function () {
-        return this.get('parties').where({srap: true}).length;
-      }
+      partyCount: function () {return this.get('parties').where({srap: false}).length; },
+      srapCount: function () {return this.get('parties').where({srap: true}).length; },
+      // Filters
+      geo_search: function() {return app.filters.displayFor(['region', 'subregion', 'party']);},
+      iif_or_plan_filters: function() {return app.filters.select(function(i){return i.get('attribute') == 'iif_or_plan'})},
+      plan_filters: function() {return app.filters.select(function(i){return i.get('attribute') == 'iif_plan_start'})},
+      gm_supported_filters: function() {return app.filters.select(function(i){return i.get('attribute') == 'gm_supported'})}
     }
   });
 }
