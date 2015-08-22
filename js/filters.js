@@ -56,10 +56,16 @@ QueryFilters = Backbone.Collection.extend({
     }));
   },
   prepareFilterQuery: function() {
-    var activeFilters = _.where(this.toJSON(), {active: false});
-    var attributeGroups = _.groupBy(activeFilters, 'attribute'), queryGroups = {};
+    var filtersToQueryWith = _.where(this.toJSON(), {active: false});
+    var attributeGroups = _.groupBy(filtersToQueryWith, 'attribute'), queryGroups = {};
     _.each(attributeGroups, function(attributeGroup, index){
-      queryGroups[index] = {$in: _.pluck(attributeGroup, 'value')}
+      var combinator;
+      // TODO: Refactor - at least move config out of here
+      if (_.includes(['region', 'subregion'], index)) {
+        combinator = '$nin'; 
+      } else {
+        combinator = '$in'; }
+      queryGroups[index] = _.object([combinator], [_.pluck(attributeGroup, 'value')]);
     });
     return queryGroups;
   },

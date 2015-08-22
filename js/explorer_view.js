@@ -13,6 +13,7 @@ function initExplorer(parties, filters) {
     template: '#explorer',
     components: { MapViewSelector: MapViewSelector },
     adapt: ['Backbone'],
+    geoSearch: '',
     // 
     // DATA
     // 
@@ -32,7 +33,12 @@ function initExplorer(parties, filters) {
       partyCount: function () {return this.get('parties').where({srap: false}).length; },
       srapCount: function () {return this.get('parties').where({srap: true}).length; },
       // Filters
-      geo_search: function() {return this.get('filters').displayFor(['region', 'subregion', 'party']);},
+      geo_search: function() {
+        var filters = this.get('filters');
+        var parties = this.get('parties');
+        var attributes = ['region', 'subregion', 'party'];
+        return filters.displayFor(attributes, parties);
+      },
       iif_or_plan_filters: function() {return this.get('filters').select(function(i){return i.get('attribute') == 'iif_or_plan'})},
       plan_filters: function() {return this.get('filters').select(function(i){return i.get('attribute') == 'iif_plan_start'})},
       gm_supported_filters: function() {return this.get('filters').select(function(i){return i.get('attribute') == 'gm_supported'})}
@@ -48,8 +54,29 @@ function initExplorer(parties, filters) {
 // 
 
 function initExplorerEvents (explorer) {
-  // // Explorer
-  // explorer.on('selectParty', function(event, object){});
+  // Geosearch
+  explorer.observe('geoSearch', function(term){
+    if (term == "") { return } // Ignore initial event from Chosen initialisation
+    var split = term.split(':');
+    var attribute = split[0];
+    var value = split[1];
+    if (attribute == 'party') {
+      var party = this.get('parties').findWhere({party: value});
+      this.set('selectedParty', party);
+      updateMap();
+    } else {
+      var object = {attribute: attribute, value: value, active: false, geo: true};
+      this.get('filters').add(object);
+    }
+  });
+  
+  explorer.on('resetGeo', function() {
+    var filters = this.get('filters');
+    _.each(filters.where({geo: true}), function(model) {
+      model.destroy();
+    });
+    this.set('geoSearch', '');
+  })
 
   // MapViewSelector Component
   explorer.on('MapViewSelector.toggleFilter', function(event){
@@ -72,6 +99,14 @@ function initExplorerEvents (explorer) {
     this.get('parties').resetWithQuery(query);
     updateMap();
   });
+
+  explorer.observe('selectedParty', function(party) {
+    if (party) {
+      zoomMapTo([party.iso2]);
+    } else {
+      zoomMapTo();
+    }
+  })
 
   return;
 }

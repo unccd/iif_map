@@ -54,10 +54,8 @@ function initMap(ractive) {
 
       if (ractive.get('selectedParty') == party) {
         ractive.set('selectedParty', false);
-        zoomMapToAll();
       } else {
         ractive.set('selectedParty', party);
-        zoomMapTo(regionCode);
       }
     },
     onRegionTipShow: function(event, label, code) {
@@ -84,21 +82,31 @@ function prepareMapData(collection) {
 }
 
 function updateMap() {
-  if (!app.map) { return }
+  if (!app.map) { return };
   app.map.reset();
-  return app.map.series.regions[0].setValues(prepareMapData(app.data));
+  app.map.series.regions[0].setValues(prepareMapData(app.data));
+  return zoomToFiltered();
+}
+
+function zoomToFiltered() {
+  var regionCodes = _.compact(app.data.pluck('iso2'));
+  if (_.isEmpty(regionCodes)) {return};
+  setTimeout(zoomMapTo(regionCodes), 0);
 }
 
 function zoomMapTo(regionCodes) {
-  return app.map.setFocus({
-    regions: [regionCodes]
-  });
+  if (!app.map) {return};
+
+  if (regionCodes == undefined) {
+    app.map.setFocus({
+      scale: app.map.baseScale,
+      x: app.map.baseTransX,
+      y: app.map.baseTransY
+    });
+  } else {
+    app.map.setFocus({
+      regions: regionCodes
+    });
+  }
 }
 
-function zoomMapToAll() {
-  return app.map.setFocus({
-    scale: app.map.baseScale,
-    x: app.map.baseTransX,
-    y: app.map.baseTransY
-  });
-}
