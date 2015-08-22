@@ -4,13 +4,17 @@ window.app || (window.app = {});
 // Parties
 // 
 
-var Party = Backbone.Model.extend({
-  // initialize: function() {
-  // }
-})
+var Party = Backbone.Model.extend({})
+
 
 var Parties = Backbone.Collection.extend({
   comparator: 'party',
-  model: Party
+  model: Party,
+  initialize: function(models, options) {
+    this._superset = new Backbone.QueryCollection(models);
+  },
+  resetWithQuery: function (queryObject) {
+    return this.reset(this._superset.query({$nor: queryObject}));
+  }
 });
 

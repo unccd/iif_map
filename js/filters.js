@@ -3,102 +3,80 @@
 // 
 
 function initFilters (collectionToFilter) {
-  var filters = new Filters([], {collectionToFilter: collectionToFilter})
+  var filters = new QueryFilters([], {collectionToFilter: collectionToFilter})
 
   // IIF Status filters
   // TODO: Could do a check on load to see if any Filters are undefined?
   filters.add([
-    {type: 'iif_status', title: 'With IIF', id: 'with_iif', filterState: {iif_or_plan: 'iif'}}, 
-    {type: 'iif_status', title: 'No IIF, plan exists', id: 'with_plan', filterState: {iif_or_plan: 'plan'}}, 
-    {type: 'iif_status', title: 'No IIF, no plan', id: 'no_plan', filterState: {iif_or_plan: 'no_plan'}},
-    {type: 'iif_status', title: 'No data', id: 'unknown', filterState: {iif_or_plan: 'unknown'}}
+    {active: true, attribute: 'iif_or_plan', value: 'iif', title: 'With IIF', id: 'with_iif'}, 
+    {active: true, attribute: 'iif_or_plan', value: 'plan', title: 'No IIF, plan exists', id: 'with_plan'}, 
+    {attribute: 'iif_or_plan', value: 'no_plan', title: 'No IIF, no plan', id: 'no_plan'},
+    {attribute: 'iif_or_plan', value: 'unknown', title: 'No data', id: 'unknown'}
   ]);
   // Plan filters
   filters.add([
-    {type: 'plan', title: 'Planned 2014-2015', id: '2014_2015', filterState: {iif_plan_start: '2014_2015'}},
-    {type: 'plan', title: 'Planned 2016-2017', id: '2016_2017', filterState: {iif_plan_start: '2016_2017'}},
-    {type: 'plan', title: 'Planned 2018-2019', id: '2018_2019', filterState: {iif_plan_start: '2018_2019'}},
+    {attribute: 'iif_plan_start', value: '2014_2015', title: 'Planned 2014-2015', id: '2014_2015'},
+    {attribute: 'iif_plan_start', value: '2016_2017', title: 'Planned 2016-2017', id: '2016_2017'},
+    {attribute: 'iif_plan_start', value: '2018_2019', title: 'Planned 2018-2019', id: '2018_2019'}
   ]);
   // gm_supported filters
   filters.add([
-    {type: 'gm_supported', title: 'Receiving support', id: 'receiving_support', filterState: {gm_supported: true}},
-    {type: 'gm_supported', title: 'Not receiving support', id: 'not_receiving_support', filterState: {gm_supported: false}}
+    {attribute: 'gm_supported', value: true, title: 'Receiving support', id: 'receiving_support'},
+    {attribute: 'gm_supported', value: false, title: 'Not receiving support', id: 'not_receiving_support'}
   ]);
-
-
-  filters.on('change', function(filter, b){
-    var _this = this;
-    var type = filter.get('type'), id = filter.id, active = filter.get('active');
-    var currentFilters = this.collectionToFilter.getFilters();
-    var filterId = composeFilterId(type, id);
-    if (_.includes(currentFilters, filterId)) {
-      filter.set('active', false);
-      this.collectionToFilter.removeFilter(filterId);
-    } else {
-      var filterState = filter.get('filterState');
-      _.each(currentFilters, function(currentFilter){
-        var currentFilterId = decomposeFilterId(currentFilter).id;
-        _this.get(currentFilterId).set('active', false);
-        return _this.collectionToFilter.removeFilter(currentFilter);
-      });
-      filter.set('active', true);
-      this.collectionToFilter.filterBy(filterId, filterState)
-    }
-  });
 
   return filters;
 }
 
 // 
-// UTILITY
-// 
-
-function composeFilterId (type, id) {
-  return (type + ":" + id);
-}
-function decomposeFilterId (filterId) {
-  var pieces = filterId.split(":");
-  if (!pieces) { throw "FilterId is wrong", filterId}
-  return {type: pieces[0], id: pieces[1]};
-}
-
-
-// 
 // Model and Collection
 // 
 
-var Filter = Backbone.Model.extend({
+Filter = Backbone.Model.extend({
   initialize: function(model) {
-    if (!model.active) {
-      this.set('active', false);
+    if (model.active == undefined) {
+      this.set('active', true);
     };
   },
   toggle: function(attr, silent) {
     var data = {}, value = this.get(attr);
     data[attr] = !value;
-    return this.set(data, {silent: silent});
+    this.set(data, {silent: silent});
+    return;
   }
 })
 
-var Filters = Backbone.Collection.extend({
+
+QueryFilters = Backbone.Collection.extend({
   model: Filter,
   initialize: function (models, options) {
-    if (!options.collectionToFilter) {
-      throw "No Collection provided for Filter"
-    }
-    this.collectionToFilter = options.collectionToFilter;
     return;
   },
   displayFor: function (attributes) {
-    if (!_.isArray(attributes)) { return };
+    if (!_.isArray(attributes)) { throw "Need to pass an array of attributes" };
     return _.object(attributes, _.map(attributes, function(attribute) {
       return _(app.data.pluck(attribute)).uniq().sort().value();
     }));
   },
-  allOn: function(type) {
-    _.each(this.where({type: type}), function(i){ return i.set('active', true)});
+  prepareFilterQuery: function() {
+    var activeFilters = _.where(this.toJSON(), {active: false});
+    var attributeGroups = _.groupBy(activeFilters, 'attribute'), queryGroups = {};
+    _.each(attributeGroups, function(attributeGroup, index){
+      queryGroups[index] = {$in: _.pluck(attributeGroup, 'value')}
+    });
+    return queryGroups;
   },
-  allOff: function(type) {
-    _.each(this.where({type: type}), function(i){ return i.set('active', false)});
+  getFilters: function () {
+    return this.where({active: true});
+  },
+  allOn: function(attribute) {
+    _.each(this.where({attribute: attribute}), function(model) {
+      model.set('active', true);
+    });
+  },
+  allOff: function(attribute) {
+    _.each(this.where({attribute: attribute}), function(model) {
+      model.set('active', false);
+    });
   }
 })
