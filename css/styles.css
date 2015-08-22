@@ -45,6 +45,7 @@ button.back {
   color: #8A8A8A;
   margin-top: 20px;
   margin-bottom: 5px;
+  font-size: 14px;
 }
 .description-text {
 
@@ -77,6 +78,12 @@ ul.filters-list > li:hover {
 ul.filters-list > li.active {
   border-left: 8px solid #FFA80A;
   color: inherit;
+}
+
+span.active-count {
+  float: right;
+  color: grey;
+  font-size: 11px;
 }
 
 .filter-controls {

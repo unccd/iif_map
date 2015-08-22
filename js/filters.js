@@ -49,11 +49,16 @@ Filter = Backbone.Model.extend({
 
 QueryFilters = Backbone.Collection.extend({
   model: Filter,
-  displayFor: function (attributes) {
+  presentForGeosearch: function (attributes) {
     if (!_.isArray(attributes)) { throw "Need to pass an array of attributes" };
     return _.object(attributes, _.map(attributes, function(attribute) {
       return _(app.data.pluck(attribute)).uniq().sort().value();
     }));
+  },
+  presentForFiltersList: function(attribute, filters, parties) {
+    var filterModels = filters.select(function(i){return i.get('attribute') == attribute});
+    var counts = parties.countBy(attribute);
+    return _.map(filterModels, function(i){i.set('activeCount', counts[i.get('value')]);return i;})
   },
   prepareFilterQuery: function() {
     var filtersToQueryWith = _.where(this.toJSON(), {active: false});

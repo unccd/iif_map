@@ -35,7 +35,7 @@
         <button on-click='set("selectedParty", false)' class='back'>&lt; Back</button>
         <div class='party-name'>{{selectedParty ? selectedParty.get('party') : ''}}</div>
         <div class='status'>IIF status <span class='status-label'>{{iif_or_plan}}</span></div>
-        <div class='plan'>{{#if iif_plan_start}}IIF planned: {{format(iif_plan_start)}}{{/if}}</div>
+        <div class='plan'>{{#if iif_plan_start}}IIF planned: {{iif_plan_start}}{{/if}}</div>
         <div class='description'>
           <div class="description-title">Complimentary information provided</div>
           <div class='description-text'>
@@ -54,6 +54,7 @@
   <script id='summaryPartial' type='text/html'>
     <div class="summary">
       <div class="section-heading">Map of Integrated Investment Frameworks</div>
+      {{partyCount}} party parties and {{srapCount}} Subregional Action Programmes
       <MapViewSelector>
     </div>
   </script>
@@ -61,7 +62,7 @@
   <!-- SEARCH PARTIAL -->
   <script id="searchPartial" type="text/html">
     <div class='search'>
-      <select decorator='chosen:geoSearch' value="{{geoSearch}}" data-observe='parties' data-placeholder="{{partyCount}} Search party, region">
+      <select decorator='chosen:geoSearch' value="{{geoSearch}}" data-observe='parties' data-placeholder="Search party, region">
         <option value=""></option>
         {{#each geo_search:category}}
           <optgroup label="{{ titleCase( category ) }}">
@@ -84,11 +85,11 @@
       <div class="accordion-section">
         <div on-click='changeMapView: 1' class="accordion-toggle">IIFs established</div>
         <div class="accordion-content {{#if mapView == 1}}default{{/if}}">
-          <p>The map shows {{partyCount}} party parties and {{srapCount}} Subregional Action Programmes with IIFs already established.</p>
+          <p>The map shows Country and Regional parties with IIFs already established.</p>
           <div class="filter-controls"><span on-click='allOn: iif_or_plan'>All</span> | <span class='allOff' on-click='allOff: iif_or_plan'>None</span></div>
           <ul class='filters-list'>
             {{#each iif_or_plan_filters}}
-              <li on-click="toggleFilter" class='{{#active}}active{{/active}}'>{{title}}</li>
+              {{>filterListItemPartial}}
             {{/each}}
           </ul>
         </div>
@@ -101,7 +102,7 @@
           <div class="filter-controls"><span on-click='allOn: iif_plan_start'>All</span> | <span class='allOff' on-click='allOff: iif_plan_start'>None</span></div>
           <ul class='filters-list'>
             {{#each plan_filters}}
-              <li on-click="toggleFilter" class='{{#active}}active{{/active}}'>{{title}}</li>
+              {{>filterListItemPartial}}
             {{/each}}
           </ul>
         </div>
@@ -113,12 +114,21 @@
           <div class="filter-controls"><span on-click='allOn: gm_supported'>All</span> | <span class='allOff' on-click='allOff: gm_supported'>None</span></div>
           <ul class='filters-list'>
             {{#each gm_supported_filters}}
-              <li on-click="toggleFilter" class='{{#active}}active{{/active}}'>{{title}}</li>
+              {{>filterListItemPartial}}
             {{/each}}
           </ul>
         </div>
       </div>
     </div>
+  </script>
+
+  <script id='filterListItemPartial' type="text/html">
+    <li on-click="toggleFilter" class='{{#active}}active{{/active}}'>
+      {{title}} 
+      {{#activeCount}}
+        <span class='active-count'>{{activeCount}}</span>
+      {{/activeCount}}
+    </li>
   </script>
   
   <!-- Core libraries -->
