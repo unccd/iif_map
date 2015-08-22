@@ -86,9 +86,9 @@
         <div on-click='changeMapView: 1' class="accordion-toggle">IIFs established</div>
         <div class="accordion-content {{#if mapView == 1}}default{{/if}}">
           <p>The map shows {{partyCount}} party parties and {{srapCount}} Subregional Action Programmes with IIFs already established.</p>
-          <div class="filter-controls"><span on-click='allOn: iif_status'>All</span> | <span class='allOff' on-click='allOff: iif_status'>None</span></div>
+          <div class="filter-controls"><span on-click='allOn: iif_or_plan'>All</span> | <span class='allOff' on-click='allOff: iif_or_plan'>None</span></div>
           <ul class='filters-list'>
-            {{#each iif_status_filters}}
+            {{#each iif_or_plan_filters}}
               <li on-click="toggleFilter" class='{{#active}}active{{/active}}'>{{title}}</li>
             {{/each}}
           </ul>
@@ -99,7 +99,7 @@
         <div class="accordion-content {{#if mapView == 2}}default{{/if}}">
           <p>These are Voluntary National Targets. These include IIFs with no specific date.</p>
           <p>Look at all these subfilters for each biennium!</p>
-          <div class="filter-controls"><span on-click='allOn: plan'>All</span> | <span class='allOff' on-click='allOff: plan'>None</span></div>
+          <div class="filter-controls"><span on-click='allOn: iif_plan_start'>All</span> | <span class='allOff' on-click='allOff: iif_plan_start'>None</span></div>
           <ul class='filters-list'>
             {{#each plan_filters}}
               <li on-click="toggleFilter" class='{{#active}}active{{/active}}'>{{title}}</li>
@@ -129,7 +129,6 @@
 
   <!-- Backbone + Ractive-adaptor -->
   <script src='ext/backbone.min.js'></script>
-  <script src='ext/backbone.obscura.js'></script>
   <script src='ext/backbone.query.js'></script>
   <script src='ext/ractive-backbone-adaptor.min.js'></script>
 

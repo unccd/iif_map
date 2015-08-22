@@ -20,15 +20,14 @@ function explorer(collection, filters) {
       mapView: 1,
       parties: collection,
       selected: '',
-      filters: filters,
       titleCase: function (str) {
         return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
       }
     },
     computed: {
-      iif_status_filters: function() {return app.filters.select(function(i){return i.get('type') == 'iif_status'})},
-      plan_filters: function() {return app.filters.select(function(i){return i.get('type') == 'plan'})},
-      gm_supported_filters: function() {return app.filters.select(function(i){return i.get('type') == 'gm_supported'})},
+      iif_or_plan_filters: function() {return app.filters.select(function(i){return i.get('attribute') == 'iif_or_plan'})},
+      plan_filters: function() {return app.filters.select(function(i){return i.get('attribute') == 'iif_plan_start'})},
+      gm_supported_filters: function() {return app.filters.select(function(i){return i.get('attribute') == 'gm_supported'})},
       selectedParty: {
         get: '${selected}',
         set: function (term) {
@@ -53,32 +52,32 @@ function explorer(collection, filters) {
 // 
 // filterModel.id === filterModel.get('shortName')
 // 
-function handleFilter(filterModel) {
-  var collection = app.data;
-  if (_.isObject(filterModel)){
+// function handleFilter(filterModel) {
+//   var collection = app.data;
+//   if (_.isObject(filterModel)){
 
-    // Remove Filter if already set
-    if (_.includes(collection.getFilters(), filterModel.id)) {
-      collection.removeFilter(filterModel.id)
-    } else {
-      // Remove all others if it is an 'exclusive' type
-      if (filterModel.get('exclusive')) {
-        console.log('resetting');
-        collection.resetFilters()
-      }
+//     // Remove Filter if already set
+//     if (_.includes(collection.getFilters(), filterModel.id)) {
+//       collection.removeFilter(filterModel.id)
+//     } else {
+//       // Remove all others if it is an 'exclusive' type
+//       if (filterModel.get('exclusive')) {
+//         console.log('resetting');
+//         collection.resetFilters()
+//       }
 
-      // Then add filter to collection
-      collection.filterBy(filterModel.id, filterModel.get('filterState'))
-    }
+//       // Then add filter to collection
+//       collection.filterBy(filterModel.id, filterModel.get('filterState'))
+//     }
 
 
-  } else {
+//   } else {
 
-    console.log('not an object', filterState, collection.getFilters());
+//     console.log('not an object', filterState, collection.getFilters());
 
-  }
+//   }
   
-}
+// }
 
 // function handleGeoSearch(location){
 //   if (_.isObject(location)) {
