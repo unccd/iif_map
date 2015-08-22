@@ -4,7 +4,9 @@ window.app || (window.app = {});
 // Setup map
 // 
 
-function drawMap(collection) {
+function initMap(ractive) {
+  var collection = ractive.get('parties');
+
   var map = $(".map").vectorMap({
     backgroundColor: 'white', // #feba2b
     map: 'world_merc',
@@ -45,16 +47,17 @@ function drawMap(collection) {
       }
     },
     onRegionClick: function(event, regionCode) {
-      party = collection.findWhere({
+      var party = collection.findWhere({
         iso2: regionCode
       });
       if (party == undefined) { return }
 
-      // TODO: Refactor to zoomIn and reset zoom functions
-      if (app.explorer.get('selectedParty') == party) {
-        app.explorer.set('selectedParty', false);
+      if (ractive.get('selectedParty') == party) {
+        ractive.set('selectedParty', false);
+        zoomMapToAll();
       } else {
-        app.explorer.set('selectedParty', party);
+        ractive.set('selectedParty', party);
+        zoomMapTo(regionCode);
       }
     },
     onRegionTipShow: function(event, label, code) {
@@ -71,18 +74,24 @@ function drawMap(collection) {
   return map.vectorMap('get', 'mapObject');
 }
 
+
+// 
+// Global functions for managing the map
+// 
+
 function prepareMapData(collection) {
   return collection.prepareMapData('iif_or_plan');
 }
 
 function updateMap() {
+  if (!app.map) { return }
   app.map.reset();
   return app.map.series.regions[0].setValues(prepareMapData(app.data));
 }
 
-function zoomMapToSelected(regionCode) {
+function zoomMapTo(regionCodes) {
   return app.map.setFocus({
-    region: regionCode
+    regions: [regionCodes]
   });
 }
 

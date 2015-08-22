@@ -6,13 +6,6 @@ window.app || (window.app = {});
 // 
 
 $.getJSON('data/iif_status.json', function(data) {
-  // Backbone.Obscura collection for filtering
-  app.data = new Parties(data);
-
-  // Filters collection
-  app.filters = initFilters(app.data);
-
-
   // Init Ractive decorators
   Ractive.decorators.chosen.type.geoSearch = function(node){
     return {
@@ -20,19 +13,19 @@ $.getJSON('data/iif_status.json', function(data) {
     }
   };
 
+  // Backbone Collection for filtering
+  app.data = new Parties(data);
+
+  // Filters collection
+  app.filters = initFilters();
+
+
   // Create Ractive view containing all components
-  app.explorer = explorer(app.data, app.filters);
-
+  app.explorer = initExplorer(app.data, app.filters);
   
-  // jVectormap map
-  app.map = drawMap(app.data);
+  // jVectormap map, binding the Ractive view
+  app.map = initMap(app.explorer);
 
-  // Config Ractive events
-  initExplorerEvents(app.explorer);
-
-  app.explorer.on( 'activate', function ( event ) {
-    alert( 'Activating!' );
-  });
 
   return;
 });

@@ -2,8 +2,8 @@
 // Init
 // 
 
-function initFilters (collectionToFilter) {
-  var filters = new QueryFilters([], {collectionToFilter: collectionToFilter})
+function initFilters () {
+  var filters = new QueryFilters()
 
   // IIF Status filters
   // TODO: Could do a check on load to see if any Filters are undefined?
@@ -49,9 +49,6 @@ Filter = Backbone.Model.extend({
 
 QueryFilters = Backbone.Collection.extend({
   model: Filter,
-  initialize: function (models, options) {
-    return;
-  },
   displayFor: function (attributes) {
     if (!_.isArray(attributes)) { throw "Need to pass an array of attributes" };
     return _.object(attributes, _.map(attributes, function(attribute) {
