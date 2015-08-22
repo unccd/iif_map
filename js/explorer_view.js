@@ -70,7 +70,7 @@ function initExplorerEvents (explorer) {
     }
   });
   
-  explorer.on('resetGeo', function() {
+  explorer.on('resetGeoSearch', function() {
     var filters = this.get('filters');
     _.each(filters.where({geo: true}), function(model) {
       model.destroy();
@@ -101,6 +101,7 @@ function initExplorerEvents (explorer) {
   });
 
   explorer.observe('selectedParty', function(party) {
+    if (this.get('geoSearch') != '') { return }; // There's already some geosearch zoom
     if (party) {
       zoomMapTo([party.iso2]);
     } else {
