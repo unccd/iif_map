@@ -4,7 +4,9 @@ window.app || (window.app = {});
 // Setup map
 // 
 
-function drawMap(collection) {
+function initMap(ractive) {
+  var collection = ractive.get('parties');
+
   var map = $(".map").vectorMap({
     backgroundColor: 'white', // #feba2b
     map: 'world_merc',
@@ -45,16 +47,15 @@ function drawMap(collection) {
       }
     },
     onRegionClick: function(event, regionCode) {
-      party = collection.findWhere({
+      var party = collection.findWhere({
         iso2: regionCode
       });
-      if(party == undefined) { return }
+      if (party == undefined) { return }
 
-      // TODO: Refactor to zoomIn and reset zoom functions
-      if (app.explorer.get('selectedParty') == party) {
-        app.explorer.set('selectedParty', false);
+      if (ractive.get('selectedParty') == party) {
+        ractive.set('selectedParty', false);
       } else {
-        app.explorer.set('selectedParty', party);
+        ractive.set('selectedParty', party);
       }
     },
     onRegionTipShow: function(event, label, code) {
@@ -71,33 +72,41 @@ function drawMap(collection) {
   return map.vectorMap('get', 'mapObject');
 }
 
+
+// 
+// Global functions for managing the map
+// 
+
 function prepareMapData(collection) {
-  output = {};
-  collection.forEach(function(i) {
-    // Good to put this all on the collection
-    if(i.get('srap')){return}; // Don't render SRAPs
-    iso2 = i.get('iso2');
-    iif_or_plan = i.get('iif_or_plan');
-    output[iso2] = iif_or_plan;
-  });
-  return output;
+  return collection.prepareMapData('iif_or_plan');
 }
 
 function updateMap() {
+  if (!app.map) { return };
   app.map.reset();
-  return app.map.series.regions[0].setValues(prepareMapData(app.data));
+  app.map.series.regions[0].setValues(prepareMapData(app.data));
+  return zoomToFiltered();
 }
 
-function zoomMapToSelected(regionCode) {
-  return app.map.setFocus({
-    region: regionCode
-  });
+function zoomToFiltered() {
+  var regionCodes = _.compact(app.data.pluck('iso2'));
+  if (_.isEmpty(regionCodes)) {return};
+  setTimeout(zoomMapTo(regionCodes), 0);
 }
 
-function zoomMapToAll() {
-  return app.map.setFocus({
-    scale: app.map.baseScale,
-    x: app.map.baseTransX,
-    y: app.map.baseTransY
-  });
+function zoomMapTo(regionCodes) {
+  if (!app.map) {return};
+
+  if (regionCodes == undefined) {
+    app.map.setFocus({
+      scale: app.map.baseScale,
+      x: app.map.baseTransX,
+      y: app.map.baseTransY
+    });
+  } else {
+    app.map.setFocus({
+      regions: regionCodes
+    });
+  }
 }
+

@@ -66,15 +66,12 @@
         {{#each geo_search:category}}
           <optgroup label="{{ titleCase( category ) }}">
             {{#each .}}            
-              {{#iso3}}
-                <option value="{{iso3}}">{{party}}</option>
-              {{else}}
-                <option value="{{category}}:{{.}}">{{.}}</option>
-              {{/iso3}}
+              <option value="{{category}}:{{.}}">{{.}}</option>
             {{/each}}
           </optgroup>
         {{/each}}
       </select>
+      <div on-click='resetGeo' class="reset-geoSearch">Reset</div>
     </div>    
   </script>
 

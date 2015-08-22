@@ -143,3 +143,18 @@ ul.filters-list > li.active {
   right: 10px;
   z-index: 1;
 }
+
+.search > select {
+  width: 100%;
+}
+
+.search > .reset-geoSearch {
+  position: absolute;
+  right: 0px;
+  top: 30px;
+  height: 21px;
+  width: 45px;
+  background: red;
+  text-align: center;
+  cursor: pointer;
+}

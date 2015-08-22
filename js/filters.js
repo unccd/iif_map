@@ -2,14 +2,14 @@
 // Init
 // 
 
-function initFilters (collectionToFilter) {
-  var filters = new QueryFilters([], {collectionToFilter: collectionToFilter})
+function initFilters () {
+  var filters = new QueryFilters()
 
   // IIF Status filters
   // TODO: Could do a check on load to see if any Filters are undefined?
   filters.add([
-    {active: true, attribute: 'iif_or_plan', value: 'iif', title: 'With IIF', id: 'with_iif'}, 
-    {active: true, attribute: 'iif_or_plan', value: 'plan', title: 'No IIF, plan exists', id: 'with_plan'}, 
+    {attribute: 'iif_or_plan', value: 'iif', title: 'IIF established', id: 'with_iif'}, 
+    {attribute: 'iif_or_plan', value: 'plan', title: 'No IIF, plan exists', id: 'with_plan'}, 
     {attribute: 'iif_or_plan', value: 'no_plan', title: 'No IIF, no plan', id: 'no_plan'},
     {attribute: 'iif_or_plan', value: 'unknown', title: 'No data', id: 'unknown'}
   ]);
@@ -21,8 +21,8 @@ function initFilters (collectionToFilter) {
   ]);
   // gm_supported filters
   filters.add([
-    {attribute: 'gm_supported', value: true, title: 'Receiving support', id: 'receiving_support'},
-    {attribute: 'gm_supported', value: false, title: 'Not receiving support', id: 'not_receiving_support'}
+    {attribute: 'gm_supported', value: true, title: 'Receiving GM support', id: 'receiving_support'},
+    {attribute: 'gm_supported', value: false, title: 'Not receiving GM support', id: 'not_receiving_support'}
   ]);
 
   return filters;
@@ -49,9 +49,6 @@ Filter = Backbone.Model.extend({
 
 QueryFilters = Backbone.Collection.extend({
   model: Filter,
-  initialize: function (models, options) {
-    return;
-  },
   displayFor: function (attributes) {
     if (!_.isArray(attributes)) { throw "Need to pass an array of attributes" };
     return _.object(attributes, _.map(attributes, function(attribute) {
@@ -59,10 +56,16 @@ QueryFilters = Backbone.Collection.extend({
     }));
   },
   prepareFilterQuery: function() {
-    var activeFilters = _.where(this.toJSON(), {active: false});
-    var attributeGroups = _.groupBy(activeFilters, 'attribute'), queryGroups = {};
+    var filtersToQueryWith = _.where(this.toJSON(), {active: false});
+    var attributeGroups = _.groupBy(filtersToQueryWith, 'attribute'), queryGroups = {};
     _.each(attributeGroups, function(attributeGroup, index){
-      queryGroups[index] = {$in: _.pluck(attributeGroup, 'value')}
+      var combinator;
+      // TODO: Refactor - at least move config out of here
+      if (_.includes(['region', 'subregion'], index)) {
+        combinator = '$nin'; 
+      } else {
+        combinator = '$in'; }
+      queryGroups[index] = _.object([combinator], [_.pluck(attributeGroup, 'value')]);
     });
     return queryGroups;
   },

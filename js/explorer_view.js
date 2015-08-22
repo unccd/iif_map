@@ -4,8 +4,8 @@ window.app || (window.app = {});
 // Explorer view
 // 
 
-function explorer(parties, filters) {
-  return new Ractive({
+function initExplorer(parties, filters) {
+  var ractive = new Ractive({
     // 
     // CONFIG
     // 
@@ -13,6 +13,7 @@ function explorer(parties, filters) {
     template: '#explorer',
     components: { MapViewSelector: MapViewSelector },
     adapt: ['Backbone'],
+    geoSearch: '',
     // 
     // DATA
     // 
@@ -22,29 +23,29 @@ function explorer(parties, filters) {
       filters: filters,
       // State
       mapView: 1,
-      selected: '',
+      selectedParty: '',
       // Format helpers
       titleCase: function (str) {
         return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
       }
     },
     computed: {
-      // selectedParty: {
-      //   get: '${selected}',
-      //   set: function (term) {
-      //     console.log(term);
-      //     return this.set('selected', app.data.first());
-      //   }
-      // },
       partyCount: function () {return this.get('parties').where({srap: false}).length; },
       srapCount: function () {return this.get('parties').where({srap: true}).length; },
       // Filters
-      geo_search: function() {return app.filters.displayFor(['region', 'subregion', 'party']);},
-      iif_or_plan_filters: function() {return app.filters.select(function(i){return i.get('attribute') == 'iif_or_plan'})},
-      plan_filters: function() {return app.filters.select(function(i){return i.get('attribute') == 'iif_plan_start'})},
-      gm_supported_filters: function() {return app.filters.select(function(i){return i.get('attribute') == 'gm_supported'})}
+      geo_search: function() {
+        var filters = this.get('filters');
+        var parties = this.get('parties');
+        var attributes = ['region', 'subregion', 'party'];
+        return filters.displayFor(attributes, parties);
+      },
+      iif_or_plan_filters: function() {return this.get('filters').select(function(i){return i.get('attribute') == 'iif_or_plan'})},
+      plan_filters: function() {return this.get('filters').select(function(i){return i.get('attribute') == 'iif_plan_start'})},
+      gm_supported_filters: function() {return this.get('filters').select(function(i){return i.get('attribute') == 'gm_supported'})}
     }
   });
+  initExplorerEvents(ractive);
+  return ractive;
 }
 
 
@@ -53,29 +54,59 @@ function explorer(parties, filters) {
 // 
 
 function initExplorerEvents (explorer) {
-  // // Explorer
-  // explorer.on('selectParty', function(event, object){});
+  // Geosearch
+  explorer.observe('geoSearch', function(term){
+    if (term == "") { return } // Ignore initial event from Chosen initialisation
+    var split = term.split(':');
+    var attribute = split[0];
+    var value = split[1];
+    if (attribute == 'party') {
+      var party = this.get('parties').findWhere({party: value});
+      this.set('selectedParty', party);
+      updateMap();
+    } else {
+      var object = {attribute: attribute, value: value, active: false, geo: true};
+      this.get('filters').add(object);
+    }
+  });
+  
+  explorer.on('resetGeo', function() {
+    var filters = this.get('filters');
+    _.each(filters.where({geo: true}), function(model) {
+      model.destroy();
+    });
+    this.set('geoSearch', '');
+  })
 
   // MapViewSelector Component
   explorer.on('MapViewSelector.toggleFilter', function(event){
-    return app.filters.get(event.context.id).toggle('active');
+    return this.get('filters').get(event.context.id).toggle('active');
   });
   explorer.on('MapViewSelector.allOn', function(event, type){
-    return app.filters.allOn(type);
+    return this.get('filters').allOn(type);
   });
   explorer.on('MapViewSelector.allOff', function(event, type){
-    return app.filters.allOff(type);
+    return this.get('filters').allOff(type);
   });
   explorer.on('MapViewSelector.changeMapView', function(event, mapViewIndex) {
     this.set('mapView', mapViewIndex);
   });
 
+  // Recalculate filterQuery when Filters change
+  // This is the only place where changes are observed outside the ractive
   explorer.observe('filters.*', function () {
     var query = this.get('filters').prepareFilterQuery(); 
     this.get('parties').resetWithQuery(query);
-    return this.get('parties');
+    updateMap();
   });
-  
+
+  explorer.observe('selectedParty', function(party) {
+    if (party) {
+      zoomMapTo([party.iso2]);
+    } else {
+      zoomMapTo();
+    }
+  })
 
   return;
 }
