@@ -8,8 +8,8 @@ function initFilters (collectionToFilter) {
   // IIF Status filters
   // TODO: Could do a check on load to see if any Filters are undefined?
   filters.add([
-    {active: true, attribute: 'iif_or_plan', value: 'iif', title: 'With IIF', id: 'with_iif'}, 
-    {active: true, attribute: 'iif_or_plan', value: 'plan', title: 'No IIF, plan exists', id: 'with_plan'}, 
+    {attribute: 'iif_or_plan', value: 'iif', title: 'IIF established', id: 'with_iif'}, 
+    {attribute: 'iif_or_plan', value: 'plan', title: 'No IIF, plan exists', id: 'with_plan'}, 
     {attribute: 'iif_or_plan', value: 'no_plan', title: 'No IIF, no plan', id: 'no_plan'},
     {attribute: 'iif_or_plan', value: 'unknown', title: 'No data', id: 'unknown'}
   ]);
@@ -21,8 +21,8 @@ function initFilters (collectionToFilter) {
   ]);
   // gm_supported filters
   filters.add([
-    {attribute: 'gm_supported', value: true, title: 'Receiving support', id: 'receiving_support'},
-    {attribute: 'gm_supported', value: false, title: 'Not receiving support', id: 'not_receiving_support'}
+    {attribute: 'gm_supported', value: true, title: 'Receiving GM support', id: 'receiving_support'},
+    {attribute: 'gm_supported', value: false, title: 'Not receiving GM support', id: 'not_receiving_support'}
   ]);
 
   return filters;

@@ -22,20 +22,13 @@ function explorer(parties, filters) {
       filters: filters,
       // State
       mapView: 1,
-      selected: '',
+      selectedParty: '',
       // Format helpers
       titleCase: function (str) {
         return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
       }
     },
     computed: {
-      // selectedParty: {
-      //   get: '${selected}',
-      //   set: function (term) {
-      //     console.log(term);
-      //     return this.set('selected', app.data.first());
-      //   }
-      // },
       partyCount: function () {return this.get('parties').where({srap: false}).length; },
       srapCount: function () {return this.get('parties').where({srap: true}).length; },
       // Filters
@@ -70,12 +63,15 @@ function initExplorerEvents (explorer) {
     this.set('mapView', mapViewIndex);
   });
 
+  // Recalculate filterQuery when Filters change
   explorer.observe('filters.*', function () {
     var query = this.get('filters').prepareFilterQuery(); 
     this.get('parties').resetWithQuery(query);
-    return this.get('parties');
   });
-  
+
+  explorer.observe('parties.*', function() {
+    updateMap();
+  })
 
   return;
 }

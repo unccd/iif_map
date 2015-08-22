@@ -48,7 +48,7 @@ function drawMap(collection) {
       party = collection.findWhere({
         iso2: regionCode
       });
-      if(party == undefined) { return }
+      if (party == undefined) { return }
 
       // TODO: Refactor to zoomIn and reset zoom functions
       if (app.explorer.get('selectedParty') == party) {
@@ -72,15 +72,7 @@ function drawMap(collection) {
 }
 
 function prepareMapData(collection) {
-  output = {};
-  collection.forEach(function(i) {
-    // Good to put this all on the collection
-    if(i.get('srap')){return}; // Don't render SRAPs
-    iso2 = i.get('iso2');
-    iif_or_plan = i.get('iif_or_plan');
-    output[iso2] = iif_or_plan;
-  });
-  return output;
+  return collection.prepareMapData('iif_or_plan');
 }
 
 function updateMap() {

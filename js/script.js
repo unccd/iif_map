@@ -30,10 +30,6 @@ $.getJSON('data/iif_status.json', function(data) {
   // Config Ractive events
   initExplorerEvents(app.explorer);
 
-  app.data.on('reset', function(){
-    return updateMap()
-  })
-
   app.explorer.on( 'activate', function ( event ) {
     alert( 'Activating!' );
   });
