@@ -29,14 +29,13 @@ function explorer(parties, filters) {
       }
     },
     computed: {
-      crazyCount: function() { this.get('filters'); return app.data.crazyCount(app.filters.length);},
-      selectedParty: {
-        get: '${selected}',
-        set: function (term) {
-          console.log(term);
-          return this.set('selected', app.data.first());
-        }
-      },
+      // selectedParty: {
+      //   get: '${selected}',
+      //   set: function (term) {
+      //     console.log(term);
+      //     return this.set('selected', app.data.first());
+      //   }
+      // },
       partyCount: function () {return this.get('parties').where({srap: false}).length; },
       srapCount: function () {return this.get('parties').where({srap: true}).length; },
       // Filters
@@ -48,52 +47,14 @@ function explorer(parties, filters) {
   });
 }
 
-// Interacts directly with app.data, kinda like a controller
-// 
-// filterModel.id === filterModel.get('shortName')
-// 
-// function handleFilter(filterModel) {
-//   var collection = app.data;
-//   if (_.isObject(filterModel)){
-
-//     // Remove Filter if already set
-//     if (_.includes(collection.getFilters(), filterModel.id)) {
-//       collection.removeFilter(filterModel.id)
-//     } else {
-//       // Remove all others if it is an 'exclusive' type
-//       if (filterModel.get('exclusive')) {
-//         console.log('resetting');
-//         collection.resetFilters()
-//       }
-
-//       // Then add filter to collection
-//       collection.filterBy(filterModel.id, filterModel.get('filterState'))
-//     }
-
-
-//   } else {
-
-//     console.log('not an object', filterState, collection.getFilters());
-
-//   }
-  
-// }
-
-// function handleGeoSearch(location){
-//   if (_.isObject(location)) {
-//     console.log('probably got a Party model');
-//   }
-//   return;
-// }
 
 // 
 // Explorer events
 // 
 
 function initExplorerEvents (explorer) {
-  // Explorer
-  explorer.on('selectParty', function(event, object){});
-
+  // // Explorer
+  // explorer.on('selectParty', function(event, object){});
 
   // MapViewSelector Component
   explorer.on('MapViewSelector.toggleFilter', function(event){
@@ -107,20 +68,14 @@ function initExplorerEvents (explorer) {
   });
   explorer.on('MapViewSelector.changeMapView', function(event, mapViewIndex) {
     this.set('mapView', mapViewIndex);
-  })
+  });
 
-  explorer.on('change', function(changeObject) { 
-    if (changeObject.geoSearch != undefined) {
-      var searchObject = decomposeFilterId(changeObject.geoSearch);
-      var type = searchObject.type, id = searchObject.id;
-      var filter = _.object([type], [id]);
-      app.data.filterBy(filter);
-    } else if (changeObject.mapView != undefined) {
-      console.log('change map view to', changeObject.mapView);
-    } else {
-      console.log('Other change', changeObject);
-    }
+  explorer.observe('filters.*', function () {
+    var query = this.get('filters').prepareFilterQuery(); 
+    this.get('parties').resetWithQuery(query);
+    return this.get('parties');
   });
   
+
   return;
 }
