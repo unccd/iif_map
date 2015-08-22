@@ -8,7 +8,7 @@ function initMap(ractive) {
   var collection = ractive.get('parties');
 
   var map = $(".map").vectorMap({
-    backgroundColor: 'white', // #feba2b
+    backgroundColor: '#feba2b', // #feba2b
     map: 'world_merc',
     series: {
       regions: [{

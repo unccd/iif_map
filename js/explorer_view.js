@@ -41,13 +41,16 @@ function initExplorer(parties, filters) {
         return filters.presentForGeosearch(attributes, parties);
       },
       iif_or_plan_filters: function() {
-        return this.get('filters').presentForFiltersList('iif_or_plan', this.get('filters'), this.get('parties'));
+        var filters = this.get('filters');
+        return filters.presentForFiltersList('iif_or_plan', filters, this.get('parties'));
       },
       plan_filters: function() {
-        return this.get('filters').presentForFiltersList('iif_plan_start', this.get('filters'), this.get('parties'));
+        var filters = this.get('filters');
+        return filters.presentForFiltersList('iif_plan_start', filters, this.get('parties'));
       },
       gm_supported_filters: function() {
-        return this.get('filters').presentForFiltersList('gm_supported', this.get('filters'), this.get('parties'));
+        var filters = this.get('filters');
+        return filters.presentForFiltersList('gm_supported', filters, this.get('parties'));
       }
     }
   });
