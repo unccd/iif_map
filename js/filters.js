@@ -49,6 +49,9 @@ Filter = Backbone.Model.extend({
 
 QueryFilters = Backbone.Collection.extend({
   model: Filter,
+  // 
+  // PRESENTERS
+  // 
   presentForGeosearch: function (attributes) {
     if (!_.isArray(attributes)) { throw "Need to pass an array of attributes" };
     return _.object(attributes, _.map(attributes, function(attribute) {
@@ -60,6 +63,9 @@ QueryFilters = Backbone.Collection.extend({
     var counts = parties.countBy(attribute);
     return _.map(filterModels, function(i){i.set('activeCount', counts[i.get('value')]);return i;})
   },
+  // 
+  // FILTER QUERY 
+  // 
   prepareFilterQuery: function() {
     var filtersToQueryWith = _.where(this.toJSON(), {active: false});
     var attributeGroups = _.groupBy(filtersToQueryWith, 'attribute'), queryGroups = {};
@@ -74,9 +80,9 @@ QueryFilters = Backbone.Collection.extend({
     });
     return queryGroups;
   },
-  getFilters: function () {
-    return this.where({active: true});
-  },
+  // 
+  // BULK EDITS
+  // 
   allOn: function(attribute) {
     _.each(this.where({attribute: attribute}), function(model) {
       model.set('active', true);
