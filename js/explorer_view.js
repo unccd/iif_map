@@ -22,7 +22,7 @@ function initExplorer(parties, filters) {
       filters: filters,
       // State
       selectedParty: '',
-      geoSearch: '',
+      geoSearchValue: '',
       mapView: 1, // TODO: Do what with this?
       // Format helpers
       titleCase: function (str) {
@@ -84,7 +84,7 @@ function initExplorerEvents (explorer) {
   });
 
   explorer.observe('selectedParty', function(party) {
-    if (this.get('geoSearch') != '') {return;} // Clear geosearch and skip any zooming.
+    if (this.get('geoSearchValue') != '') {return;} // Clear geosearch and skip any zooming.
 
     // Figure zoom on selectedParty
     if (party) {
@@ -95,7 +95,7 @@ function initExplorerEvents (explorer) {
   })
 
   // Geosearch
-  explorer.observe('geoSearch', function(term){
+  explorer.observe('geoSearchValue', function(term){
     if (term == "") { return } // Ignore initial event from Chosen initialisation
 
     this.set('selectedParty', ''); // Clear any currently active party
@@ -119,7 +119,7 @@ function initExplorerEvents (explorer) {
       model.destroy();
     });
     this.set('selectedParty', '');
-    this.set('geoSearch', '');
+    this.set('geoSearchValue', '');
   })
 
 }

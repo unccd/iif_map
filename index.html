@@ -61,17 +61,17 @@
   <!-- SEARCH PARTIAL -->
   <script id="searchPartial" type="text/html">
     <div class='search'>
-      <select decorator='chosen:geoSearch' value="{{geoSearch}}" data-observe='parties' data-placeholder="Search party, region">
+      <select decorator='chosen:geoSearch' value="{{geoSearchValue}}" data-observe='parties' data-placeholder="Search party, region">
         <option value=""></option>
         {{#each geo_search}}
           <optgroup label="{{title}}">
             {{#each options}}
-              <option value="{{category}}:{{.}}">{{.}}</option>
+              <option value="{{value}}">{{title}}</option>
             {{/each}}
           </optgroup>
         {{/each}}
       </select>
-      {{#if geoSearch != ''}}
+      {{#if geoSearchValue != ''}}
         <div on-click='resetGeoSearch' class="reset-geoSearch"><span class='reset-x'>x</span>Show all</div>
       {{/if}}
     </div>    

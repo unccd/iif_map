@@ -14,7 +14,8 @@ function initFilters () {
 
 FilterType = Backbone.Model.extend({
   initialize: function(attributes, options){
-    // Infer value from title
+    
+    // Add value from title for options, if required
     if (this.get('value_from_title') != undefined) {
       options = _.map(this.get('options'), function(option){
         var title = option.title;
@@ -24,7 +25,27 @@ FilterType = Backbone.Model.extend({
         }
       })
       this.set('options', options);
+    };
+
+    // Add countries if required
+    if (this.get('type') == 'country') {
+      this.addCountryOptions();
     }
+  },
+  addCountryOptions: function() {
+    var _this = this;
+    $.getJSON('data/countries.json', function(countries) {
+      // Set value and title on options
+      var valueField = _this.get('value_field');
+      var titleField = _this.get('title_field');
+
+      var options = _.map(countries, function(country){
+        country.value = country[valueField];
+        country.title = country[titleField];
+        return country;
+      });
+      _this.set('options', options);
+    });
   }
 });
 
@@ -44,12 +65,7 @@ FilterTypes = Backbone.Collection.extend({
     var geoAttributes = this.where({geosearch:true});
     if (_.isEmpty(geoAttributes)) { throw 'Cannot find any geo attributes' };
 
-    var geoSeachObject = _.map(geoAttributes, function(geoAttribute){
-      return _(collection).pluck(geoAttribute.get('name')).uniq().sort().value();
-    })
-    console.debug(geoSeachObject);
-
-    return geoSeachObject;
+    return geoAttributes;
   },
   presentForFiltersList: function (attribute, collection) {
     var filterModels = this.findWhere({name: attribute}).get('options');

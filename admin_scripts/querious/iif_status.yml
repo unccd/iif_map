@@ -51,7 +51,8 @@ fields:
     - name: party
       title: Party
       type: country
-      id: iso2
+      title_field: short_name
+      value_field: iso2
       description: Some text to describe it
       geosearch: true
       select_multiple: false
