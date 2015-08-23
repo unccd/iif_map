@@ -63,9 +63,9 @@
     <div class='search'>
       <select decorator='chosen:geoSearch' value="{{geoSearch}}" data-observe='parties' data-placeholder="Search party, region">
         <option value=""></option>
-        {{#each geo_search:category}}
-          <optgroup label="{{ titleCase( category ) }}">
-            {{#each .}}            
+        {{#each geo_search}}
+          <optgroup label="{{title}}">
+            {{#each options}}
               <option value="{{category}}:{{.}}">{{.}}</option>
             {{/each}}
           </optgroup>

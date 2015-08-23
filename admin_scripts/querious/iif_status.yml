@@ -1,0 +1,94 @@
+# 
+# Configure a dataset
+# 
+# Define the fields, types, and posible filters
+# 
+
+
+metadata:
+  title: IIF Status
+  short_name: iif_status
+fields:
+  attributes:
+    - name: region
+      title: Region
+      type: text
+      geosearch: true
+      select_multiple: false
+      value_from_title: true
+      options:
+        - title: Africa
+        - title: Asia
+        - title: Central and Eastern Europe
+        - title: Latin America and the Caribbean
+        - title: Northern Mediterranean
+        - title: Other
+    - name: subregion
+      title: Subregion
+      type: text
+      geosearch: true
+      select_multiple: false
+      value_from_title: true
+      options:
+        - title: Andean
+        - title: Caribbean
+        - title: Central Africa
+        - title: Central Asia
+        - title: Central and Eastern Europe
+        - title: East Asia
+        - title: Eastern Africa
+        - title: Mesoamerica
+        - title: Northern Africa
+        - title: Northern Mediterranean
+        - title: Other
+        - title: Pacific
+        - title: South Asia
+        - title: South Cone
+        - title: South East Asia
+        - title: Southern Africa
+        - title: West Asia
+        - title: Western Africa
+    - name: party
+      title: Party
+      type: country
+      id: iso2
+      description: Some text to describe it
+      geosearch: true
+      select_multiple: false
+    - name: iif_or_plan
+      title: IIF plan
+      description: Whether or not it exists
+      type: category
+      select_multiple: true
+      options: 
+        - value: 'iif'
+          title: 'IIF established'
+        - value: 'plan'
+          title: 'No IIF, plan exists'
+        - value: 'no_plan'
+          title: 'No IIF, no plan'
+        - value: 'unknown'
+          title: 'No data'
+    - name: iif_plan_start
+      title: IIF plan start date
+      description: Biennium
+      type: category
+      select_multiple: true
+      options:
+        - value: '2014_2015'
+          title: 'Planned 2014-2015'
+        - value: '2016_2017'
+          title: 'Planned 2016-2017'
+        - value: '2018_2019'
+          title: 'Planned 2018-2019'
+    - name: gm_supported
+      title: GM supported
+      description: Parties receiving GM support
+      type: category
+      select_multiple: true
+      options:
+        - value: true
+          title: 'Receiving GM support'
+        - value: false
+          title: 'Not receiving GM support'
+views:

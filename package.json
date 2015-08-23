@@ -10,7 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "json2csv": "^2.9.0",
-    "lodash": "^3.10.1"
+    "lodash": "^3.10.1",
+    "yamljs": "^0.2.3"
   },
   "devDependencies": {
     "browser-sync": "^2.8.2",
