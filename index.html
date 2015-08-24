@@ -77,7 +77,7 @@
     {{#selectedParty}}
       <div class="detail">
         <button on-click='set("selectedParty", false)' class='back'>&lt; Back</button>
-        <div class='party-name'>{{selectedParty ? selectedParty.get('party') : ''}}</div>
+        <div class='party-name'>{{selectedParty ? selectedParty.get('short_name') : ''}}</div>
         <div class='status'>IIF status <span class='status-label'>{{iif_or_plan}}</span></div>
         <div class='plan'>{{#if iif_plan_start}}IIF planned: {{iif_plan_start}}{{/if}}</div>
         <div class='description'>
