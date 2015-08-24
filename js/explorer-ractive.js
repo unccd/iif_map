@@ -63,10 +63,10 @@ function initExplorer(parties, filters, views) {
     toggleFilter: function(option) {
       this.get('filters').get(option.id).toggle();
     },
-    allOn: function(attribute) {
+    allInactive: function(attribute) {
       this.get('filters').setAllInactive(attribute);
     },
-    allOff: function(attribute) {
+    allActive: function(attribute) {
       this.get('filters').setAllActive(attribute);
     },
     setFilterView: function(view) {

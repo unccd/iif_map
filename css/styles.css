@@ -78,7 +78,7 @@ ul.filters-list > li {
   background: #E4E4E4;
   font-size: 12px;
   line-height: 19px;
-  border-left: 8px solid rgba(255, 168, 10, 0);
+  border-left: 20px solid rgba(255, 168, 10, 0);
   color: #B1B1B1;
   border-radius: 2px;
 }
@@ -87,7 +87,7 @@ ul.filters-list > li:hover {
   background: #EFDEC1;
 }
 
-ul.filters-list > li.active {
+ul.filters-list > li.inactive {
   border-left: 20px solid #FFA80A;
   color: inherit;
 }
@@ -114,11 +114,14 @@ div.active-count {
 }
 .filter-controls > span {
   cursor: pointer;
+  /* border: 1px black solid; */
+  /* padding: 1px; */
+  /* background: grey; */
 }
 .filter-controls > span:hover {
   color: #83C783;
 }
-.filter-controls > span.allOff:hover {
+.filter-controls > span.allInactive:hover {
   color: #CC8080;
 }
 

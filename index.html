@@ -28,7 +28,6 @@
     </div>
   </script>
 
-
   <!-- SUMMARY PARTIAL -->
   <script id='summaryPartial' type='text/html'>
     <div class="summary">
@@ -60,8 +59,8 @@
             </div>
             <div class="accordion-content {{#if filterView == .}}default{{/if}}">
               <div class='description-text'>{{description}}</div>
-              <div class="filter-controls"><span on-click='allOn(.filter)'>All</span> / 
-              <span class='allOff' on-click='allOff(.filter)'>None</span></div>
+              <div class="filter-controls"><span on-click='allInactive(.filter)'>All</span> / 
+              <span class='allInactive' on-click='allActive(.filter)'>None</span></div>
               <ul class='filters-list'>
                 {{#each filtersFor(.)}}
                   {{>filterListItemPartial}}
@@ -75,7 +74,6 @@
 
     </div>
   </script>
-
 
   <!-- SRAP DETAIL PARTIAL -->
   <script id='srapDetailPartial' type="text/html">
@@ -91,8 +89,6 @@
       </div>
     {{/showSrapDetail}}
   </script>
-
-
 
   <!-- COUNTRY DETAIL PARTIAL -->
   <script id='partyDetailPartial' type="text/html">
@@ -137,7 +133,7 @@
 
   <!-- FILTER LIST ITEM PARTIAL -->
   <script id='filterListItemPartial' type="text/html">
-    <li on-click="toggleFilter(.)" class='{{#!active && activeCount}}active{{/active}}'>
+    <li on-click="toggleFilter(.)" class='{{#!active && activeCount}}inactive{{/active}}'>
       <div class='active-count'>{{activeCount}}</div>
       <div class='filter-title'>{{title}} </div>
     </li>
