@@ -65,8 +65,8 @@ a {
   height: 450px;
 }
 .controls {
-  overflow-x: scroll;
-  overflow-y: scroll;
+  overflow-x: hidden;
+  overflow-y: auto;
   height: 100%;
   padding-right: 0px;
   padding-left: 0px;
