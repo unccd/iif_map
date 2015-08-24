@@ -7,7 +7,8 @@ class Process
     dataFile = fs.realpathSync(__dirname + '/openrefine_export.json')
     output = JSON.parse(fs.readFileSync(dataFile, encoding: 'utf8')).rows
 
-    fs.writeFileSync(__dirname + '/../data/iif_status.json', JSON.stringify(output))
+    output = "window.app || (window.app = {});app.boostrapped_data =" + JSON.stringify(output)
+    fs.writeFileSync(__dirname + '/../data/iif_status.js', output)
 
     # # Create and write CSV version
     # fields = _.keys(output[0])
