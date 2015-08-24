@@ -6,7 +6,19 @@
 .content {
 }
 .map {
-  height: 448px;
+  height: 450px;
+}
+
+/* Summary and heading */
+.summary > .explainer {
+  margin: 5px;
+}
+.summary > .counts {
+  padding: 5px;
+  position: absolute;
+  bottom: 0px;
+  background: rgba(254, 186, 43, 0.66);
+  color: #FFFFFF;
 }
 
 /* Detail div*/

@@ -27,6 +27,18 @@
     </div>
   </script>
 
+
+  <!-- SUMMARY PARTIAL -->
+  <script id='summaryPartial' type='text/html'>
+    <div class="summary">
+      <div class="section-heading">Map of Integrated Investment Frameworks</div>
+      <div class='explainer'>Click the filters below to explore the data</div>
+      <MapViewSelector></MapViewSelector>
+      <div class='counts'>Map currently showing: {{partyCount}} party parties and {{srapCount}} Subregional Action Programmes</div>
+    </div>
+  </script>
+
+
   <!-- COUNTRY DETAIL PARTIAL -->
   <script id='partyDetailPartial' type="text/html">
     {{#selectedParty}}
@@ -47,15 +59,6 @@
         </div>
       </div>
     {{/selectedParty}}
-  </script>
-
-  <!-- SUMMARY PARTIAL -->
-  <script id='summaryPartial' type='text/html'>
-    <div class="summary">
-      <div class="section-heading">Map of Integrated Investment Frameworks</div>
-      {{partyCount}} party parties and {{srapCount}} Subregional Action Programmes
-      <MapViewSelector>
-    </div>
   </script>
 
   <!-- SEARCH PARTIAL -->
