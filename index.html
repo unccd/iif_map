@@ -17,6 +17,7 @@
 
   <script id='explorer' type="text/html">
     <div class="w-col w-col-4 controls">
+      {{>srapDetailPartial}}
       {{>partyDetailPartial}}
       {{>summaryPartial}}
     </div>
@@ -32,11 +33,34 @@
   <script id='summaryPartial' type='text/html'>
     <div class="summary">
       <div class="section-heading">Map of Integrated Investment Frameworks</div>
-      <div class='explainer'>Click the filters below to explore the data</div>
+      <div class='explainer'>
+        Click the filters below to explore the data. Map shows {{partyCount}} parties, {{srapCount}} 
+        {{#srapCount}}
+          <span class='clickable-text' on-click='set("showSrapDetail", true)'>Subregional Action Programmes</span>
+        {{else}}
+          Subregional Action Programmes
+        {{/srapCount}}
+      </div>
       <MapViewSelector></MapViewSelector>
-      <div class='counts'>Map currently showing: {{partyCount}} party parties and {{srapCount}} Subregional Action Programmes</div>
     </div>
   </script>
+
+
+  <!-- SRAP DETAIL PARTIAL -->
+  <script id='srapDetailPartial' type="text/html">
+    {{#showSrapDetail}}
+      <div class="detail">
+        <button on-click='set("showSrapDetail", false)' class='back'>&lt; Back</button>
+        <div class='party-name'>Subregional Action Programmes</div>
+        <div class='description'>
+          <div class="description-title">Information on SRAPs</div>
+          <div class='description-text'>
+          </div>
+        </div>
+      </div>
+    {{/showSrapDetail}}
+  </script>
+
 
 
   <!-- COUNTRY DETAIL PARTIAL -->

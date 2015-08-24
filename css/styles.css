@@ -8,6 +8,12 @@
 .map {
   height: 450px;
 }
+.clickable-text {
+  cursor: pointer;
+}
+.clickable-text:hover {
+  text-decoration: underline;
+}
 
 /* Summary and heading */
 .summary > .explainer {
