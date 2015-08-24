@@ -24,7 +24,7 @@ function initExplorer(parties, filters, views) {
       // State
       selectedParty: '',
       geoSearchValue: '',
-      filterView: views[0], // TODO: Do what with `filterView`?
+      filterView: views[0],
       // Format helpers
       titleCase: function(str) {
         return str.replace(/\w\S*/g, function(txt) {
@@ -32,7 +32,7 @@ function initExplorer(parties, filters, views) {
         });
       },
       filtersFor: function(view) {
-        return this.get('filters').decorateForFiltersList(view.filter);
+        return this.get('filters').decorateForFiltersList(view.filterAttribute);
       }
     },
     computed: {
@@ -68,9 +68,6 @@ function initExplorer(parties, filters, views) {
     },
     allActiveFor: function(attribute) {
       this.get('filters').setAllActive(attribute);
-    },
-    setFilterView: function(view) {
-      console.debug(this.get('views'));
     }
   });
 
@@ -82,10 +79,9 @@ function initExplorer(parties, filters, views) {
 
     // Recalculate filterQuery when Filters change
     explorer.observe('filters.*', function(change, b, c) {
-      console.debug(app.filters.getActive().length);
       var query = this.get('filters').prepareFilterQuery(); 
       this.get('parties').resetWithQuery(query);
-      updateMap();
+      app.map.updateMap();
       // return console.debug('prepareFilterQuery', query);
     }, {
       init: false

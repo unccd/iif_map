@@ -27,11 +27,11 @@ function initMap(ractive, view) {
         normalizeFunction: 'ordinal',
         attribute: 'fill',
         values: prepareMapData(collection),
-        legend: {
-          labelRender: function(v){
-            return legend[v];
-          }
-        }
+        // legend: {
+        //   labelRender: function(v){
+        //     return legend[v];
+        //   }
+        // }
       }]
     },
     regionStyle: {

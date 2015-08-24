@@ -133,7 +133,7 @@
 
   <!-- FILTER LIST ITEM PARTIAL -->
   <script id='filterListItemPartial' type="text/html">
-    <li on-click="toggleFilter(.)" class='{{#!active}}inactive{{/active}}'>
+    <li on-click="toggleFilter(.)" class='{{#!active}}inactive{{/active}}' {{#!active}}style="border-left: 20px solid {{colour}}"{{/active}}>
       <div class='active-count'>{{activeCount}}</div>
       <div class='filter-title'>{{title}} </div>
     </li>
@@ -151,7 +151,7 @@
   <script src='ext/ractive-backbone-adaptor.min.js'></script>
 
   <!-- jVectorMap -->
-  <script src='ext/jquery-jvectormap-2.0.4.min.js'></script>
+  <script src='ext/jquery-jvectormap-2.0.4.js'></script>
   <script src='ext/jquery-jvectormap-world-merc.js'></script>
 
   <!-- Chosen + Ractive-adaptor -->

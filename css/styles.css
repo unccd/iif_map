@@ -26,12 +26,16 @@
 }
 
 /* Party Detail div*/
+.details {
+  padding-right: 0px;
+  padding-left: 0px;
+}
 .detail {
   min-height: 450px;
   width: 100%;
   z-index: 10;
   position: absolute;
-  background: rgb(228, 228, 228);
+  background: rgb(255, 255, 255);
   padding: 10px;
 }
 .party-name {
