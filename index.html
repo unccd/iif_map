@@ -174,7 +174,7 @@
 
   <!-- FILTER LIST ITEM PARTIAL -->
   <script id='filterListItemPartial' type="text/html">
-    <li on-click="toggleFilter(.)" class='{{#active && activeCount}}active{{/active}}'>
+    <li on-click="toggleFilter(.)" class='{{#!active && activeCount}}active{{/active}}'>
       <div class='active-count'>{{activeCount}}</div>
       <div class='filter-title'>{{title}} </div>
     </li>

@@ -64,10 +64,10 @@ function initExplorer(parties, filters, views) {
       this.get('filters').get(option.id).toggle();
     },
     allOn: function(attribute) {
-      this.get('filters').setAllActive(attribute);
+      this.get('filters').setAllInactive(attribute);
     },
     allOff: function(attribute) {
-      this.get('filters').setAllInactive(attribute);
+      this.get('filters').setAllActive(attribute);
     },
     setFilterView: function(view) {
       console.debug(this.get('views'));
@@ -82,8 +82,6 @@ function initExplorer(parties, filters, views) {
 
     // Recalculate filterQuery when Filters change
     explorer.observe('filters.*', function(change, b, c) {
-      // TODO: Include geoSearch in filterQuery
-
       var query = this.get('filters').prepareFilterQuery(); 
       this.get('parties').resetWithQuery(query);
       updateMap();
@@ -93,12 +91,13 @@ function initExplorer(parties, filters, views) {
     });
 
     explorer.observe('selectedParty', function(party) {
-      // if (this.get('geoSearchValue') != '') {return;} // Clear geosearch and skip any zooming.
-
       // Figure zoom on selectedParty
       if (party) {
         zoomMapTo([party.iso2]);
-      } else {
+      } else if (this.get('geoSearchValue')) {
+        updateMap();
+       } else {
+        // Zoom to everything
         zoomMapTo();
       }
     })
@@ -106,8 +105,9 @@ function initExplorer(parties, filters, views) {
     // Geosearch
     explorer.observe('geoSearchValue', function(filterId) {
       if (filterId == '') {
-        return
-      } // Ignore reset
+        _.each(this.get('filters').where({geosearch: true}), function(model){model.set('active', false)});
+        return 
+      } // Ignore reset, but remove any active geoAttribute filters
       this.set('selectedParty', ''); // Clear any currently active party
 
       var filter = this.get('filters').get(filterId);
@@ -116,10 +116,10 @@ function initExplorer(parties, filters, views) {
           party: filter.id
         });
         this.set('selectedParty', party);
+      } else {
+        filter.set({active: true, geosearch: true});
       }
-    }, {
-      init: false
-    });
+    }, {init: false});
 
     explorer.on('resetGeoSearch', function() {
       this.set('selectedParty', '');

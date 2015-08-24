@@ -63,7 +63,7 @@ filterOptions = _.chain(filterAttributes).map(function(filter) {
 
     option.attribute = attribute;
     option.id = attribute + ':' + option.value;
-    option.active = true;
+    option.active = false;
 
     return option;
   });
