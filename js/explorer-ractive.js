@@ -23,7 +23,7 @@ function initExplorer(parties, filters, views) {
       // State
       selectedParty: '',
       geoSearchValue: '',
-      filterView: '', // TODO: Do what with `filterView`?
+      filterView: views[0], // TODO: Do what with `filterView`?
       // Format helpers
       titleCase: function(str) {
         return str.replace(/\w\S*/g, function(txt) {
