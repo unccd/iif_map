@@ -5,15 +5,22 @@ window.app || (window.app = {});
 // 
 
 var Parties = Backbone.Collection.extend({
-  comparator: 'party',
+  comparator: 'short_name',
   initialize: function(models, options) {
     this._superset = new Backbone.QueryCollection(models);
   },
   resetWithQuery: function (queryObject) {
-    return this.reset(this._superset.query({$nor: queryObject}));
+    return this.reset(this._superset.query(queryObject));
   },
   prepareMapData: function(attribute) {
-    var models = _.select(this.toJSON(), {srap: false});
+    var modelsJSON = this.toJSON();
+    // Get models with attribute
+    // Reject SRAPs
+    var models = _.chain(modelsJSON)
+      .select(function(i){return i[attribute] != ''})
+      .where({srap: false})
+      .value();
+    // return mapped to ISO2
     return _.object(_.pluck(models, 'iso2'), _.pluck(models, attribute))
   }
 });

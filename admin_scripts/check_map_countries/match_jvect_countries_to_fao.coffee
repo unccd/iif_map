@@ -6,7 +6,7 @@ _   = require 'lodash'
 
 class Process
   constructor: ->
-    jvectormap_countries_file = fs.realpathSync(__dirname + '/../data/jvectormap_countries.json')
+    jvectormap_countries_file = fs.realpathSync(__dirname + './jvectormap_countries.json')
     jvectormap_countries = JSON.parse(fs.readFileSync(jvectormap_countries_file, encoding: 'utf8'))
 
     fao_countries_file = fs.realpathSync(__dirname + '/../data/fao_countries.json')
