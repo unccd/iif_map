@@ -63,7 +63,6 @@ a {
 .container {
   width: 700px;
   height: 450px;
-  margin: 5px;
 }
 .controls {
   overflow-x: scroll;
@@ -71,7 +70,7 @@ a {
   height: 100%;
   padding-right: 0px;
   padding-left: 0px;
-  background-color: #ededed;
+  background-color: #F7F8F6;
 }
 .content {
   padding-right: 0px;
