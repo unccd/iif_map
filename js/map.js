@@ -84,12 +84,12 @@ function prepareMapData(collection) {
 function updateMap() {
   if (!app.map) { return };
   app.map.reset();
-  app.map.series.regions[0].setValues(prepareMapData(app.data));
+  app.map.series.regions[0].setValues(prepareMapData(app.parties));
   return zoomToFiltered();
 }
 
 function zoomToFiltered() {
-  var regionCodes = _.compact(app.data.pluck('iso2'));
+  var regionCodes = _.compact(app.parties.pluck('iso2'));
   if (_.isEmpty(regionCodes)) {return};
   setTimeout(zoomMapTo(regionCodes), 0);
 }
