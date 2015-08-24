@@ -79,11 +79,11 @@ attributes:
     description: Parties receiving GM support
     options:
       - value: received
-        title: 'IIF estalished, received GM support'
+        title: 'IIF established, received GM support'
       - value: not_required
         title: 'No IIF, not receiving GM support'
-      - value: not_received
-        title: 'IIF established without GM support'
+      # - value: not_received
+      #   title: 'IIF established without GM support'
 views:
   - name: iifs_established
     title: IIFs established
