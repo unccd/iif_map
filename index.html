@@ -54,7 +54,7 @@
       <div class="accordion">
         {{#views}}
           <div class="accordion-section">
-            <div on-click='set("filterView", .)' class="accordion-toggle">
+            <div on-click='set("filterView", .)' class="accordion-toggle {{#if filterView==.}}visible{{/if}}">
               {{title}}
             </div>
             <div class="accordion-content {{#if filterView == .}}default{{/if}}">

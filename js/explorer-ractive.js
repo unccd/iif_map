@@ -83,9 +83,7 @@ function initExplorer(parties, filters, views) {
       this.get('parties').resetWithQuery(query);
       app.map.updateMap();
       // return console.debug('prepareFilterQuery', query);
-    }, {
-      init: false
-    });
+    }, {init: false });
 
     explorer.observe('selectedParty', function(party) {
       // Figure zoom on selectedParty
@@ -121,7 +119,13 @@ function initExplorer(parties, filters, views) {
     explorer.on('resetGeoSearch', function() {
       this.set('selectedParty', '');
       this.set('geoSearchValue', '');
-    })
+    });
+
+    // Filter View
+    explorer.observe('filterView', function(filterView) {
+      app.map.mapObject.remove();
+      app.map = initMap(this, filterView);
+    }, {init: false})
   }
 
   initExplorerEvents(ractive);

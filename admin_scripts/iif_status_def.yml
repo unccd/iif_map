@@ -74,25 +74,26 @@ attributes:
     options:
       - value: '2014_2015'
         title: 'Planned 2014-2015'
-        colour: 'green'
+        colour: '#267EBA'
       - value: '2016_2017'
         title: 'Planned 2016-2017'
-        colour: 'blue'
+        colour: '#39B6C5'
       - value: '2018_2019'
         title: 'Planned 2018-2019'
-        colour: 'purple'
+        colour: '#9FDBB3'
   - name: gm_supported
     title: GM supported
     description: Parties receiving GM support
     options:
       - value: received
         title: 'IIF established, received GM support'
-        colour: 'red'
+        colour: '#7DC078'
       - value: not_required
         title: 'No IIF, not receiving GM support'
-        colour: 'blue'
-      # - value: not_received
-      #   title: 'IIF established without GM support'
+        colour: '#B08CC5'
+      - value: not_received
+        title: 'IIF established without GM support'
+        colour: 'pink'
 views:
   - name: iifs_established
     title: IIFs established
