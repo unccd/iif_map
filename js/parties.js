@@ -5,7 +5,7 @@ window.app || (window.app = {});
 // 
 
 var Parties = Backbone.Collection.extend({
-  comparator: 'party',
+  comparator: 'short_name',
   initialize: function(models, options) {
     this._superset = new Backbone.QueryCollection(models);
   },

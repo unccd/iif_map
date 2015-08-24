@@ -45,7 +45,7 @@ filterOptions = _.chain(filterAttributes).map(function(filter) {
     //   return country;
     // });
 
-    console.debug('Missing Country records for', _.select(app.parties.pluck('party'), function(i){return app.countries.findWhere({short_name: i}) == undefined}));
+    // console.debug('Missing Country records for', _.select(app.parties.pluck('party'), function(i){return app.countries.findWhere({short_name: i}) == undefined}));
   }
 
   return _.map(filter.options, function(option) {
