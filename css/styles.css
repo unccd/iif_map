@@ -35,8 +35,8 @@
   width: 100%;
   z-index: 10;
   position: absolute;
-  background: rgb(255, 255, 255);
   padding: 10px;
+  background: inherit;
 }
 .party-name {
   font-size: 25px;
