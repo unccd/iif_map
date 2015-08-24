@@ -106,10 +106,9 @@ function initExplorer(parties, filters, views) {
       this.set('selectedParty', ''); // Clear any currently active party
 
       var filter = this.get('filters').get(filterId);
+      console.debug(filterId);
       if (filter.get('attribute') == 'party') {
-        var party = this.get('parties').where({
-          party: filter.id
-        });
+        var party = this.get('parties').findWhere({iso2: filter.get('value')});
         this.set('selectedParty', party);
       } else {
         filter.set({active: true, geosearch: true});
@@ -126,9 +125,7 @@ function initExplorer(parties, filters, views) {
       app.map.mapObject.remove();
       app.map = initMap(this, filterView);
       // update map to reshow geoSearch if active
-      if (this.get('geoSearchValue') != '') {
-        app.map.updateMap();
-      }
+      app.map.updateMap();
     }, {init: false})
   }
 
