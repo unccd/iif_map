@@ -15,7 +15,9 @@ Ractive.decorators.chosen.type.geoSearch = function(node) {
 // Parties collection from only ACP/DCP countries. 
 // All DCP countries are ACP countries.
 // Also need to include the SRAP data
-var acpData = _.select(app.bootstrapped_data, function(model){return model.acp || model.srap;})
+var acpData = _.select(app.bootstrapped_data, function(model) {
+  return model.acp || model.srap;
+})
 app.parties = new Parties(acpData);
 
 // Use just the attributes for now - might use 'Views' later
@@ -31,7 +33,7 @@ var filterDefs = new FilterDefs(filterDefObjects);
 // Create FilterOptions by copying properties from the attribute 
 // to each of its options
 filterOptions = _.chain(filterAttributes).map(function(filter) {
-  
+
   var attribute = filter.name;
 
   // Add countries if needed
@@ -40,15 +42,14 @@ filterOptions = _.chain(filterAttributes).map(function(filter) {
     var valueField = filter.value_field;
     var titleField = filter.title_field;
 
-    console.debug('need to add countries filters');
-    // var countries = 
-    // filter.options = _.map(countries, function(country) {
-    //   country.value = country[valueField];
-    //   country.title = country[titleField];
-    //   return country;
-    // });
-
-    // console.debug('Missing Country records for', _.select(app.parties.pluck('party'), function(i){return app.countries.findWhere({short_name: i}) == undefined}));
+    // Extract Countries from provided Parties collection
+    filter.options = app.parties.map(function(party) {
+      return {
+        id: 'randomId',
+        value: party.get(valueField),
+        title: party.get(titleField),
+      }
+    });
   }
 
   return _.map(filter.options, function(option) {
@@ -56,7 +57,8 @@ filterOptions = _.chain(filterAttributes).map(function(filter) {
     if (filter.value_from_title != undefined) {
       var title = option.title;
       // snake_case conversion
-      option.value = title.replace(/([a-z\d])([A-Z]+)/g, '$1_$2').replace(/[-\s]+/g, '_').toLowerCase();
+      option.value = snake_case(title);
+      
     };
 
     option.attribute = attribute;
@@ -68,7 +70,9 @@ filterOptions = _.chain(filterAttributes).map(function(filter) {
 
 }).flatten().value();
 
-app.filters = new FilterOptions(filterOptions, {collectionToFilter: app.parties});
+app.filters = new FilterOptions(filterOptions, {
+  collectionToFilter: app.parties
+});
 app.filters.filterDefs = filterDefs;
 
 var views = app.iif_status_def.views;
@@ -79,3 +83,6 @@ app.explorer = initExplorer(app.parties, app.filters, views);
 // jVectormap map, binding the Ractive view
 app.map = initMap(app.explorer);
 
+function snake_case(text) {
+  return text.replace(/([a-z\d])([A-Z]+)/g, '$1_$2').replace(/[-\s]+/g, '_').toLowerCase();
+}

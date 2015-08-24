@@ -12,6 +12,7 @@ attributes:
   - name: region
     title: Region
     geosearch: true
+    multiple_select: false
     value_from_title: true
     options:
       - title: Africa
@@ -23,6 +24,7 @@ attributes:
   - name: subregion
     title: Subregion
     geosearch: true
+    multiple_select: false
     value_from_title: true
     options:
       - title: Andean
@@ -76,12 +78,12 @@ attributes:
     title: GM supported
     description: Parties receiving GM support
     options:
-      - value: true
+      - value: received
         title: 'IIF estalished, received GM support'
-      - value: false
-        title: 'IIF established without GM support'
-      - value: ''
+      - value: not_required
         title: 'No IIF, not receiving GM support'
+      - value: not_received
+        title: 'IIF established without GM support'
 views:
   - name: iifs_established
     title: IIFs established

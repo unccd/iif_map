@@ -91,7 +91,15 @@ ul.filters-list > li.active {
   color: inherit;
 }
 
-span.active-count {
+ul.filters-list > li.disabled:hover {
+  background: #E4E4E4;
+  cursor: not-allowed;
+}
+
+div.filter-title {
+width: 87%;}
+
+div.active-count {
   float: right;
   color: grey;
   font-size: 11px;
