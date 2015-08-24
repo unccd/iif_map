@@ -94,14 +94,14 @@ function initExplorer(parties, filters, views) {
     explorer.observe('selectedParty', function(party) {
       // Figure zoom on selectedParty
       if (party) {
-        zoomMapTo([party.iso2]);
+        app.map.zoomMapTo([party.iso2]);
       } else if (this.get('geoSearchValue')) {
-        updateMap();
+        app.map.updateMap();
        } else {
         // Zoom to everything
-        zoomMapTo();
+        app.map.zoomMapTo();
       }
-    })
+    }, {init: false})
 
     // Geosearch
     explorer.observe('geoSearchValue', function(filterId) {

@@ -81,7 +81,7 @@ var views = app.iif_status_def.views;
 app.explorer = initExplorer(app.parties, app.filters, views);
 
 // jVectormap map, binding the Ractive view
-app.map = initMap(app.explorer);
+app.map = initMap(app.explorer, views[0]);
 
 function snake_case(text) {
   return text.replace(/([a-z\d])([A-Z]+)/g, '$1_$2').replace(/[-\s]+/g, '_').toLowerCase();

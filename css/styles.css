@@ -133,8 +133,11 @@ div.active-count {
   color: white;
   border-radius: 3px;
 }
-.jvectormap-legend-tick {
-  width: 80px;
+.jvectormap-legend-cnt-h .jvectormap-legend-tick {
+    width: 80px;
+}
+.jvectormap-legend-tick-text {
+  padding: 2px;
 }
 .jvectormap-zoomin, .jvectormap-zoomout {
   width: 10px;

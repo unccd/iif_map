@@ -4,31 +4,32 @@ window.app || (window.app = {});
 // Setup map
 // 
 
-function initMap(ractive) {
+function initMap(ractive, view) {
+  if (ractive == undefined || view == undefined) {
+    throw 'Need to pass ractive and view to the Map creator'
+  }
   var collection = ractive.get('parties');
 
-  var map = $(".map").vectorMap({
+  // Create scale and legend from view
+  var filterAttribute = view.filterAttribute;
+  var filters = new Backbone.Collection(ractive.get('filters').getForAttribute(filterAttribute));
+  var scale = _.object(filters.pluck('value'),filters.pluck('colour'));
+
+  var legend = _.object(filters.pluck('value'), filters.pluck('title'));
+
+
+  var mapDef = {
     backgroundColor: '#feba2b', // #feba2b
     map: 'world_merc',
     series: {
       regions: [{
-        scale: {
-          'iif': '#F47730', 
-          'plan': '#579DD4',
-          'no_plan': '#005BA9',
-          'unknown': 'rgb(105, 40, 90)'
-        },
+        scale: scale,
         normalizeFunction: 'ordinal',
         attribute: 'fill',
         values: prepareMapData(collection),
         legend: {
           labelRender: function(v){
-            return {
-              iif: 'IIF exists',
-              plan: 'IIF planned',
-              no_plan: 'No plan',
-              unknown: 'No data'
-            }[v];
+            return legend[v];
           }
         }
       }]
@@ -61,52 +62,57 @@ function initMap(ractive) {
     onRegionTipShow: function(event, label, code) {
       var party = collection.findWhere({iso2: code})
       if (party) {
-        var status = party.get('iif_or_plan');
+        var status = party.get(filterAttribute);
         label.html(
           '<b>'+label.html()+'</b></br>'+
           '<b>Status: </b>' + status
         );
       }
     }
-  });
-  return map.vectorMap('get', 'mapObject');
-}
+  };
+  
+  var map = $(".map").vectorMap(mapDef);
+  var mapObject = map.vectorMap('get', 'mapObject');
+ 
+  // Map handling methods
+  function prepareMapData (collection) {
+    return collection.prepareMapData(filterAttribute);
+  }
 
+  function updateMap() {
+    if (!mapObject) { return };
+    mapObject.reset();
+    mapObject.series.regions[0].setValues(prepareMapData(app.parties));
+    return zoomToFiltered();
+  }
 
-// 
-// Global functions for managing the map
-// 
+  function zoomToFiltered() {
+    var regionCodes = _.compact(app.parties.pluck('iso2'));
+    if (_.isEmpty(regionCodes)) {return};
+    setTimeout(zoomMapTo(regionCodes), 0);
+  }
 
-function prepareMapData(collection) {
-  return collection.prepareMapData('iif_or_plan');
-}
+  function zoomMapTo(regionCodes) {
+    if (!mapObject) {return};
 
-function updateMap() {
-  if (!app.map) { return };
-  app.map.reset();
-  app.map.series.regions[0].setValues(prepareMapData(app.parties));
-  return zoomToFiltered();
-}
+    if (regionCodes == undefined) {
+      mapObject.setFocus({
+        scale: mapObject.baseScale,
+        x: mapObject.baseTransX,
+        y: mapObject.baseTransY
+      });
+    } else {
+      mapObject.setFocus({
+        regions: regionCodes
+      });
+    }
+  }
 
-function zoomToFiltered() {
-  var regionCodes = _.compact(app.parties.pluck('iso2'));
-  if (_.isEmpty(regionCodes)) {return};
-  setTimeout(zoomMapTo(regionCodes), 0);
-}
-
-function zoomMapTo(regionCodes) {
-  if (!app.map) {return};
-
-  if (regionCodes == undefined) {
-    app.map.setFocus({
-      scale: app.map.baseScale,
-      x: app.map.baseTransX,
-      y: app.map.baseTransY
-    });
-  } else {
-    app.map.setFocus({
-      regions: regionCodes
-    });
+  return {
+    mapObject: mapObject,
+    prepareMapData: prepareMapData,
+    updateMap: updateMap,
+    zoomToFiltered: zoomToFiltered,
+    zoomMapTo: zoomMapTo,
   }
 }
-

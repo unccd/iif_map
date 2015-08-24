@@ -13,7 +13,14 @@ var Parties = Backbone.Collection.extend({
     return this.reset(this._superset.query(queryObject));
   },
   prepareMapData: function(attribute) {
-    var models = _.select(this.toJSON(), {srap: false});
+    var modelsJSON = this.toJSON();
+    // Get models with attribute
+    // Reject SRAPs
+    var models = _.chain(modelsJSON)
+      .select(function(i){return i[attribute] != ''})
+      .where({srap: false})
+      .value();
+    // return mapped to ISO2
     return _.object(_.pluck(models, 'iso2'), _.pluck(models, attribute))
   }
 });
