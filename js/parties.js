@@ -10,7 +10,7 @@ var Parties = Backbone.Collection.extend({
     this._superset = new Backbone.QueryCollection(models);
   },
   resetWithQuery: function (queryObject) {
-    return this.reset(this._superset.query({$nor: queryObject}));
+    return this.reset(this._superset.query(queryObject));
   },
   prepareMapData: function(attribute) {
     var models = _.select(this.toJSON(), {srap: false});

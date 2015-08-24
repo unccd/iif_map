@@ -12,9 +12,11 @@ Ractive.decorators.chosen.type.geoSearch = function(node) {
   }
 };
 
-// Backbone Collection for filtering
-app.parties = new Parties(app.bootstrapped_data);
-
+// Parties collection from only ACP/DCP countries. 
+// All DCP countries are ACP countries.
+// Also need to include the SRAP data
+var acpData = _.select(app.bootstrapped_data, function(model){return model.acp || model.srap;})
+app.parties = new Parties(acpData);
 
 // Use just the attributes for now - might use 'Views' later
 var filterAttributes = app.iif_status_def.attributes;
@@ -39,6 +41,7 @@ filterOptions = _.chain(filterAttributes).map(function(filter) {
     var titleField = filter.title_field;
 
     console.debug('need to add countries filters');
+    // var countries = 
     // filter.options = _.map(countries, function(country) {
     //   country.value = country[valueField];
     //   country.title = country[titleField];

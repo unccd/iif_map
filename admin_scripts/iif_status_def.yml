@@ -11,9 +11,7 @@ metadata:
 attributes:
   - name: region
     title: Region
-    # type: text
     geosearch: true
-    # select_multiple: false
     value_from_title: true
     options:
       - title: Africa
@@ -24,9 +22,7 @@ attributes:
       - title: Other
   - name: subregion
     title: Subregion
-    # type: text
     geosearch: true
-    # select_multiple: false
     value_from_title: true
     options:
       - title: Andean
@@ -54,12 +50,9 @@ attributes:
     value_field: iso2
     description: Some text to describe it
     geosearch: true
-    # select_multiple: false
   - name: iif_or_plan
     title: IIF plan
     description: Whether or not it exists
-    # type: category
-    # select_multiple: true
     options: 
       - value: 'iif'
         title: 'IIF established'
@@ -72,8 +65,6 @@ attributes:
   - name: iif_plan_start
     title: IIF plan start date
     description: Biennium
-    # type: category
-    # select_multiple: true
     options:
       - value: '2014_2015'
         title: 'Planned 2014-2015'
@@ -84,13 +75,13 @@ attributes:
   - name: gm_supported
     title: GM supported
     description: Parties receiving GM support
-    # type: category
-    # select_multiple: true
     options:
       - value: true
-        title: 'Receiving GM support'
+        title: 'IIF estalished, received GM support'
       - value: false
-        title: 'Not receiving GM support'
+        title: 'IIF established without GM support'
+      - value: ''
+        title: 'No IIF, not receiving GM support'
 views:
   - name: iifs_established
     title: IIFs established
@@ -102,5 +93,5 @@ views:
     filter: iif_plan_start
   - name: gm_support
     title: GM support
-    description: The map shows parties which are receiving support from GM. The GM has also supported development or facilitation of IFS/IIF in Palestine, Limpopo Basin, EFIR (as a text, as in case with SRAPs).
+    description: The map shows parties with IIFs established which have received support from GM. The GM has also supported development or facilitation of IFS/IIF in Palestine, Limpopo Basin, EFIR (as a text, as in case with SRAPs).
     filter: gm_supported

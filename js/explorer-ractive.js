@@ -19,6 +19,7 @@ function initExplorer(parties, filters, views) {
       // Collections
       parties: parties,
       filters: filters,
+      // Arrays
       views: views,
       // State
       selectedParty: '',
@@ -81,13 +82,12 @@ function initExplorer(parties, filters, views) {
 
     // Recalculate filterQuery when Filters change
     explorer.observe('filters.*', function(change, b, c) {
-      return console.debug('prepareFilterQuery', change, b, c);
-
       // TODO: Include geoSearch in filterQuery
 
-      // var query = this.get('filters').prepareFilterQuery(); 
-      // this.get('parties').resetWithQuery(query);
-      // updateMap();
+      var query = this.get('filters').prepareFilterQuery(); 
+      this.get('parties').resetWithQuery(query);
+      updateMap();
+      return console.debug('prepareFilterQuery', query);
     }, {
       init: false
     });

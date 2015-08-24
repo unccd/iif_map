@@ -19,8 +19,8 @@ FilterDefs = Backbone.Collection.extend({
 
   // FILTER QUERY 
   // 
-  prepareFilterQuery: function() {
-    var filtersToQueryWith = _.where(this.toJSON(), {active: false});
+  prepareFilterQuery: function(collection) {
+    var filtersToQueryWith = _.where(collection.toJSON(), {active: false});
     var attributeGroups = _.groupBy(filtersToQueryWith, 'attribute'), queryGroups = {};
     _.each(attributeGroups, function(attributeGroup, index){
       var combinator;
@@ -31,7 +31,7 @@ FilterDefs = Backbone.Collection.extend({
         combinator = '$in'; }
       queryGroups[index] = _.object([combinator], [_.pluck(attributeGroup, 'value')]);
     });
-    return queryGroups;
+    return {$nor: queryGroups};
   }
 });
 
@@ -106,5 +106,8 @@ FilterOptions = Backbone.Collection.extend({
       }
     });
   },
+  prepareFilterQuery: function() {
+    return this.filterDefs.prepareFilterQuery(this);
+  }
 })
 
