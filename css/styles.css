@@ -19,12 +19,10 @@
 .summary > .explainer {
   margin: 5px;
 }
-.summary > .counts {
-  padding: 5px;
-  position: absolute;
-  bottom: 0px;
-  background: rgba(254, 186, 43, 0.66);
-  color: #FFFFFF;
+.explainer .count-label {
+  color: #7D5421;
+  /* font-weight: bold; */
+  /* font-style: italic; */
 }
 
 /* Detail div*/

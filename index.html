@@ -34,12 +34,22 @@
     <div class="summary">
       <div class="section-heading">Map of Integrated Investment Frameworks</div>
       <div class='explainer'>
-        Click the filters below to explore the data. Map shows {{partyCount}} parties, {{srapCount}} 
-        {{#srapCount}}
-          <span class='clickable-text' on-click='set("showSrapDetail", true)'>Subregional Action Programmes</span>
-        {{else}}
-          Subregional Action Programmes
-        {{/srapCount}}
+        Map shows 
+          <span class='count-label'>{{partyCount}}</span> 
+          parties, 
+          {{#srapCount}}
+            
+            <span class='clickable-text' on-click='set("showSrapDetail", true)'>
+              <span class='count-label'>{{srapCount}}</span>
+              Subregional Action Programmes.
+            </span>
+
+          {{else}}
+            <span class='count-label'>{{srapCount}}</span> 
+            Subregional Action Programmes.
+          {{/srapCount}}
+
+        Click the filters below to explore the data. 
       </div>
       <MapViewSelector></MapViewSelector>
     </div>
