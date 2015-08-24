@@ -14,9 +14,7 @@ function initMap(ractive, view) {
   var filterAttribute = view.filterAttribute;
   var filters = new Backbone.Collection(ractive.get('filters').getForAttribute(filterAttribute));
   var scale = _.object(filters.pluck('value'),filters.pluck('colour'));
-
   var legend = _.object(filters.pluck('value'), filters.pluck('title'));
-
 
   var mapDef = {
     backgroundColor: '#feba2b', // #feba2b
