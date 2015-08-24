@@ -25,7 +25,7 @@
   /* font-style: italic; */
 }
 
-/* Detail div*/
+/* Party Detail div*/
 .detail {
   min-height: 450px;
   width: 100%;
@@ -55,15 +55,11 @@ button.back {
   background-color: #F5F5F5;
   border: 1px solid #ADADAD;
 }
+
 .description-title {
-  font-weight: bold;
-  color: #8A8A8A;
-  margin-top: 20px;
-  margin-bottom: 5px;
-  font-size: 14px;
 }
 .description-text {
-
+  font-size: 12px;
 }
 
 
@@ -172,7 +168,7 @@ span.active-count {
 
 .search > .reset-geoSearch {
   position: absolute;
-  right: 10px;
+  right: 0px;
   padding-left: 9px;
   top: 30px;
   height: 22px;

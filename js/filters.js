@@ -2,68 +2,21 @@
 // Init
 // 
 
-function initFilters () {
-  var filters = new QueryFilters()
-
-  // IIF Status filters
-  // TODO: Could do a check on load to see if any Filters are undefined?
-  filters.add([
-    {attribute: 'iif_or_plan', value: 'iif', title: 'IIF established', id: 'with_iif'}, 
-    {attribute: 'iif_or_plan', value: 'plan', title: 'No IIF, plan exists', id: 'with_plan'}, 
-    {attribute: 'iif_or_plan', value: 'no_plan', title: 'No IIF, no plan', id: 'no_plan'},
-    {attribute: 'iif_or_plan', value: 'unknown', title: 'No data', id: 'unknown'}
-  ]);
-  // Plan filters
-  filters.add([
-    {attribute: 'iif_plan_start', value: '2014_2015', title: 'Planned 2014-2015', id: '2014_2015'},
-    {attribute: 'iif_plan_start', value: '2016_2017', title: 'Planned 2016-2017', id: '2016_2017'},
-    {attribute: 'iif_plan_start', value: '2018_2019', title: 'Planned 2018-2019', id: '2018_2019'}
-  ]);
-  // gm_supported filters
-  filters.add([
-    {attribute: 'gm_supported', value: true, title: 'Receiving GM support', id: 'receiving_support'},
-    {attribute: 'gm_supported', value: false, title: 'Not receiving GM support', id: 'not_receiving_support'}
-  ]);
-
-  return filters;
-}
-
 // 
 // Model and Collection
 // 
 
-Filter = Backbone.Model.extend({
-  initialize: function(model) {
-    if (model.active == undefined) {
-      this.set('active', true);
-    };
-  },
-  toggle: function(attr, silent) {
-    var data = {}, value = this.get(attr);
-    data[attr] = !value;
-    this.set(data, {silent: silent});
-    return;
-  }
-})
+// 
+// FILTER DEFS
+// 
 
+FilterDef = Backbone.Model.extend({
+  idAttribute: 'name'
+});
 
-QueryFilters = Backbone.Collection.extend({
-  model: Filter,
-  // 
-  // PRESENTERS
-  // 
-  presentForGeosearch: function (attributes) {
-    if (!_.isArray(attributes)) { throw "Need to pass an array of attributes" };
-    return _.object(attributes, _.map(attributes, function(attribute) {
-      return _(app.data.pluck(attribute)).uniq().sort().value();
-    }));
-  },
-  presentForFiltersList: function(attribute, filters, parties) {
-    var filterModels = filters.select(function(i){return i.get('attribute') == attribute});
-    var counts = parties.countBy(attribute);
-    return _.map(filterModels, function(i){i.set('activeCount', counts[i.get('value')]);return i;})
-  },
-  // 
+FilterDefs = Backbone.Collection.extend({
+  model: FilterDef,
+
   // FILTER QUERY 
   // 
   prepareFilterQuery: function() {
@@ -79,18 +32,79 @@ QueryFilters = Backbone.Collection.extend({
       queryGroups[index] = _.object([combinator], [_.pluck(attributeGroup, 'value')]);
     });
     return queryGroups;
-  },
-  // 
-  // BULK EDITS
-  // 
-  allOn: function(attribute) {
-    _.each(this.where({attribute: attribute}), function(model) {
-      model.set('active', true);
-    });
-  },
-  allOff: function(attribute) {
-    _.each(this.where({attribute: attribute}), function(model) {
-      model.set('active', false);
-    });
   }
+});
+
+
+// 
+// FILTER OPTIONS
+// 
+
+FilterOption = Backbone.Model.extend({
+  toggle: function(attr, silent) {
+    if (!attr) { attr = 'active' }
+    var data = {}, value = this.get(attr);
+    data[attr] = !value;
+    this.set(data, {silent: silent});
+    return;
+  }
+});
+
+FilterOptions = Backbone.Collection.extend({
+  model: FilterOption,
+  initialize: function (models, options) {
+    if (options.collectionToFilter) {
+      this.collectionToFilter = options.collectionToFilter;
+    } else {
+      throw 'Need to define collectionToFilter'
+    }
+  },
+  // SETTERS and GETTERS
+  getForAttribute: function (attribute) {
+    return this.where({attribute: attribute});
+  },
+  getActive: function(attribute) {
+    var query = {active: true};
+    if (attribute) { query.attribute = attribute }
+    return this.where(query);
+  },
+  getAllActive: function(attribute) {
+    _.where(this.getForAttribute(attribute), {active: true});
+  },
+  setAllActive: function (attribute) {
+    _.each(this.getForAttribute(attribute), function(option){
+      option.set('active', true);
+    });
+  },
+  setAllInactive: function (attribute) {
+    _.each(this.getForAttribute(attribute), function(option){
+      option.set('active', false);
+    });
+  },
+  // PRESENTERS
+  decorateForFiltersList: function (attribute) {
+    var filterModels = this.where({attribute: attribute});
+    if (filterModels == undefined) { return; }
+    var counts = this.collectionToFilter.countBy(attribute);  
+    return _.map(filterModels, function(filterModel) {
+      var jsonModel = filterModel.toJSON();
+      jsonModel.activeCount = counts[filterModel.get('value')];
+      return jsonModel;
+    })
+  },
+  decorateForGeosearch: function (collection) {
+    var _this = this;
+    var geoAttributes = _.map(this.filterDefs.where({geosearch: true}), function(filterDef){return filterDef.get('name')});
+    if (_.isEmpty(geoAttributes)) { 
+      console.debug('Filters: no geosearch attributes found'); 
+      return; 
+    }
+    return _.map(geoAttributes, function(geoAttribute){
+      return {
+        name: geoAttribute,
+        options: _this.where({attribute: geoAttribute})
+      }
+    });
+  },
 })
+

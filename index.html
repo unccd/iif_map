@@ -94,72 +94,64 @@
     {{/selectedParty}}
   </script>
 
+
+  <!-- SUMMARY PARTIAL -->
+  <script id='summaryPartial' type='text/html'>
+    <div class="summary">
+      <div class="section-heading">Map of Integrated Investment Frameworks</div>
+      {{partyCount}} party parties and {{srapCount}} Subregional Action Programmes
+
+      <!-- Filter Selector -->
+      <div class="accordion">
+        {{#views}}
+          <div class="accordion-section">
+            <div on-click='set("filterView", .)' class="accordion-toggle">
+              {{title}}
+            </div>
+            <div class="accordion-content {{#if filterView == .}}default{{/if}}">
+              <div class='description-text'>{{description}}</div>
+              <div class="filter-controls"><span on-click='allOn("iif_or_plan")'>All</span> | <span class='allOff' on-click='allOff("iif_or_plan")'>None</span></div>
+              <ul class='filters-list'>
+                {{#each filtersFor(.)}}
+                  {{>filterListItemPartial}}
+                {{/each}}
+              </ul>
+            </div>
+          </div>
+        {{/views}}
+      </div>
+      <!-- End Filter Selector -->
+    </div>
+  </script>
+
   <!-- SEARCH PARTIAL -->
   <script id="searchPartial" type="text/html">
     <div class='search'>
-      <select decorator='chosen:geoSearch' value="{{geoSearch}}" data-observe='parties' data-placeholder="Search party, region">
+      <select decorator='chosen:geoSearch' value="{{geoSearchValue}}" data-observe='parties' data-placeholder="Search party, region">
         <option value=""></option>
-        {{#each geo_search:category}}
-          <optgroup label="{{ titleCase( category ) }}">
-            {{#each .}}            
-              <option value="{{category}}:{{.}}">{{.}}</option>
+        {{#each geo_search}}
+          <optgroup label="{{titleCase(name)}}">
+            {{#each options}}
+              <option value="{{id}}">{{title}}</option>
             {{/each}}
           </optgroup>
         {{/each}}
       </select>
-      {{#if geoSearch != ''}}
+      {{#if geoSearchValue != ''}}
         <div on-click='resetGeoSearch' class="reset-geoSearch"><span class='reset-x'>x</span>Show all</div>
       {{/if}}
     </div>    
   </script>
 
-  <!-- MAP SELECTOR COMPONENT -->
-  <!-- Everything is under "MapViewSelector" namespace -->
-  <script id='mapViewSelector' type='text/html'>
-    <div class="accordion">
-      <div class="accordion-section">
-        <div on-click='changeMapView: 1' class="accordion-toggle">IIFs established</div>
-        <div class="accordion-content {{#if mapView == 1}}default{{/if}}">
-          <p>The map shows Country and Regional parties with IIFs already established.</p>
-          <div class="filter-controls"><span on-click='allOn: iif_or_plan'>All</span> | <span class='allOff' on-click='allOff: iif_or_plan'>None</span></div>
-          <ul class='filters-list'>
-            {{#each iif_or_plan_filters}}
-              {{>filterListItemPartial}}
-            {{/each}}
-          </ul>
-        </div>
-      </div>
-      <div class="accordion-section">
-        <div on-click='changeMapView: 2' class="accordion-toggle">IIFs planned</div>
-        <div class="accordion-content {{#if mapView == 2}}default{{/if}}">
-          <p>These are Voluntary National Targets. These include IIFs with no specific date.</p>
-          <p>Look at all these subfilters for each biennium!</p>
-          <div class="filter-controls"><span on-click='allOn: iif_plan_start'>All</span> | <span class='allOff' on-click='allOff: iif_plan_start'>None</span></div>
-          <ul class='filters-list'>
-            {{#each plan_filters}}
-              {{>filterListItemPartial}}
-            {{/each}}
-          </ul>
-        </div>
-      </div>
-      <div class="accordion-section">
-        <div on-click='changeMapView: 3' class="accordion-toggle">GM support</div>
-        <div class="accordion-content {{#if mapView == 3}}default{{/if}}">
-          <p>The map shows parties which are receiving support from GM.</p>
-          <div class="filter-controls"><span on-click='allOn: gm_supported'>All</span> | <span class='allOff' on-click='allOff: gm_supported'>None</span></div>
-          <ul class='filters-list'>
-            {{#each gm_supported_filters}}
-              {{>filterListItemPartial}}
-            {{/each}}
-          </ul>
-        </div>
-      </div>
-    </div>
+  <!-- FILTER SELECTOR COMPONENT -->
+  <!-- Everything is under "FilterSelector" namespace -->
+  <script id='filterSelector' type='text/html'>
+
   </script>
 
   <!-- FILTER LIST ITEM PARTIAL -->
   <script id='filterListItemPartial' type="text/html">
-    <li on-click="toggleFilter" class='{{#active}}active{{/active}}'>
+    <li on-click="toggleFilter(.)" class='{{#active}}active{{/active}}'>
       {{title}} 
       {{#activeCount}}
         <span class='active-count'>{{activeCount}}</span>
@@ -168,12 +160,13 @@
   </script>
   
   <!-- Core libraries -->
-  <script src='ext/ractive.min.js'></script>
+  <script src='ext/underscore.min.js'></script>
   <script src='ext/jquery.min.js'></script>
-  <script src='ext/lodash.min.js'></script>
+  <script src='ext/ractive.min.js'></script>
 
   <!-- Backbone + Ractive-adaptor -->
-  <script src='ext/backbone.min.js'></script>
+  <!-- <script src='ext/backbone.min.js'></script> -->
+  <script src='ext/backbone.js'></script>
   <script src='ext/backbone.query.js'></script>
   <script src='ext/ractive-backbone-adaptor.min.js'></script>
 
@@ -188,9 +181,8 @@
   <!-- Application -->
   <script src='js/parties.js'></script>
   <script src='js/filters.js'></script>
-  <script src='js/explorer_view.js'></script>
+  <script src='js/explorer-ractive.js'></script>
   <script src='js/map.js'></script>
-  <script src='js/map-selector.js'></script>
   <script src='js/script.js'></script>
 
 </body>
