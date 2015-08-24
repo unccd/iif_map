@@ -60,7 +60,8 @@
             </div>
             <div class="accordion-content {{#if filterView == .}}default{{/if}}">
               <div class='description-text'>{{description}}</div>
-              <div class="filter-controls"><span on-click='allOn("iif_or_plan")'>All</span> | <span class='allOff' on-click='allOff("iif_or_plan")'>None</span></div>
+              <div class="filter-controls"><span on-click='allOn("iif_or_plan")'>All</span> / 
+              <span class='allOff' on-click='allOff("iif_or_plan")'>None</span></div>
               <ul class='filters-list'>
                 {{#each filtersFor(.)}}
                   {{>filterListItemPartial}}
@@ -131,7 +132,8 @@
             </div>
             <div class="accordion-content {{#if filterView == .}}default{{/if}}">
               <div class='description-text'>{{description}}</div>
-              <div class="filter-controls"><span on-click='allOn("iif_or_plan")'>All</span> | <span class='allOff' on-click='allOff("iif_or_plan")'>None</span></div>
+              <div class="filter-controls"><span on-click='allOn("iif_or_plan")'>All</span> / 
+              <span class='allOff' on-click='allOff("iif_or_plan")'>None</span></div>
               <ul class='filters-list'>
                 {{#each filtersFor(.)}}
                   {{>filterListItemPartial}}
