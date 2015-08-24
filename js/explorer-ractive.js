@@ -82,10 +82,11 @@ function initExplorer(parties, filters, views) {
 
     // Recalculate filterQuery when Filters change
     explorer.observe('filters.*', function(change, b, c) {
+      console.debug(app.filters.getActive().length);
       var query = this.get('filters').prepareFilterQuery(); 
       this.get('parties').resetWithQuery(query);
       updateMap();
-      return console.debug('prepareFilterQuery', query);
+      // return console.debug('prepareFilterQuery', query);
     }, {
       init: false
     });

@@ -60,8 +60,8 @@
             </div>
             <div class="accordion-content {{#if filterView == .}}default{{/if}}">
               <div class='description-text'>{{description}}</div>
-              <div class="filter-controls"><span on-click='allOn("iif_or_plan")'>All</span> / 
-              <span class='allOff' on-click='allOff("iif_or_plan")'>None</span></div>
+              <div class="filter-controls"><span on-click='allOn(.filter)'>All</span> / 
+              <span class='allOff' on-click='allOff(.filter)'>None</span></div>
               <ul class='filters-list'>
                 {{#each filtersFor(.)}}
                   {{>filterListItemPartial}}
@@ -116,37 +116,6 @@
     {{/selectedParty}}
   </script>
 
-
-  <!-- SUMMARY PARTIAL -->
-  <script id='summaryPartial' type='text/html'>
-    <div class="summary">
-      <div class="section-heading">Map of Integrated Investment Frameworks</div>
-      {{partyCount}} party parties and {{srapCount}} Subregional Action Programmes
-
-      <!-- Filter Selector -->
-      <div class="accordion">
-        {{#views}}
-          <div class="accordion-section">
-            <div on-click='set("filterView", .)' class="accordion-toggle">
-              {{title}}
-            </div>
-            <div class="accordion-content {{#if filterView == .}}default{{/if}}">
-              <div class='description-text'>{{description}}</div>
-              <div class="filter-controls"><span on-click='allOn("iif_or_plan")'>All</span> / 
-              <span class='allOff' on-click='allOff("iif_or_plan")'>None</span></div>
-              <ul class='filters-list'>
-                {{#each filtersFor(.)}}
-                  {{>filterListItemPartial}}
-                {{/each}}
-              </ul>
-            </div>
-          </div>
-        {{/views}}
-      </div>
-      <!-- End Filter Selector -->
-    </div>
-  </script>
-
   <!-- SEARCH PARTIAL -->
   <script id="searchPartial" type="text/html">
     <div class='search'>
@@ -164,12 +133,6 @@
         <div on-click='resetGeoSearch' class="reset-geoSearch"><span class='reset-x'>x</span>Show all</div>
       {{/if}}
     </div>    
-  </script>
-
-  <!-- FILTER SELECTOR COMPONENT -->
-  <!-- Everything is under "FilterSelector" namespace -->
-  <script id='filterSelector' type='text/html'>
-
   </script>
 
   <!-- FILTER LIST ITEM PARTIAL -->
