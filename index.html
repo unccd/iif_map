@@ -50,7 +50,28 @@
 
         Click the filters below to explore the data. 
       </div>
-      <MapViewSelector></MapViewSelector>
+
+      <!-- Filter Selector -->
+      <div class="accordion">
+        {{#views}}
+          <div class="accordion-section">
+            <div on-click='set("filterView", .)' class="accordion-toggle">
+              {{title}}
+            </div>
+            <div class="accordion-content {{#if filterView == .}}default{{/if}}">
+              <div class='description-text'>{{description}}</div>
+              <div class="filter-controls"><span on-click='allOn("iif_or_plan")'>All</span> | <span class='allOff' on-click='allOff("iif_or_plan")'>None</span></div>
+              <ul class='filters-list'>
+                {{#each filtersFor(.)}}
+                  {{>filterListItemPartial}}
+                {{/each}}
+              </ul>
+            </div>
+          </div>
+        {{/views}}
+      </div>
+      <!-- End Filter Selector -->
+
     </div>
   </script>
 
