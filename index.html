@@ -59,8 +59,8 @@
             </div>
             <div class="accordion-content {{#if filterView == .}}default{{/if}}">
               <div class='description-text'>{{description}}</div>
-              <div class="filter-controls"><span on-click='allInactive(.filter)'>All</span> / 
-              <span class='allInactive' on-click='allActive(.filter)'>None</span></div>
+              <div class="filter-controls"><span on-click='allInactiveFor(.filter)'>All</span> / 
+              <span class='allInactive' on-click='allActiveFor(.filter)'>None</span></div>
               <ul class='filters-list'>
                 {{#each filtersFor(.)}}
                   {{>filterListItemPartial}}
@@ -133,7 +133,7 @@
 
   <!-- FILTER LIST ITEM PARTIAL -->
   <script id='filterListItemPartial' type="text/html">
-    <li on-click="toggleFilter(.)" class='{{#!active && activeCount}}inactive{{/active}}'>
+    <li on-click="toggleFilter(.)" class='{{#!active}}inactive{{/active}}'>
       <div class='active-count'>{{activeCount}}</div>
       <div class='filter-title'>{{title}} </div>
     </li>
