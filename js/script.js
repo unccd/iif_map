@@ -1,4 +1,5 @@
 window.app || (window.app = {});
+app.DEBUG = false;
 
 // 
 // App launch
@@ -78,10 +79,10 @@ app.filters.filterDefs = filterDefs;
 var views = app.iif_status_def.views;
 
 // Create Ractive view containing all components
-app.explorer = initExplorer(app.parties, app.filters, views);
+app.ractive = initExplorer(app.parties, app.filters, views);
 
 // jVectormap map, binding the Ractive view
-app.map = initMap(app.explorer, views[0]);
+app.map = initMap(app.ractive, views[0]);
 
 function snake_case(text) {
   return text.replace(/([a-z\d])([A-Z]+)/g, '$1_$2').replace(/[-\s]+/g, '_').toLowerCase();

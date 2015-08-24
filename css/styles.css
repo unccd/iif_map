@@ -44,38 +44,53 @@
   font-weight: bold;
   margin-top: 20px;
   margin-bottom: 12px;
-}
-div.status {
-  margin-bottom: 10px;
-}
-span.status-label {
-  border: 1px #B0FFD6 solid;
-  background-color: #79CC6A;
-  padding: 0px 5px;
-  color: white;
+  color: #7D5319;
 }
 button.back {
   cursor: pointer;
   background-color: #F5F5F5;
-  border: 1px solid #ADADAD;
+  border: 1px solid #CACACA;
+  color: #505050;
 }
 
+.options-summary {
+  /* background: #E6E6E6; */
+}
+.attribute {
+  margin-top: 20px;
+}
+.attribute-title, .description-title {
+  font-weight: bold;
+  font-size: 11px;
+  line-height: 120%;
+  color: #868585;
+}
+.attribute-title {
+  margin-bottom: 0px;
+  margin-left: 4px;
+  margin-top: 15px;
+}
+.attribute .option-title {
+  color: white;
+  padding: 0px 5px;
+}
 .description-title {
 }
 .description-text {
   font-size: 12px;
+  padding: 5px;
 }
 
 
 /* Filters */
-ul.filters-list {
+.filters-list {
   padding: 0;
   list-style: none;
   margin-top: 15px;
   clear: both;
 }
 
-ul.filters-list > li {
+.filters-list > .filter-option {
   padding: 1px 8px;
   margin: 5px 3px;
   cursor: pointer;
@@ -87,11 +102,11 @@ ul.filters-list > li {
   border-radius: 2px;
 }
 
-ul.filters-list > li:hover {
+.filters-list > .filter-option:hover {
   background: #EFDEC1;
 }
 
-ul.filters-list > li.inactive {
+.filters-list > .filter-option.inactive {
   border-left: 20px solid #FFA80A;
   color: inherit;
 }
@@ -169,12 +184,12 @@ div.active-count {
   font-weight: bold;
   padding: 3px;
   color: #FFFFFF;
-  background-color: #AF7676;
+  background-color: #C79C5F;
   border-radius: 2px;
-  box-shadow: 0px 8px 0px -4px #CECECE;
+  /* box-shadow: 0px 8px 0px -4px #CECECE; */
 }
 .accordion-toggle.visible {
-  /* border-bottom: 4px #CCCCCC solid; */
+  border-bottom: 4px #CCCCCC solid;
   /* box-shadow: 0px 8px 0px -4px #CECECE; */*/;
 }
 .accordion-content {display: none;padding: 5px;}

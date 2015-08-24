@@ -36,6 +36,16 @@ function initExplorer(parties, filters, views) {
       }
     },
     computed: {
+      detailForParty: function() {
+        var selectedParty = this.get('selectedParty');
+        var views = this.get('views');
+
+        if (selectedParty == '') { return };
+        if (selectedParty instanceof Backbone.Model) {
+          selectedParty = new Party(selectedParty.toJSON())
+        }
+        return selectedParty.decorateForDetailView(views);
+      },
       partyCount: function() {
         return this.get('parties').where({
           srap: false
@@ -79,6 +89,7 @@ function initExplorer(parties, filters, views) {
 
     // Recalculate filterQuery when Filters change
     explorer.observe('filters.*', function(change, b, c) {
+      if (app.DEBUG) { console.debug('filters', change, b, c); }
       var query = this.get('filters').prepareFilterQuery(); 
       this.get('parties').resetWithQuery(query);
       app.map.updateMap();
@@ -86,6 +97,7 @@ function initExplorer(parties, filters, views) {
     }, {init: false });
 
     explorer.observe('selectedParty', function(party) {
+      if (app.DEBUG) { console.debug('selectedParty', party); }
       // Figure zoom on selectedParty
       if (party) {
         app.map.zoomMapTo([party.iso2]);
@@ -99,6 +111,7 @@ function initExplorer(parties, filters, views) {
 
     // Geosearch
     explorer.observe('geoSearchValue', function(filterId) {
+      if (app.DEBUG) { console.debug('geoSearchValue', filterId); }
       if (filterId == '') {
         _.each(this.get('filters').where({geosearch: true}), function(model){model.set('active', false)});
         return 
@@ -122,6 +135,7 @@ function initExplorer(parties, filters, views) {
 
     // Filter View
     explorer.observe('filterView', function(filterView) {
+      if (app.DEBUG) { console.debug('filterView', filterView); }
       app.map.mapObject.remove();
       app.map = initMap(this, filterView);
       // update map to reshow geoSearch if active

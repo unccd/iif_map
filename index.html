@@ -94,12 +94,20 @@
   <script id='partyDetailPartial' type="text/html">
     {{#selectedParty}}
       <div class="detail">
-        <button on-click='set("selectedParty", false)' class='back'>&lt; Back</button>
+        <button on-click='set("selectedParty", "")' class='back'>&lt; Back</button>
         <div class='party-name'>{{selectedParty ? selectedParty.get('short_name') : ''}}</div>
-        <div class='status'>IIF status <span class='status-label'>{{iif_or_plan}}</span></div>
-        <div class='plan'>{{#if iif_plan_start}}IIF planned: {{iif_plan_start}}{{/if}}</div>
-        <div class='description'>
-          <div class="description-title">Complimentary information provided</div>
+
+        <div class='options-summary filters-list'>
+          {{#detailForParty}}
+            <div class='attribute-title'>{{attributeTitle}}</div>
+            <div class='filter-option inactive' style='border-left:20px solid {{colour}}'>
+              <div class='option-title'>{{optionTitle}}</div>
+            </div>
+          {{/detailForParty}}
+        </div>
+
+        <div class='attribute'>
+          <div class='attribute-title'>Complimentary information provided</div>
           <div class='description-text'>
             {{#if description}}
               {{description}}
@@ -108,6 +116,7 @@
             {{/if}}
           </div>
         </div>
+
       </div>
     {{/selectedParty}}
   </script>
@@ -133,7 +142,7 @@
 
   <!-- FILTER LIST ITEM PARTIAL -->
   <script id='filterListItemPartial' type="text/html">
-    <li on-click="toggleFilter(.)" class='{{#!active}}inactive{{/active}}' {{#!active}}style="border-left: 20px solid {{colour}}"{{/active}}>
+    <li on-click="toggleFilter(.)" class='filter-option {{#!active}}inactive{{/active}}' {{#!active}}style="border-left: 20px solid {{colour}}"{{/active}}>
       <div class='active-count'>{{activeCount}}</div>
       <div class='filter-title'>{{title}} </div>
     </li>
