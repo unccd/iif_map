@@ -125,6 +125,10 @@ function initExplorer(parties, filters, views) {
     explorer.observe('filterView', function(filterView) {
       app.map.mapObject.remove();
       app.map = initMap(this, filterView);
+      // update map to reshow geoSearch if active
+      if (this.get('geoSearchValue') != '') {
+        app.map.updateMap();
+      }
     }, {init: false})
   }
 
