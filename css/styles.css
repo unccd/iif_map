@@ -157,7 +157,7 @@ button.back {
 div.filter-title {
 width: 87%;}
 
-div.active-count {
+div.excluded-count {
   float: right;
   color: grey;
   font-size: 10px;
@@ -183,7 +183,7 @@ div.active-count {
 .filter-controls > span:hover {
   color: #83C783;
 }
-.filter-controls > span.allInactive:hover {
+.filter-controls > span.allNotExcluded:hover {
   color: #CC8080;
 }
 

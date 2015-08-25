@@ -71,7 +71,7 @@ function initExplorer(parties, filters, views) {
       },
     },
     resetAll: function (argument) {
-      this.get('filters').setAllActiveFor();
+      this.get('filters').setAllNotExcluded();
       this.set('selectedParty', '');
       this.set('geoSearchValue', '');
       this.set('filterView', views[0]);
@@ -79,11 +79,11 @@ function initExplorer(parties, filters, views) {
     toggleFilter: function(option) {
       this.get('filters').get(option.id).toggle();
     },
-    setAllInactiveFor: function(attribute) {
-      this.get('filters').setAllInactiveFor(attribute);
+    setAllNotExcluded: function(attribute) {
+      this.get('filters').setAllNotExcluded(attribute);
     },
-    setAllActiveFor: function(attribute) {
-      this.get('filters').setAllActiveFor(attribute);
+    setAllExcluded: function(attribute) {
+      this.get('filters').setAllExcluded(attribute);
     }
   });
 
@@ -119,17 +119,17 @@ function initExplorer(parties, filters, views) {
     explorer.observe('geoSearchValue', function(filterId) {
       if (app.DEBUG) { console.debug('geoSearchValue', filterId); }
       if (filterId == '') {
-        _.each(this.get('filters').where({geosearch: true}), function(model){model.set('active', false)});
+        _.each(this.get('filters').where({geosearch: true}), function(model){model.set('excluded', false)});
         return 
-      } // Ignore reset, but remove any active geoAttribute filters
-      this.set('selectedParty', ''); // Clear any currently active party
+      } // Ignore reset, but remove any excluded geoAttribute filters
+      this.set('selectedParty', ''); // Clear any currently excluded party
 
       var filter = this.get('filters').get(filterId);
       if (filter.get('attribute') == 'party') {
         var party = this.get('parties').findWhere({iso2: filter.get('value')});
         this.set('selectedParty', party);
       } else {
-        filter.set({active: true, geosearch: true});
+        filter.set({excluded: true, geosearch: true});
       }
     }, {init: false});
 
@@ -143,7 +143,7 @@ function initExplorer(parties, filters, views) {
       if (app.DEBUG) { console.debug('filterView', filterView); }
       app.map.mapObject.remove();
       app.map = initMap(this, filterView);
-      // update map to reshow geoSearch if active
+      // update map to reshow geoSearch if excluded
       app.map.updateMap();
     }, {init: false})
   }

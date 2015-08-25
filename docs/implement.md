@@ -11,5 +11,5 @@ Need to add a geo-search box
 Have a PartiesCollection and a FiltersCollection.
 FiltersCollection contains FilterModels which are carefully defined to form queries on PartiesCollection.
 FiltersCollection has a `_prepareQueries` method which converts it into a set of queries to apply to the PartiesCollection.
-User can set/unset the 'active' attribute on FilterModels.
+User can set/unset the 'excluded' attribute on FilterModels.
 Observe changes to the FiltersCollection, and reactively update the PartiesCollection by calling `resetWithQuery` and passing the FiltersCollection.

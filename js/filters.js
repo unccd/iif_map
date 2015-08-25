@@ -20,7 +20,7 @@ FilterDefs = Backbone.Collection.extend({
   // FILTER QUERY 
   // 
   _prepareFilterQuery: function(collection) {
-    var filtersToQueryWith = _.where(collection.toJSON(), {active: true});
+    var filtersToQueryWith = _.where(collection.toJSON(), {excluded: true});
     var attributeGroups = _.groupBy(filtersToQueryWith, 'attribute'), queryGroups = {};
     _.each(attributeGroups, function(attributeGroup, index){
       var combinator;
@@ -48,7 +48,7 @@ FilterDefs = Backbone.Collection.extend({
 
 FilterOption = Backbone.Model.extend({
   toggle: function(attr, silent) {
-    if (!attr) { attr = 'active' }
+    if (!attr) { attr = 'excluded' }
     var data = {}, value = this.get(attr);
     data[attr] = !value;
     this.set(data, {silent: silent});
@@ -69,35 +69,30 @@ FilterOptions = Backbone.Collection.extend({
   getForAttribute: function (attribute) {
     return this.where({attribute: attribute});
   },
-  getActiveFor: function(attribute) {
+  getExcluded: function(attribute) {
     if (attribute) {
-      return this.where({attribute: attribute, active: true});
+      return this.where({attribute: attribute, excluded: true});
     } else {
-      return this.where({active: true});
+      return this.where({excluded: true});
     }
   },
-  getInactiveFor: function(attribute) {
+  getNotExcluded: function(attribute) {
     if (attribute) {
-      return this.where({attribute: attribute, active: false});
+      return this.where({attribute: attribute, excluded: false});
     } else {
-      return this.where({active: false});
+      return this.where({excluded: false});
     }
   },
-  setAllActiveFor: function (attribute) {
-    var filters = this.getInactiveFor(attribute);
+  setAllExcluded: function (attribute) {
+    var filters = this.getNotExcluded(attribute);
     _.each(filters, function(option){
-      option.set('active', true);
+      option.set('excluded', true);
     });
   },
-  setAllInactiveFor: function (attribute) {
-    var filters;
-    if (attribute == undefined) {
-      filters = this.where({active: true})
-    } else {
-      filters = this.getActiveFor(attribute);
-    }
-    _.each(this.getForAttribute(attribute), function(option){
-      option.set('active', false);
+  setAllNotExcluded: function (attribute) {
+    var filters = this.getExcluded(attribute);
+    _.each(filters, function(option){
+      option.set('excluded', false);
     });
   },
   // PRESENTERS
