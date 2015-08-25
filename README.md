@@ -6,9 +6,15 @@ Dynamic map of information about UNCCD Integrated Investment Frameworks.
 
 [Embedded live version](http://www.unccd.int/en/programmes/Capacity-building/CBW/Resources/Pages/IIF-Map.aspx)
 
+# Serving the application
+
+It is live through [Github pages](http://unccd.github.io/iif_map). This version is recompiled automatically by Github, using [Jekyll](http://jekyllrb.com) on every commit to the `gh-pages` branch.
+
 # Development
 
-It's just HTML, CSS and plain JavaScript. 
+The application is just HTML, CSS and plain JavaScript. 
+
+There is a small amount of building done by Jekyll - this 
 
 You can optionally use [Gulp](http://gulpjs.com/) to help speed up development, but it's not required. To get it working, you'll need [NodeJS](https://nodejs.org/) installed. Install dependencies with `npm install`, then `gulp` to start serving a local version at <http://localhost:3000>. It uses [Browsersync](http://www.browsersync.io/) to autoreload the pages on file changes.
 
