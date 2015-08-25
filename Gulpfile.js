@@ -6,7 +6,7 @@ var browserSync = require('browser-sync').create();
 gulp.task('serve', function() {
   browserSync.init({
     server: {
-      baseDir: "./"
+      baseDir: "./_site"
     },
     middleware: function(req, res, next) {
       var gzip = compress();

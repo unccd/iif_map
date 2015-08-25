@@ -17,7 +17,7 @@ Ractive.decorators.chosen.type.geoSearch = function(node) {
 // Parties collection from only ACP/DCP countries. 
 // All DCP countries are ACP countries.
 // Also need to include the SRAP data
-var acpData = _.select(bootstrap_data.parties, function(model) {
+var acpData = _.select(bootstrap_data.iif_status, function(model) {
   return model.acp || model.srap;
 })
 app.parties = new Parties(acpData);
