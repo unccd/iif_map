@@ -90,7 +90,7 @@
     }
 
     // Check for additional attributes to observe
-    if (node._ractive.binding.element.node.dataset.observe) {
+    if (node._ractive.binding.element.node.dataset != undefined && node._ractive.binding.element.node.dataset.observe != undefined) {
       observer = ractive.observe(node._ractive.binding.element.node.dataset.observe, function(newvalue, oldvalue) {
         if (!setting) {
           setting = true;
