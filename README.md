@@ -8,13 +8,15 @@ Dynamic map of information about UNCCD Integrated Investment Frameworks.
 
 # Serving the application
 
-It is live through [Github pages](http://unccd.github.io/iif_map). This version is recompiled automatically by Github, using [Jekyll](http://jekyllrb.com) on every commit to the `gh-pages` branch.
+It is already live through [Github pages](http://unccd.github.io/iif_map). This version is recompiled automatically by Github, using [Jekyll](http://jekyllrb.com) on every commit to the `gh-pages` branch. Any updates to data or configuration will be reflected (almost) immediately.
+
+In addition, all files can be [downloaded](https://github.com/unccd/iif_map/archive/gh-pages.zip). The `_site` folder inside the Zip file contains all the files needed to deploy the application on any other static host.
 
 # Development
 
 The application is just HTML, CSS and plain JavaScript. 
 
-There is a small amount of building done by Jekyll - this 
+There is a small amount of building done by Jekyll - this is mostly related to the data and filters configuration.
 
 You can optionally use [Gulp](http://gulpjs.com/) to help speed up development, but it's not required. To get it working, you'll need [NodeJS](https://nodejs.org/) installed. Install dependencies with `npm install`, then `gulp` to start serving a local version at <http://localhost:3000>. It uses [Browsersync](http://www.browsersync.io/) to autoreload the pages on file changes.
 
