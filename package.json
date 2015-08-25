@@ -16,6 +16,8 @@
   },
   "devDependencies": {
     "browser-sync": "^2.8.2",
-    "gulp": "^3.9.0"
+    "gulp": "^3.9.0",
+    "gulp-jekyll": "0.0.0",
+    "gulp-shell": "^0.4.2"
   }
 }
