@@ -10,7 +10,7 @@ metadata:
   short_name: iif_status
 attributes:
   - name: region
-    title: Region
+    title: Regions
     geosearch: true
     multiple_select: false
     value_from_title: true
