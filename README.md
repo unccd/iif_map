@@ -13,11 +13,11 @@ You can optionally use [Gulp](http://gulpjs.com/) to help speed up development, 
 
 # Mapping
 
-The maps use [jVectormap](http://jvectormap.com/). This is vector mapping library, which includes boundaries for all countries.
+The maps use [jVectormap](http://jvectormap.com/). This is vector mapping library, which includes boundaries for most countries. There are some discrepanies (see [below](#country_data_discrepancies))
 
 # Data processing
 
-The raw data files (see `/data/original` folder) were processed using [OpenRefine](http://openrefine.org). This data was compared to and combined with the official list of [Member States of the United Nations](http://un.org/en/members/), and additional location data (e.g. lat/lon centre-points for countries too small to appear in the jVectormap dataset).
+The raw data files (see `/data/original` folder) were processed using [OpenRefine](http://openrefine.org). This data was compared to and combined with the official list of [Member States of the United Nations](http://un.org/en/members/), and [FAO's Country codes/names data](http://www.fao.org/countryprofiles/iso3list/en/) and additional location data (e.g. lat/lon centre-points for countries too small to appear in the jVectormap dataset).
 
 The example below shows the final data model created. It's designed to be fast to load and lightweight, containing all required data - and not requiring any joins to display the data. The file is `/data/iff_status.js`
 
@@ -47,4 +47,44 @@ The example below shows the final data model created. It's designed to be fast t
 
 # Filters and Filter Definitions
 
-The `/admin_scripts/iif_status_def.yml` file describes the filters needed for the datasets. This can be edited, but needs to be recompiled into `/data/iif_status_def.js`.
+A single file describes all the filters available for the data. Check `/admin_scripts/iif_status_def.yml`. This can be edited, e.g. to change colours or filter text, but needs to then be recompiled into `/data/iif_status_def.js`, by running `coffee admin_scripts/convert_filter_def.coffee` (requires [Coffeescript](http://coffeescript.org)).
+
+
+# Country Data Discrepancies
+
+The following is a list of countries on the official list of UN Countries for which there is **not** a matching boundary in the jVectormaps data. For these countries, a lat/lon centre point location exists, and is used to place a marker on the map to indicate location.
+
+short_name|iso3|iso2|faostat_code* | uni_code*
+-|-|-|-|-|-|-
+Andorra|AND|AD|6|20
+Antigua and Barbuda|ATG|AG|8|28
+Bahrain|BHR|BH|13|48
+Barbados|BRB|BB|14|52
+Cabo Verde|CPV|CV|35|132
+Comoros|COM|KM|45|174
+Cook Islands|COK|CK|47|184
+Dominica|DMA|DM|55|212
+Grenada|GRD|GD|86|308
+Kiribati|KIR|KI|83|296
+Maldives|MDV|MV|132|462
+Malta|MLT|MT|134|470
+Marshall Islands|MHL|MH|127|584
+Mauritius|MUS|MU|137|480
+Micronesia (Federated States of)|FSM|FM|145|583
+Monaco|MCO|MC|140|492
+Nauru|NRU|NR|148|520
+Niue|NIU|NU|160|570
+Palau|PLW|PW|180|585
+Saint Kitts and Nevis|KNA|KN|188|659
+Saint Lucia|LCA|LC|189|662
+Saint Vincent and the Grenadines|VCT|VC|191|670
+Samoa|WSM|WS|244|882
+San Marino|SMR|SM|192|674
+Sao Tome and Principe|STP|ST|193|678
+Seychelles|SYC|SC|196|690
+Singapore|SGP|SG|200|702
+Tonga|TON|TO|219|776
+Tuvalu|TUV|TV|227|798
+
+* The `fao_stat` and `uni_code` fields are from the [FAO Country names data](http://www.fao.org/countryprofiles/iso3list/en/)
+
