@@ -3,59 +3,49 @@
 // 
 
 function bootstrapFilters(filterDefs, partiesCollection) {
-// function bootstrapFilters(filterOptionsObject, filterDefsObject, partiesCollection) {
+  var addCountriesToFilter = function(filter, collection) {
+    // Set value and title on options
+    var valueField = filter.value_field;
+    var titleField = filter.title_field;
 
-  // Create FilterDefs by removing options from each attribute
-  var filterDefObjects = _.map(filterDefs.attributes, function(facet) {
-    return _.omit(facet, 'options')
-  })
-  var filterDefsCollection = new FilterDefs(filterDefObjects);
-
+    // Extract Countries from provided Parties collection
+    filter.options = collection.map(function(party) {
+      return {
+        id: 'randomId',
+        value: party.get(valueField),
+        title: party.get(titleField),
+      }
+    });
+  }
+  var prepareOption = function(option, attribute) {
+    option.attribute = attribute;
+    option.id = attribute + ':' + option.value;
+    option.excluded = false;
+    return option;
+  }
 
   // Create FilterOptions by copying properties from the attribute 
-  var filterOptionsPrepared = _.chain(filterDefs.attributes).map(function(filter) {
-
+  var filterOptionsObjects = [];
+  _.each(filterDefs.attributes, function(filter){
     var attribute = filter.name;
-
-    // Add countries if needed
     if (filter.type == 'country') {
-      // Set value and title on options
-      var valueField = filter.value_field;
-      var titleField = filter.title_field;
-
-      // Extract Countries from provided Parties collection
-      filter.options = partiesCollection.map(function(party) {
-        return {
-          id: 'randomId',
-          value: party.get(valueField),
-          title: party.get(titleField),
-        }
-      });
+      addCountriesToFilter(filter, partiesCollection)
     }
+    _.each(filter.options, function(option){
+      filterOptionsObjects.push(prepareOption(option, attribute)) 
+    })
+  })
 
-    return _.map(filter.options, function(option) {
-      // Infer value from title if requested - assumes snake case
-      if (filter.value_from_title != undefined) {
-        var title = option.title;
-        // snake_case conversion
-        option.value = app.utils.snake_case(title);
-      };
-
-      option.attribute = attribute;
-      option.id = attribute + ':' + option.value;
-      option.excluded = false;
-
-      return option;
-    });
-  }).flatten().value();
-
-  var filterOptions = new FilterOptions(filterOptionsPrepared, {
+  var filterOptions = new FilterOptions(filterOptionsObjects, {
     collectionToFilter: partiesCollection
   });
-  // Attach filterDefs for later
-  filterOptions.filterDefs = filterDefsCollection;
+
+  // Attach filterDefs
+  filterOptions.filterDefs = new FilterDefs(filterDefs.attributes);
   return filterOptions;
 }
+
+
 
 // 
 // Model and Collection
@@ -66,7 +56,10 @@ function bootstrapFilters(filterDefs, partiesCollection) {
 // 
 
 FilterDef = Backbone.Model.extend({
-  idAttribute: 'name'
+  idAttribute: 'name',
+  initialize: function(attributes) {
+    this.unset('options');
+  }
 });
 
 FilterDefs = Backbone.Collection.extend({
@@ -128,6 +121,33 @@ FilterOptions = Backbone.Collection.extend({
     } else {
       throw 'Need to define collectionToFilter'
     }
+  },
+  _prepareModel: function(model, options) {
+    // Infer value from title if requested - assumes snake case
+    if (model.value_from_title == 'snake_case') {
+      var attribute = model.name;
+      model.value = app.utils.snake_case(model.title);
+    };
+  //   // Add countries if needed
+  //   if (model.type == 'country') {
+
+  //     var valueField = model.value_field;
+  //     var titleField = model.title_field;
+
+  //     // Extract Countries from provided collection
+  //     model.options = this.collectionToFilter.map(function(party) {
+  //       return {
+  //         id: 'randomId',
+  //         value: party.get(valueField),
+  //         title: party.get(titleField),
+  //       }
+  //     });
+  //   }
+  //   model.attribute = attribute;
+  //   model.id = attribute + ':' + model.value;
+  //   model.excluded = false;
+
+    return Backbone.Collection.prototype._prepareModel.call(this, model, options);
   },
   // SETTERS and GETTERS
   getForAttribute: function(attribute) {

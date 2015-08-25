@@ -1,20 +1,17 @@
 window.app || (window.app = {});
 
 // 
-// Explorer view
+// Ractive
 // 
 
-function initExplorer(parties, filters, views) {
+function initRactive(parties, filters, views) {
+  // Init Ractive object
   var ractive = new Ractive({
-    // 
     // CONFIG
-    // 
     el: '#container',
     template: '#explorer',
     adapt: ['Backbone'],
-    // 
     // DATA
-    // 
     data: {
       // Collections
       parties: parties,
@@ -31,10 +28,12 @@ function initExplorer(parties, filters, views) {
           return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
         });
       },
+      // Data helpers
       filtersFor: function(view) {
         return this.get('filters').decorateForFiltersList(view.filterAttribute);
       }
     },
+    // COMPUTED DATA
     computed: {
       detailForParty: function() {
         var selectedParty = this.get('selectedParty');
@@ -70,6 +69,7 @@ function initExplorer(parties, filters, views) {
         return this.get('filters').decorateForFiltersList('gm_supported');
       },
     },
+    // RACTIVE METHODS
     resetAll: function (argument) {
       this.get('filters').setAllNotExcluded();
       this.set('selectedParty', '');
@@ -87,67 +87,59 @@ function initExplorer(parties, filters, views) {
     }
   });
 
+
   // 
-  // Explorer events
+  // Ractive events
   // 
 
-  var initExplorerEvents = function(explorer) {
 
-    // Recalculate filterQuery when Filters change
-    explorer.observe('filters.*', function(change, b, c) {
-      if (app.DEBUG) { console.debug('filters', change, b, c); }
-      var query = this.get('filters').prepareFilterQuery(); 
-      this.get('parties').resetWithQuery(query);
+  // Recalculate filterQuery when Filters change
+  ractive.observe('filters.*', function(change, b, c) {
+    var query = this.get('filters').prepareFilterQuery(); 
+    this.get('parties').resetWithQuery(query);
+    app.map.updateMap();
+  }, {init: false });
+
+  ractive.observe('selectedParty', function(party) {
+    // Figure zoom on selectedParty
+    if (party) {
+      app.map.zoomMapTo([party.iso2]);
+    } else if (this.get('geoSearchValue')) {
       app.map.updateMap();
-      // return console.debug('prepareFilterQuery', query);
-    }, {init: false });
+     } else {
+      // Zoom to everything
+      app.map.zoomMapTo();
+    }
+  }, {init: false})
 
-    explorer.observe('selectedParty', function(party) {
-      if (app.DEBUG) { console.debug('selectedParty', party); }
-      // Figure zoom on selectedParty
-      if (party) {
-        app.map.zoomMapTo([party.iso2]);
-      } else if (this.get('geoSearchValue')) {
-        app.map.updateMap();
-       } else {
-        // Zoom to everything
-        app.map.zoomMapTo();
-      }
-    }, {init: false})
+  ractive.observe('geoSearchValue', function(filterId) {
+    // Ignore reset, but remove any excluded geoAttribute filters
+    if (filterId == '') {
+      _.each(this.get('filters').where({geosearch: true}), function(model){model.set('excluded', false)});
+      return 
+    } 
+    this.set('selectedParty', ''); // Clear any currently excluded party
 
-    // Geosearch
-    explorer.observe('geoSearchValue', function(filterId) {
-      if (app.DEBUG) { console.debug('geoSearchValue', filterId); }
-      if (filterId == '') {
-        _.each(this.get('filters').where({geosearch: true}), function(model){model.set('excluded', false)});
-        return 
-      } // Ignore reset, but remove any excluded geoAttribute filters
-      this.set('selectedParty', ''); // Clear any currently excluded party
+    var filter = this.get('filters').get(filterId);
+    if (filter.get('attribute') == 'party') {
+      var party = this.get('parties').findWhere({iso2: filter.get('value')});
+      this.set('selectedParty', party);
+    } else {
+      filter.set({excluded: true, geosearch: true});
+    }
+  }, {init: false});
 
-      var filter = this.get('filters').get(filterId);
-      if (filter.get('attribute') == 'party') {
-        var party = this.get('parties').findWhere({iso2: filter.get('value')});
-        this.set('selectedParty', party);
-      } else {
-        filter.set({excluded: true, geosearch: true});
-      }
-    }, {init: false});
+  ractive.on('resetGeoSearch', function() {
+    this.set('selectedParty', '');
+    this.set('geoSearchValue', '');
+  });
 
-    explorer.on('resetGeoSearch', function() {
-      this.set('selectedParty', '');
-      this.set('geoSearchValue', '');
-    });
+  ractive.observe('filterView', function(filterView) {
+    app.map.mapObject.remove();
+    app.map = initMap(this, filterView);
+    // update map to reshow geoSearch if excluded
+    app.map.updateMap();
+  }, {init: false})
 
-    // Filter View
-    explorer.observe('filterView', function(filterView) {
-      if (app.DEBUG) { console.debug('filterView', filterView); }
-      app.map.mapObject.remove();
-      app.map = initMap(this, filterView);
-      // update map to reshow geoSearch if excluded
-      app.map.updateMap();
-    }, {init: false})
-  }
-
-  initExplorerEvents(ractive);
   return ractive;
 }
