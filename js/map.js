@@ -76,12 +76,12 @@ function initMap(ractive) {
   function updateMap() {
     if (!mapObject) { return };
     mapObject.reset();
-    mapObject.series.regions[0].setValues(prepareMapData(app.parties));
+    mapObject.series.regions[0].setValues(prepareMapData(collection));
     return zoomToFiltered();
   }
 
   function zoomToFiltered() {
-    var regionCodes = _.compact(app.parties.pluck('iso2'));
+    var regionCodes = _.compact(collection.pluck('iso2'));
     if (_.isEmpty(regionCodes)) {return};
     setTimeout(zoomMapTo(regionCodes), 0);
   }
