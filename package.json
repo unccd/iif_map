@@ -1,13 +1,13 @@
 {
   "name": "unccd_iif_ractive",
   "version": "1.0.0",
-  "description": "",
+  "description": "Used during dev, and for admin_scripts to pre-process data",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Jonathan Smith",
+  "license": "MIT",
   "dependencies": {
     "json2csv": "^2.9.0",
     "lodash": "^3.10.1",
