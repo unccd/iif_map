@@ -24,14 +24,20 @@ FilterDefs = Backbone.Collection.extend({
     var attributeGroups = _.groupBy(filtersToQueryWith, 'attribute'), queryGroups = {};
     _.each(attributeGroups, function(attributeGroup, index){
       var combinator;
+
       // TODO: Refactor - at least move config out of here
+      // These $nin and $in are inverted because the whole query is a $nor
       if (_.includes(['region', 'subregion'], index)) {
         combinator = '$nin'; 
       } else {
         combinator = '$in'; }
+
       queryGroups[index] = _.object([combinator], [_.pluck(attributeGroup, 'value')]);
     });
-    return {$nor: queryGroups};
+    return {
+      // Exclude everything in the querygroups
+      $nor: queryGroups
+    };
   }
 });
 
@@ -63,18 +69,33 @@ FilterOptions = Backbone.Collection.extend({
   getForAttribute: function (attribute) {
     return this.where({attribute: attribute});
   },
-  getActive: function(attribute) {
-    return this.where({active: true});
+  getActiveFor: function(attribute) {
+    if (attribute) {
+      return this.where({attribute: attribute, active: true});
+    } else {
+      return this.where({active: true});
+    }
   },
-  getInactive: function(attribute) {
-    return this.where({active: false});
+  getInactiveFor: function(attribute) {
+    if (attribute) {
+      return this.where({attribute: attribute, active: false});
+    } else {
+      return this.where({active: false});
+    }
   },
-  setAllActive: function (attribute) {
-    _.each(this.getForAttribute(attribute), function(option){
+  setAllActiveFor: function (attribute) {
+    var filters = this.getInactiveFor(attribute);
+    _.each(filters, function(option){
       option.set('active', true);
     });
   },
-  setAllInactive: function (attribute) {
+  setAllInactiveFor: function (attribute) {
+    var filters;
+    if (attribute == undefined) {
+      filters = this.where({active: true})
+    } else {
+      filters = this.getActiveFor(attribute);
+    }
     _.each(this.getForAttribute(attribute), function(option){
       option.set('active', false);
     });

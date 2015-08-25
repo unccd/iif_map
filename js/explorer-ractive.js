@@ -70,14 +70,20 @@ function initExplorer(parties, filters, views) {
         return this.get('filters').decorateForFiltersList('gm_supported');
       },
     },
+    resetAll: function (argument) {
+      this.get('filters').setAllActiveFor();
+      this.set('selectedParty', '');
+      this.set('geoSearchValue', '');
+      this.set('filterView', views[0]);
+    },
     toggleFilter: function(option) {
       this.get('filters').get(option.id).toggle();
     },
-    allInactiveFor: function(attribute) {
-      this.get('filters').setAllInactive(attribute);
+    setAllInactiveFor: function(attribute) {
+      this.get('filters').setAllInactiveFor(attribute);
     },
-    allActiveFor: function(attribute) {
-      this.get('filters').setAllActive(attribute);
+    setAllActiveFor: function(attribute) {
+      this.get('filters').setAllActiveFor(attribute);
     }
   });
 
@@ -119,7 +125,6 @@ function initExplorer(parties, filters, views) {
       this.set('selectedParty', ''); // Clear any currently active party
 
       var filter = this.get('filters').get(filterId);
-      console.debug(filterId);
       if (filter.get('attribute') == 'party') {
         var party = this.get('parties').findWhere({iso2: filter.get('value')});
         this.set('selectedParty', party);

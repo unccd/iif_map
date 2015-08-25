@@ -123,7 +123,7 @@
             Subregional Action Programmes.
           {{/srapCount}}
 
-        Click the filters below to explore the data. 
+        Click the filters below to explore the data. <span on-click='resetAll()' class='clickable-text'>Reset all</span>
       </div>
 
       <!-- Filter Selector -->
@@ -135,8 +135,8 @@
             </div>
             <div class="accordion-content {{#if filterView == .}}default{{/if}}">
               <div class='description-text'>{{description}}</div>
-              <div class="filter-controls"><span on-click='allInactiveFor(.filter)'>All</span> / 
-              <span class='allInactive' on-click='allActiveFor(.filter)'>None</span></div>
+              <div class="filter-controls"><span on-click='setAllInactiveFor(.filterAttribute)'>All</span> / 
+              <span class='allInactive' on-click='setAllActiveFor(.filterAttribute)'>None</span></div>
               <ul class='filters-list'>
                 {{#each filtersFor(.)}}
                   {{>filterListItemPartial}}
