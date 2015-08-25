@@ -2,7 +2,9 @@
 
 Dynamic map of information about UNCCD Integrated Investment Frameworks.
 
-[Live version](http://unccd.github.io/iif_map)
+[Bare live version (Github pages)](http://unccd.github.io/iif_map)
+
+[Embedded live version](http://www.unccd.int/en/programmes/Capacity-building/CBW/Resources/Pages/IIF-Map.aspx)
 
 # Development
 
