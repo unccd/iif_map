@@ -1,5 +1,6 @@
 window.app || (window.app = {});
 app.DEBUG = false;
+Ractive.DEBUG = false;
 
 // 
 // App launch
@@ -16,13 +17,13 @@ Ractive.decorators.chosen.type.geoSearch = function(node) {
 // Parties collection from only ACP/DCP countries. 
 // All DCP countries are ACP countries.
 // Also need to include the SRAP data
-var acpData = _.select(app.bootstrapped_data, function(model) {
+var acpData = _.select(bootstrap_data.parties, function(model) {
   return model.acp || model.srap;
 })
 app.parties = new Parties(acpData);
 
 // Use just the attributes for now - might use 'Views' later
-var filterAttributes = app.iif_status_def.attributes;
+var filterAttributes = bootstrap_data.iif_status_def.attributes;
 
 // Create FilterDefs by removing options from each attribute
 var filterDefObjects = _.map(filterAttributes, function(facet) {
@@ -76,7 +77,7 @@ app.filters = new FilterOptions(filterOptions, {
 });
 app.filters.filterDefs = filterDefs;
 
-var views = app.iif_status_def.views;
+var views = bootstrap_data.iif_status_def.views;
 
 // Create Ractive view containing all components
 app.ractive = initExplorer(app.parties, app.filters, views);

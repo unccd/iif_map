@@ -7,7 +7,7 @@ class Process
     dataset = 'iif_status_def'
     definitions = YAML.load(__dirname + "/#{dataset}.yml")
 
-    output = "window.app || (window.app = {});app.#{dataset} = #{JSON.stringify(definitions)};"
+    output = "window.bootstrap_data || (window.bootstrap_data = {});bootstrap_data.#{dataset} = #{JSON.stringify(definitions)};"
     fs.writeFileSync(__dirname + "/../data/#{dataset}.js", output)
 
 
