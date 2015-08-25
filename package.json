@@ -9,6 +9,7 @@
   "author": "Jonathan Smith",
   "license": "MIT",
   "dependencies": {
+    "compression": "^1.5.2",
     "json2csv": "^2.9.0",
     "lodash": "^3.10.1",
     "yamljs": "^0.2.3"
