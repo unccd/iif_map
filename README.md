@@ -15,7 +15,7 @@ You can optionally use [Gulp](http://gulpjs.com/) to help speed up development, 
 
 # Mapping
 
-The maps use [jVectormap](http://jvectormap.com/). This is vector mapping library, which includes boundaries for most countries. There are some discrepanies (see [below](#country_data_discrepancies))
+The maps use [jVectormap](http://jvectormap.com/). This is vector mapping library, which includes boundaries for most countries. There are some discrepancies (see [below](#country_data_discrepancies)).
 
 # Data processing
 
