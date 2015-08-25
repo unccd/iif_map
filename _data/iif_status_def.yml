@@ -73,7 +73,7 @@ attributes:
     description: Biennium
     options:
       - value: '2014_2015'
-        title: 'Planned 2014-2015'
+        title: 'Planned in 2014-2015'
         colour: '#267EBA'
       - value: '2016_2017'
         title: 'Planned 2016-2017'
