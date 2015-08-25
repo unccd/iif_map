@@ -12,5 +12,9 @@ gulp.task('serve', function() {
   gulp.watch(['*.html', 'js/*'], browserSync.reload);
 });
 
+gulp.task('build', function() {
+  
+})
+
 // Default taks
 gulp.task('default', ['serve']);
