@@ -1,8 +1,12 @@
 var gulp = require('gulp');
+var shell = require('gulp-shell');
 var compress = require('compression');
 var browserSync = require('browser-sync').create();
 
-// Static server
+// Task for building blog when something changed:
+gulp.task('build', shell.task(['bundle exec jekyll build --watch']));
+
+// Task for serving blog with Browsersync
 gulp.task('serve', function() {
   browserSync.init({
     server: {
@@ -13,14 +17,9 @@ gulp.task('serve', function() {
       gzip(req, res, next);
     },
     open: false,
-
-  });
-  gulp.watch(['*.html', 'js/*'], browserSync.reload);
+  })
+  // Reloads page when some of the already built files changed:
+  gulp.watch('_site/**/*.*').on('change', browserSync.reload);
 });
 
-gulp.task('build', function() {
-
-})
-
-// Default taks
-gulp.task('default', ['serve']);
+gulp.task('default', ['build', 'serve']);

@@ -4,17 +4,18 @@ window.app || (window.app = {});
 // Setup map
 // 
 
-function initMap(ractive, view) {
-  if (ractive == undefined || view == undefined) {
+function initMap(ractive) {
+  if (ractive == undefined) {
     throw 'Need to pass ractive and view to the Map creator'
   }
+  var view = ractive.get('views')[0];
   var collection = ractive.get('parties');
 
   // Create scale and legend from view
   var filterAttribute = view.filterAttribute;
-  var filters = new Backbone.Collection(ractive.get('filters').getForAttribute(filterAttribute));
-  var scale = _.object(filters.pluck('value'),filters.pluck('colour'));
-  var legend = _.object(filters.pluck('value'), filters.pluck('title'));
+  var filtersCollection = new Backbone.Collection(ractive.get('filters').getForAttribute(filterAttribute));
+  var scale = _.object(filtersCollection.pluck('value'),filtersCollection.pluck('colour'));
+  var legend = _.object(filtersCollection.pluck('value'), filtersCollection.pluck('title'));
 
   var mapDef = {
     backgroundColor: '#feba2b', // #feba2b
@@ -25,11 +26,6 @@ function initMap(ractive, view) {
         normalizeFunction: 'ordinal',
         attribute: 'fill',
         values: prepareMapData(collection),
-        // legend: {
-        //   labelRender: function(v){
-        //     return legend[v];
-        //   }
-        // }
       }]
     },
     regionStyle: {
