@@ -54,8 +54,8 @@ A single file describes all the filters available for the data. Check `/admin_sc
 
 The following is a list of countries on the official list of UN Countries for which there is **not** a matching boundary in the jVectormaps data. For these countries, a lat/lon centre point location exists, and is used to place a marker on the map to indicate location.
 
-short_name|iso3|iso2|faostat_code* | uni_code*
--|-|-|-|-|-|-
+short_name|iso3|iso2|faostat_code|uni_code
+----------|----|----|------------|--------
 Andorra|AND|AD|6|20
 Antigua and Barbuda|ATG|AG|8|28
 Bahrain|BHR|BH|13|48
