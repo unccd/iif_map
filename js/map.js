@@ -14,13 +14,11 @@ function initMap(ractive, view) {
   collection = ractive.get('collection');
 
   // Create scale and legend from view
-  mapDef = defineMap(ractive, view, collection);
-
-  map = $(".map").vectorMap(mapDef);
+  map = $(".map").vectorMap(defineMap());
   mapObject = map.vectorMap('get', 'mapObject');
 
   // Create map definition object
-  function defineMap(ractive, view, collection) {
+  function defineMap() {
     filterAttribute = view.filterAttribute;
     filtersCollection = new Backbone.Collection(ractive.get('filters').getForAttribute(filterAttribute));
     scale = _.object(filtersCollection.pluck('value'), filtersCollection.pluck('colour'));
@@ -55,6 +53,9 @@ function initMap(ractive, view) {
       onRegionClick: function(event, regionCode) {
         _regionClick(event, regionCode);
       },
+      onMarkerClick: function(event, regionCode) {
+        _markerClick(event, regionCode);
+      },
       onRegionTipShow: function(event, label, code) {
         _regionTip(event, label, code);
       }
@@ -76,6 +77,15 @@ function initMap(ractive, view) {
     }
   }
 
+  function _markerClick(event, markerCode) {
+    var party = collection.findWhere({iso2: markerCode});
+    if (party == undefined) { 
+      throw 'No Party found for ' + markerCode; return 
+    } else {
+      ractive.set('geoSearch', party)
+    }
+  }
+
   function _regionTip(event, label, code) {
     var party = collection.findWhere({
       iso2: code
@@ -89,7 +99,7 @@ function initMap(ractive, view) {
     }
   }
 
-  function _prepareMapData(collection) {
+  function _prepareMapData() {
     return collection.prepareMapData(filterAttribute);
   }
 
@@ -139,10 +149,9 @@ function initMap(ractive, view) {
     }
   }
 
-  function showMarkerFor(party) {
-    if (app.DEBUG) {
-      console.debug('showMarkerFor', party)
-    }
+  function _addMarkerFor(party) {
+    if (app.DEBUG) {console.debug('_addMarkerFor', party) }
+
     var map = ractive.get('map').mapObject;
     map.removeAllMarkers();
     map.addMarker(party.iso2, [party.lat, party.lon]);
@@ -158,8 +167,7 @@ function initMap(ractive, view) {
   return {
     mapObject: mapObject,
     updateMap: updateMap,
-    _zoomToFiltered: _zoomToFiltered,
     zoomMapTo: zoomMapTo,
-    showMarkerFor: showMarkerFor
+    _addMarkerFor: _addMarkerFor
   }
 }
