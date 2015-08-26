@@ -14,7 +14,7 @@ function bootstrapFilters(filtersSource, dataCollection) {
 
 
   delete definitions.collectionToFilter;
-  delete definitions.filtersCollection;
+
   filtersCollection.definitions = definitions;
   filtersCollection.collectionToFilter = dataCollection;
 
@@ -66,18 +66,20 @@ FilterDefinitions = Backbone.Collection.extend({
   },
   // FILTER QUERY 
   // 
-  _prepareFilterQuery: function(collection) {
-    var filtersToQueryWith = _.where(collection.toJSON(), {
-      excluded: true
-    });
-    var attributeGroups = _.groupBy(filtersToQueryWith, 'attribute'),
-      queryGroups = {};
+  _prepareFilterQuery: function() {
+    var _this = this;
+    var queryGroups = {};
+
+    var filtersToQueryWith = _.where(this.filtersCollection.toJSON(), {excluded: true});
+
+    var attributeGroups = _.groupBy(filtersToQueryWith, 'attribute');
+
     _.each(attributeGroups, function(attributeGroup, index) {
       var combinator, values;
 
       // TODO: Refactor - at least move config out of here
       // These $nin and $in are inverted because the whole query is a $nor
-      if (_.includes(['region', 'subregion'], index)) {
+      if (_this.get(index).get('invert_query')) {
         combinator = '$nin';
       } else {
         combinator = '$in';
@@ -202,6 +204,6 @@ FilterChoices = Backbone.Collection.extend({
     });
   },
   prepareFilterQuery: function() {
-    return this.definitions._prepareFilterQuery(this);
+    return this.definitions._prepareFilterQuery();
   }
 })

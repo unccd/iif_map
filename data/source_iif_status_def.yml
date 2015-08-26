@@ -12,7 +12,7 @@ definitions:
   - name: region
     title: Region
     geosearch: true
-    multiple_select: false
+    invert_query: true
     infer_value_from_title: true
     choices:
       - title: Africa
@@ -24,7 +24,7 @@ definitions:
   - name: subregion
     title: Subregion
     geosearch: true
-    multiple_select: false
+    invert_query: true
     infer_value_from_title: true
     choices:
       - title: Andean
