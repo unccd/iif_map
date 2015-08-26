@@ -158,14 +158,14 @@ FilterChoices = Backbone.Collection.extend({
   },
   setAllExcluded: function(attribute) {
     var filters = this.getNotExcluded(attribute);
-    _.each(filters, function(option) {
-      option.set('excluded', true);
+    _.each(filters, function(choice) {
+      choice.set('excluded', true);
     });
   },
   setAllNotExcluded: function(attribute) {
     var filters = this.getExcluded(attribute);
-    _.each(filters, function(option) {
-      option.set('excluded', false);
+    _.each(filters, function(choice) {
+      choice.set('excluded', false);
     });
   },
   // PRESENTERS

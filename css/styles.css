@@ -199,7 +199,7 @@ button.back {
   color: #505050;
 }
 
-.options-summary {
+.choices-summary {
   /* background: #E6E6E6; */
 }
 .attribute {
@@ -216,7 +216,7 @@ button.back {
   margin-left: 4px;
   margin-top: 15px;
 }
-.attribute .option-title {
+.attribute .choice-title {
   color: white;
   padding: 0px 5px;
 }

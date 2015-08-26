@@ -173,11 +173,11 @@
         <button on-click='set("selectedParty", "")' class='back'>&lt; Back</button>
         <div class='party-name'>{{selectedParty ? selectedParty.get('short_name') : ''}}</div>
 
-        <div class='options-summary filters-list'>
+        <div class='choices-summary filters-list'>
           {{#detailForParty}}
             <div class='attribute-title'>{{attributeTitle}}</div>
             <div class='filter-choice included' style='border-left:20px solid {{colour}}'>
-              <div class='option-title'>{{optionTitle}}</div>
+              <div class='choice-title'>{{choiceTitle}}</div>
             </div>
           {{/detailForParty}}
         </div>
