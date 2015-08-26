@@ -10,7 +10,7 @@ Dynamic map of information about UNCCD Integrated Investment Frameworks.
 
 It is already live through [Github pages](http://unccd.github.io/iif_map). This version is rebuilt on every commit to the `gh-pages` branch. Any updates to application, data or configuration will be reflected (almost) immediately.
 
-In addition, all files can be [downloaded](https://github.com/unccd/iif_map/archive/gh-pages.zip). The `_site` folder inside the Zip file contains all the files needed to deploy the application on any other static host.
+In addition, all files can be [downloaded](https://github.com/unccd/iif_map/archive/gh-pages.zip).
 
 # Development
 
