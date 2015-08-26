@@ -1,7 +1,7 @@
 (function(){
   var app = {};
   app.DEBUG = true;
-  Ractive.DEBUG = false;
+  Ractive.DEBUG = app.DEBUG;
 
   // Make app available for debugging
   if (app.DEBUG) { window.app = app }
@@ -36,5 +36,6 @@
 
   // jVectormap map, binding the Ractive view
   var map = initMap(app.ractive, views[0]);
+  app.map = map; // For debugging only
   app.ractive.set('map', map);
 })();

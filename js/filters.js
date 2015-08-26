@@ -56,13 +56,13 @@ FilterDefinitions = Backbone.Collection.extend({
   _inferChoicesFromCollection: function(model, options) {
     var _this = this, definition = _.omit(model, 'choices');
     var valueField = definition.infer_value_field, titleField = definition.infer_title_field;
-    return this.collectionToFilter.each(function(collectionItem){
-      var filterChoice = {
+    var lots = this.collectionToFilter.map(function(collectionItem){
+      return {
         value: collectionItem.get(valueField),
         title: collectionItem.get(titleField),
-      };
-      _this.filtersCollection.add(filterChoice, {definition: definition});
+      }
     });
+    _this.filtersCollection.add(lots, {definition: definition});
   },
   // FILTER QUERY 
   // 

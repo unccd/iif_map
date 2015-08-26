@@ -33,6 +33,9 @@ function initRactive(parties, filters, views) {
     },
     // COMPUTED DATA
     computed: {
+      geoSearchType: function(){
+        return this.get('geoSearchValue').split(':')[0];
+      },
       detailForParty: function() {
         var selectedParty = this.get('selectedParty');
         var views = this.get('views');
@@ -99,8 +102,16 @@ function initRactive(parties, filters, views) {
   }, {init: false });
 
   ractive.observe('selectedParty', function(party) {
+    // When selectedParty is reset, also clear geoSearchValue unless 
+    // it's a Party
+    if (party === false && this.get('geoSearchType') != 'party') {
+      this.set('geoSearchValue', '');
+    }
+  
     // Figure zoom on selectedParty
-    if (party) {
+    if (party && party.use_centre_point) {
+      return this.get('map').showMarkerFor(party);
+    } else if(party) {
       this.get('map').zoomMapTo([party.iso2]);
     } else if (this.get('geoSearchValue')) {
       // If there's already a geoSearchValue then just update map
@@ -112,11 +123,13 @@ function initRactive(parties, filters, views) {
   }, {init: false})
 
   ractive.observe('geoSearchValue', function(filterId) {
-    // Ignore reset, but remove any excluded geoAttribute filters
+    // On reset/empty input, remove any geoAttribute filters
     if (filterId == '') {
       _.each(this.get('filters').where({geosearch: true}), function(model){model.set('excluded', false)});
-      return 
-    } 
+      return;
+    }
+
+    // Assumes a non-blank filterId
     this.set('selectedParty', ''); // Clear any currently excluded party
 
     var filter = this.get('filters').get(filterId);
