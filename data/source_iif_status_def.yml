@@ -13,66 +13,43 @@ definitions:
     title: Region
     geosearch: true
     multiple_select: false
+    infer_value_from_title: true
     choices:
       - title: Africa
-        value: africa
       - title: Asia
-        value: asia
       - title: Central and Eastern Europe
-        value: central_and_eastern_europe
       - title: Latin America and the Caribbean
-        value: latin_america_and_the_caribbean
       - title: Northern Mediterranean
-        value: northern_mediterranean
       - title: Other
-        value: other
   - name: subregion
     title: Subregion
     geosearch: true
     multiple_select: false
-    value_from_title: true
+    infer_value_from_title: true
     choices:
       - title: Andean
-        value: andean
       - title: Caribbean
-        value: caribbean
       - title: Central Africa
-        value: central_africa
       - title: Central Asia
-        value: central_asia
       - title: Central and Eastern Europe
-        value: central_and_eastern_europe
       - title: East Asia
-        value: east_asia
       - title: Eastern Africa
-        value: eastern_africa
       - title: Mesoamerica
-        value: mesoamerica
       - title: Northern Africa
-        value: northern_africa
       - title: Northern Mediterranean
-        value: northern_mediterranean
       - title: Other
-        value: other
       - title: Pacific
-        value: pacific
       - title: South Asia
-        value: south_asia
       - title: South Cone
-        value: south_cone
       - title: South East Asia
-        value: south_east_asia
       - title: Southern Africa
-        value: southern_africa
       - title: West Asia
-        value: west_asia
       - title: Western Africa
-        value: western_africa
   - name: party
     title: Party
     infer_choices_from_data: true
-    title_field: short_name
-    value_field: iso2
+    infer_title_field: short_name
+    infer_value_field: iso2
     description: Some text to describe it
     geosearch: true
   - name: iif_or_plan

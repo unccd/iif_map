@@ -12,7 +12,7 @@ function bootstrapFilters(filtersSource, dataCollection) {
     collectionToFilter: dataCollection
   });
 
-  
+
   delete definitions.collectionToFilter;
   delete definitions.filtersCollection;
   filtersCollection.definitions = definitions;
@@ -48,16 +48,14 @@ FilterDefinitions = Backbone.Collection.extend({
     if (!model.choices && model.infer_choices_from_data) {
       this._inferChoicesFromCollection(model, options);
     } else {
-
       var definition = _.omit(model, 'choices');
       this.filtersCollection.add(model.choices, {definition: definition});
-
     }
     return Backbone.Collection.prototype._prepareModel.call(this, model, options);
   },
   _inferChoicesFromCollection: function(model, options) {
     var _this = this, definition = _.omit(model, 'choices');
-    var valueField = definition.value_field, titleField = definition.title_field;
+    var valueField = definition.infer_value_field, titleField = definition.infer_title_field;
     return this.collectionToFilter.each(function(collectionItem){
       var filterChoice = {
         value: collectionItem.get(valueField),
@@ -75,7 +73,7 @@ FilterDefinitions = Backbone.Collection.extend({
     var attributeGroups = _.groupBy(filtersToQueryWith, 'attribute'),
       queryGroups = {};
     _.each(attributeGroups, function(attributeGroup, index) {
-      var combinator;
+      var combinator, values;
 
       // TODO: Refactor - at least move config out of here
       // These $nin and $in are inverted because the whole query is a $nor
@@ -84,8 +82,9 @@ FilterDefinitions = Backbone.Collection.extend({
       } else {
         combinator = '$in';
       }
+      values = _.pluck(attributeGroup, 'value');
 
-      queryGroups[index] = _.object([combinator], [_.pluck(attributeGroup, 'value')]);
+      queryGroups[index] = _.object([combinator], [values]);
     });
     return {
       // Exclude everything in the querygroups
@@ -101,10 +100,18 @@ FilterDefinitions = Backbone.Collection.extend({
 
 FilterChoice = Backbone.Model.extend({
   initialize: function (model, options) {
+    // Create value from title provided
+    if (options.definition.infer_value_from_title) {
+      model.value = app.utils.snake_case(model.title)
+      this.set('value', model.value);
+    }
+    // Create ID from the provided attribute name and the value
     if (options.definition.name && model.value) {
       this.set('id', options.definition.name + ':' + model.value);
     }
+    // Start with nothing excluded
     this.set('excluded', false);
+    // Make sure each FilterChoice knows who it belongs to
     this.set('attribute', options.definition.name);
   },
   toggle: function(attr, silent) {
