@@ -106,7 +106,6 @@ FilterChoice = Backbone.Model.extend({
     }
     this.set('excluded', false);
     this.set('attribute', options.definition.name);
-    console.log('add attribute here?')
   },
   toggle: function(attr, silent) {
     if (!attr) {attr = 'excluded'}; 
