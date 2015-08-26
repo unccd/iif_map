@@ -1,8 +1,0 @@
-exclude:
-  - node_modules
-  - Gulpfile.js
-  - Gemfile
-  - Gemfile.lock
-  - package.json
-  - admin_scripts
-  - data/original
