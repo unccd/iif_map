@@ -31,6 +31,9 @@
   width: 66.66666667%;
 }
 @media screen and (max-width: 699px) {
+  .container {
+    width: 100%;
+  }
   .row {
     margin-left: 0;
     margin-right: 0;
