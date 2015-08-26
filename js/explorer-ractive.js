@@ -1,5 +1,3 @@
-window.app || (window.app = {});
-
 // 
 // Ractive
 // 
@@ -97,18 +95,19 @@ function initRactive(parties, filters, views) {
   ractive.observe('filters.*', function(change, b, c) {
     var query = this.get('filters').prepareFilterQuery(); 
     this.get('parties').resetWithQuery(query);
-    app.map.updateMap();
+    this.get('map').updateMap();
   }, {init: false });
 
   ractive.observe('selectedParty', function(party) {
     // Figure zoom on selectedParty
     if (party) {
-      app.map.zoomMapTo([party.iso2]);
+      this.get('map').zoomMapTo([party.iso2]);
     } else if (this.get('geoSearchValue')) {
-      app.map.updateMap();
+      // If there's already a geoSearchValue then just update map
+      this.get('map').updateMap();
      } else {
       // Zoom to everything
-      app.map.zoomMapTo();
+      this.get('map').zoomMapTo();
     }
   }, {init: false})
 
@@ -135,10 +134,10 @@ function initRactive(parties, filters, views) {
   });
 
   ractive.observe('filterView', function(filterView) {
-    app.map.mapObject.remove();
-    app.map = initMap(this, filterView);
+    this.get('map').mapObject.remove();
+    this.set('map', initMap(this, filterView));
     // update map to reshow geoSearch if excluded
-    app.map.updateMap();
+    this.get('map').updateMap();
   }, {init: false})
 
   return ractive;

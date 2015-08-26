@@ -1,5 +1,3 @@
-window.app || (window.app = {});
-
 // 
 // Setup map
 // 

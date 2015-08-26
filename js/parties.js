@@ -1,5 +1,3 @@
-window.app || (window.app = {});
-
 // All DCP countries are ACP countries, also need to include the SRAP data
 function bootstrapParties(partiesObject) {
   var parties = _.select(partiesObject, function(model) {
