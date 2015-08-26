@@ -3,29 +3,27 @@
 // 
 
 function initMap(ractive, view) {
+  var collection, filterAttribute, filtersCollection, scale, legend, initialValues, regionStyle, mapDef, map, mapObject;
+
   if (ractive == undefined) {
     throw 'Need to pass ractive and view to the Map creator'
   }
-  var collection = ractive.get('parties');
+  collection = ractive.get('parties');
 
   // Create scale and legend from view
-  var filterAttribute = view.filterAttribute;
-  var filtersCollection = new Backbone.Collection(ractive.get('filters').getForAttribute(filterAttribute));
-  var scale = _.object(filtersCollection.pluck('value'),filtersCollection.pluck('colour'));
-  var legend = _.object(filtersCollection.pluck('value'), filtersCollection.pluck('title'));
+  mapDef = defineMap(ractive, collection);
 
-  var mapDef = {
-    backgroundColor: '#feba2b', // #feba2b
-    map: 'world_merc',
-    series: {
-      regions: [{
-        scale: scale,
-        normalizeFunction: 'ordinal',
-        attribute: 'fill',
-        values: prepareMapData(collection),
-      }]
-    },
-    regionStyle: {
+  map = $(".map").vectorMap(mapDef);
+  mapObject = map.vectorMap('get', 'mapObject');
+
+  // Create map definition object
+  function defineMap(ractive, collection) {
+    filterAttribute = view.filterAttribute;
+    filtersCollection = new Backbone.Collection(ractive.get('filters').getForAttribute(filterAttribute));
+    scale = _.object(filtersCollection.pluck('value'), filtersCollection.pluck('colour'));
+    legend = _.object(filtersCollection.pluck('value'), filtersCollection.pluck('title'));
+    initialValues = _prepareMapData(collection);
+    regionStyle = {
       initial: {
         fill: '#E2E2E2'
       },
@@ -37,54 +35,93 @@ function initMap(ractive, view) {
       hover: {
         fill: 'grey'
       }
-    },
-    onRegionClick: function(event, regionCode) {
-      var party = collection.findWhere({
-        iso2: regionCode
-      });
-      if (party == undefined) { return }
-
-      if (ractive.get('selectedParty') == party) {
-        ractive.set('selectedParty', false);
-      } else {
-        ractive.set('selectedParty', party);
-      }
-    },
-    onRegionTipShow: function(event, label, code) {
-      var party = collection.findWhere({iso2: code})
-      if (party) {
-        var status = party.get(filterAttribute);
-        label.html(
-          '<b>'+label.html()+'</b></br>'+
-          '<b>Status: </b>' + status
-        );
-      }
     }
-  };
-  
-  var map = $(".map").vectorMap(mapDef);
-  var mapObject = map.vectorMap('get', 'mapObject');
 
-  // Map handling methods
-  function prepareMapData (collection) {
+    return {
+      backgroundColor: '#feba2b',
+      map: 'world_merc',
+      series: {
+        regions: [{
+          scale: scale,
+          normalizeFunction: 'ordinal',
+          attribute: 'fill',
+          values: initialValues,
+        }]
+      },
+      regionStyle: regionStyle,
+      onRegionClick: function(event, regionCode) {
+        _regionClick(event, regionCode);
+      },
+      onRegionTipShow: function(event, label, code) {
+        _regionTip(event, label, code);
+      }
+    };
+  }
+
+  function _regionClick(event, regionCode) {
+    var party = collection.findWhere({
+      iso2: regionCode
+    });
+    if (party == undefined) {
+      return
+    }
+
+    if (ractive.get('selectedParty') == party) {
+      ractive.set('selectedParty', false);
+    } else {
+      ractive.set('selectedParty', party);
+    }
+  }
+
+  function _regionTip(event, label, code) {
+    var party = collection.findWhere({
+      iso2: code
+    })
+    if (party) {
+      var status = party.get(filterAttribute);
+      label.html(
+        '<b>' + label.html() + '</b></br>' +
+        '<b>Status: </b>' + status
+      );
+    }
+  }
+
+  function _prepareMapData(collection) {
     return collection.prepareMapData(filterAttribute);
   }
 
+  // 
   function updateMap() {
-    if (!mapObject) { return };
+    // Update data and re-render map based on current filter state
+    if (app.DEBUG) {
+      console.debug('updateMap')
+    }
+    if (!mapObject) {
+      return
+    };
     mapObject.reset();
-    mapObject.series.regions[0].setValues(prepareMapData(collection));
-    return zoomToFiltered();
+    mapObject.series.regions[0].setValues(_prepareMapData(collection));
+    return _zoomToFiltered();
   }
 
-  function zoomToFiltered() {
+  function _zoomToFiltered() {
+    if (app.DEBUG) {
+      console.debug('_zoomToFiltered')
+    }
     var regionCodes = _.compact(collection.pluck('iso2'));
-    if (_.isEmpty(regionCodes)) {return};
+    if (_.isEmpty(regionCodes)) {
+      return
+    };
     setTimeout(zoomMapTo(regionCodes), 0);
   }
 
   function zoomMapTo(regionCodes) {
-    if (!mapObject) {return};
+    if (app.DEBUG) {
+      console.debug('zoomMapTo', regionCodes)
+    }
+    if (!mapObject) {
+      return
+    };
 
     if (regionCodes == undefined) {
       mapObject.setFocus({
@@ -99,12 +136,27 @@ function initMap(ractive, view) {
     }
   }
 
+  function showMarkerFor(party) {
+    if (app.DEBUG) {
+      console.debug('showMarkerFor', party)
+    }
+    var map = ractive.get('map').mapObject;
+    map.removeAllMarkers();
+    map.addMarker(party.iso2, [party.lat, party.lon]);
+  }
+
+  ractive.observe('geoSearch', function(filterId) {
+    console.debug('geoSearch observed by map', filterId)
+  }, {
+    init: false
+  });
+
 
   return {
     mapObject: mapObject,
-    prepareMapData: prepareMapData,
     updateMap: updateMap,
-    zoomToFiltered: zoomToFiltered,
+    _zoomToFiltered: _zoomToFiltered,
     zoomMapTo: zoomMapTo,
+    showMarkerFor: showMarkerFor
   }
 }
