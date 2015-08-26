@@ -8,16 +8,17 @@ function initMap(ractive, view) {
   if (ractive == undefined) {
     throw 'Need to pass ractive and view to the Map creator'
   }
-  collection = ractive.get('parties');
+
+  collection = ractive.get('collection');
 
   // Create scale and legend from view
-  mapDef = defineMap(ractive, collection);
+  mapDef = defineMap(ractive, view, collection);
 
   map = $(".map").vectorMap(mapDef);
   mapObject = map.vectorMap('get', 'mapObject');
 
   // Create map definition object
-  function defineMap(ractive, collection) {
+  function defineMap(ractive, view, collection) {
     filterAttribute = view.filterAttribute;
     filtersCollection = new Backbone.Collection(ractive.get('filters').getForAttribute(filterAttribute));
     scale = _.object(filtersCollection.pluck('value'), filtersCollection.pluck('colour'));

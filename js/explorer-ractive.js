@@ -2,7 +2,7 @@
 // Ractive
 // 
 
-function initRactive(parties, filters, views) {
+function initRactive(collection, filters, views) {
   // Init Ractive object
   var ractive = new Ractive({
     // CONFIG
@@ -12,7 +12,7 @@ function initRactive(parties, filters, views) {
     // DATA
     data: {
       // Collections
-      parties: parties,
+      collection: collection,
       filters: filters,
       // Arrays
       views: views,
@@ -47,12 +47,12 @@ function initRactive(parties, filters, views) {
         return selectedParty.decorateForDetailView(views);
       },
       partyCount: function() {
-        return this.get('parties').where({
+        return this.get('collection').where({
           srap: false
         }).length;
       },
       srapCount: function() {
-        return this.get('parties').where({
+        return this.get('collection').where({
           srap: true
         }).length;
       },
@@ -97,7 +97,7 @@ function initRactive(parties, filters, views) {
   // Recalculate filterQuery when Filters change
   ractive.observe('filters.*', function(change, b, c) {
     var query = this.get('filters').prepareFilterQuery(); 
-    this.get('parties').resetWithQuery(query);
+    this.get('collection').resetWithQuery(query);
     this.get('map').updateMap();
   }, {init: false });
 
@@ -134,7 +134,7 @@ function initRactive(parties, filters, views) {
 
     var filter = this.get('filters').get(filterId);
     if (filter.get('attribute') == 'party') {
-      var party = this.get('parties').findWhere({iso2: filter.get('value')});
+      var party = this.get('collection').findWhere({iso2: filter.get('value')});
       this.set('selectedParty', party);
     } else {
       filter.set({excluded: true, geosearch: true});
