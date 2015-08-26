@@ -8,13 +8,14 @@ function bootstrapFilters(filtersSource, dataCollection) {
   filtersCollection = new FilterChoices([], {
     collectionToFilter: dataCollection
   });
-
+  
   definitions = new FilterDefinitions(filtersSource.definitions, {
     filtersCollection: filtersCollection,
     collectionToFilter: dataCollection
   });
 
   delete definitions.collectionToFilter;
+  delete definitions.filtersCollection;
   filtersCollection.definitions = definitions;
 
   return filtersCollection;
@@ -44,18 +45,8 @@ FilterDefinitions = Backbone.Collection.extend({
 
   },
   _prepareModel: function(model, options) {
-    if (!model.options && model.infer_choices_from_data) {
-
-      var _this = this, definition = _.omit(model, 'choices');
-      var valueField = definition.value_field, titleField = definition.title_field;
-      return this.collectionToFilter.each(function(collectionItem){
-        var filterChoice = {
-          value: collectionItem.get(valueField),
-          title: collectionItem.get(titleField),
-        };
-        _this.filtersCollection.add(filterChoice, {definition: definition});
-      });
-
+    if (!model.choices && model.infer_choices_from_data) {
+      this._inferChoicesFromCollection(model, options);
     } else {
 
       var definition = _.omit(model, 'choices');
@@ -63,6 +54,17 @@ FilterDefinitions = Backbone.Collection.extend({
 
     }
     return Backbone.Collection.prototype._prepareModel.call(this, model, options);
+  },
+  _inferChoicesFromCollection: function(model, options) {
+    var _this = this, definition = _.omit(model, 'choices');
+    var valueField = definition.value_field, titleField = definition.title_field;
+    return this.collectionToFilter.each(function(collectionItem){
+      var filterChoice = {
+        value: collectionItem.get(valueField),
+        title: collectionItem.get(titleField),
+      };
+      _this.filtersCollection.add(filterChoice, {definition: definition});
+    });
   },
   // FILTER QUERY 
   // 

@@ -111,12 +111,15 @@ definitions:
       - value: received
         title: 'IIF established, received GM support'
         colour: '#7DC078'
+        disabled: false
       - value: not_required
         title: 'No IIF, not receiving GM support'
         colour: '#B08CC5'
+        disabled: true
       - value: not_received
         title: 'IIF established without GM support'
         colour: 'pink'
+        disabled: true
 views:
   - name: iifs_established
     title: IIFs established
