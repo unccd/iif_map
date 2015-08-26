@@ -236,7 +236,7 @@ button.back {
   clear: both;
 }
 
-.filters-list > .filter-option {
+.filters-list > .filter-choice {
   padding: 1px 8px;
   margin: 5px 3px;
   cursor: pointer;
@@ -248,11 +248,11 @@ button.back {
   border-radius: 2px;
 }
 
-.filters-list > .filter-option:hover {
+.filters-list > .filter-choice:hover {
   background: #EFDEC1;
 }
 
-.filters-list > .filter-option.inactive {
+.filters-list > .filter-choice.included {
   border-left: 20px solid #FFA80A;
   color: inherit;
 }

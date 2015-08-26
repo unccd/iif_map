@@ -104,6 +104,9 @@ FilterChoice = Backbone.Model.extend({
     if (options.definition.name && model.value) {
       this.set('id', options.definition.name + ':' + model.value);
     }
+    this.set('excluded', false);
+    this.set('attribute', options.definition.name);
+    console.log('add attribute here?')
   },
   toggle: function(attr, silent) {
     if (!attr) {attr = 'excluded'}; 
@@ -181,7 +184,7 @@ FilterChoices = Backbone.Collection.extend({
   },
   decorateForGeosearch: function() {
     var _this = this;
-    var geoAttributes = _.map(this.filterDefs.where({
+    var geoAttributes = _.map(this.definitions.where({
       geosearch: true
     }), function(filterDef) {
       return filterDef.get('name')
@@ -200,6 +203,6 @@ FilterChoices = Backbone.Collection.extend({
     });
   },
   prepareFilterQuery: function() {
-    return this.filterDefs._prepareFilterQuery(this);
+    return this.definitions._prepareFilterQuery(this);
   }
 })

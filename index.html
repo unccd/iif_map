@@ -176,7 +176,7 @@
         <div class='options-summary filters-list'>
           {{#detailForParty}}
             <div class='attribute-title'>{{attributeTitle}}</div>
-            <div class='filter-option inactive' style='border-left:20px solid {{colour}}'>
+            <div class='filter-choice included' style='border-left:20px solid {{colour}}'>
               <div class='option-title'>{{optionTitle}}</div>
             </div>
           {{/detailForParty}}
@@ -218,7 +218,7 @@
 
   <!-- FILTER LIST ITEM PARTIAL -->
   <script id='filterListItemPartial' type="text/html">
-    <li on-click="toggleFilter(.)" class='filter-option {{#!excluded}}inactive{{/excluded}}' {{#!excluded}}style="border-left: 20px solid {{colour}}"{{/excluded}}>
+    <li on-click="toggleFilter(.)" class='filter-choice {{#!excluded}}included{{/excluded}}' {{#!excluded}}style="border-left: 20px solid {{colour}}"{{/excluded}}>
       <div class='excluded-count'>{{activeCount}}</div>
       <div class='filter-title'>{{title}} </div>
     </li>
