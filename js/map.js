@@ -2,11 +2,10 @@
 // Setup map
 // 
 
-function initMap(ractive) {
+function initMap(ractive, view) {
   if (ractive == undefined) {
     throw 'Need to pass ractive and view to the Map creator'
   }
-  var view = ractive.get('views')[0];
   var collection = ractive.get('parties');
 
   // Create scale and legend from view
