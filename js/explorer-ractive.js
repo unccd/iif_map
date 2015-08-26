@@ -66,8 +66,7 @@ function initRactive(collection, filters, views) {
     // RACTIVE METHODS
     resetAll: function (argument) {
       this.get('filters').setAllNotExcluded();
-      this.set('selectedParty', '');
-      this.set('geoSearchValue', '');
+      this.set('geoSearch', '');
       this.set('filterView', views[0]);
     },
     toggleFilter: function(choice) {
@@ -82,17 +81,22 @@ function initRactive(collection, filters, views) {
   });
 
 
+  // Recalcalculate Parties when filters change
+  filters.on('change', function(){
+    var query = this.prepareFilterQuery(); 
+    collection.resetWithQuery(query);
+  })
+
+
   // 
   // Ractive events
   // 
 
-
-  // Recalculate filterQuery when Filters change
-  ractive.observe('filters.*', function(change, b, c) {
-    var query = this.get('filters').prepareFilterQuery(); 
-    this.get('collection').resetWithQuery(query);
+  // TODO: Move to map observers config
+  ractive.observe('collection', function(){
     this.get('map').updateMap();
-  }, {init: false });
+  }, {init: false})
+
 
   ractive.observe('selectedParty', function(party) {
     // When selectedParty is reset, also clear geoSearchValue unless 
@@ -115,15 +119,13 @@ function initRactive(collection, filters, views) {
     }
   }, {init: false})
 
-  ractive.observe('geoSearchValue', function(filterId) {
+  // Watch geoSearch
+  ractive.observe('geoSearch', function(filterId) {
     // On reset/empty input, remove any geoAttribute filters
     if (filterId == '') {
       _.each(this.get('filters').where({geosearch: true}), function(model){model.set('excluded', false)});
       return;
     }
-
-    // Assumes a non-blank filterId
-    this.set('selectedParty', ''); // Clear any currently excluded party
 
     var filter = this.get('filters').get(filterId);
     if (filter.get('attribute') == 'party') {
@@ -134,17 +136,11 @@ function initRactive(collection, filters, views) {
     }
   }, {init: false});
 
-  ractive.on('resetGeoSearch', function() {
-    this.set('selectedParty', '');
-    this.set('geoSearchValue', '');
-  });
-
   ractive.observe('filterView', function(filterView) {
+    // Switch map to passed view definition
     this.get('map').mapObject.remove();
     this.set('map', initMap(this, filterView));
     this.get('map').updateMap();
-    // Switch map to passed view definition
-    // 
   }, {init: false})
 
   return ractive;
