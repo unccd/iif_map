@@ -8,7 +8,7 @@
 metadata:
   title: IIF Status
   short_name: iif_status
-attributes:
+definitions:
   - name: region
     title: Region
     geosearch: true
