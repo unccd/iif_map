@@ -211,7 +211,7 @@
         {{/each}}
       </select>
       {{#if geoSearch != ''}}
-        <div on-click='resetGeoSearch' class="reset-geoSearch"><span class='reset-x'>x</span>Show all</div>
+        <div on-click='set("geoSearch", "")' class="reset-geoSearch"><span class='reset-x'>x</span>Show all</div>
       {{/if}}
     </div>    
   </script>
