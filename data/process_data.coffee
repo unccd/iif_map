@@ -12,7 +12,7 @@ class Process
 
   _processDataFile: (projectName) ->
     fileName = "#{projectName}"
-    definitions = JSON.parse(fs.readFileSync("#{__dirname}/#{fileName}.json", 'utf8'))
+    definitions = JSON.parse(fs.readFileSync("#{__dirname}/source_#{fileName}.json", 'utf8')).rows
     output = "#{@bootstrapCode}#{fileName} = #{JSON.stringify(definitions)};"
 
     fs.writeFileSync("#{__dirname}/#{fileName}.js", output)
@@ -20,7 +20,7 @@ class Process
 
   _processDefinitionFile: (projectName) ->
     fileName = "#{projectName}_def"
-    definitions = YAML.load("#{__dirname}/#{fileName}.yml")
+    definitions = YAML.load("#{__dirname}/source_#{fileName}.yml")
     output = "#{@bootstrapCode}#{fileName} = #{JSON.stringify(definitions)};"
 
     fs.writeFileSync("#{__dirname}/#{fileName}.js", output)
