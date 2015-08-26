@@ -21,6 +21,7 @@
 
   // Parties collection from ACP/DCP countries and SRAPs. 
   app.partiesCollection = bootstrapParties(bootstrap_data.iif_status);
+  // Combined FilterDefinitions and FilterChoices
   app.filters = bootstrapFilters(bootstrap_data.iif_status_def, app.partiesCollection);
 
 
