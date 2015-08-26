@@ -87,10 +87,10 @@ function initRactive(collection, filters, views) {
 
   // Recalcalculate Parties when filters change
   // TODO: Move to Filters? Think it's clearer here.
-  filters.on('change', function(){
-    var query = this.prepareFilterQuery(); 
-    collection.resetWithQuery(query);
-  })
+  // filters.on(['change', 'reset'], function(){
+  //   var query = filters.prepareFilterQuery(); 
+  //   collection.resetWithQuery(query);
+  // })
 
 
   // 
@@ -98,7 +98,9 @@ function initRactive(collection, filters, views) {
   // 
 
   // TODO: Move to map observers config
-  ractive.observe('collection', function(){
+  ractive.observe('filters.*', function(){
+    var query = filters.prepareFilterQuery(); 
+    collection.resetWithQuery(query);
     this.get('map').updateMap();
   }, {init: false})
 

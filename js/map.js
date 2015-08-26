@@ -6,6 +6,7 @@
 // 'filters' defined as properties
 function initMap(ractive, view) {
   var collection, filterAttribute, map, mapObject;
+  var updateMap;
 
   if (ractive == undefined) {
     throw 'Need to pass ractive and view to the Map creator'
@@ -105,7 +106,7 @@ function initMap(ractive, view) {
   }
 
   // 
-  function updateMap() {
+  updateMap = function () {
     // Update data and re-render map based on current filter state
     if (app.DEBUG) {
       console.debug('updateMap')
@@ -157,6 +158,9 @@ function initMap(ractive, view) {
     map.removeAllMarkers();
     map.addMarker(party.iso2, [party.lat, party.lon]);
   }
+
+  // ractive.observe('filters.*', function(){
+  // }, {init: false});
 
   ractive.observe('geoSearch', function(filterId) {
     var attr = ractive.get('geoSearchAttribute')
