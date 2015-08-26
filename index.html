@@ -200,9 +200,9 @@
   <!-- SEARCH PARTIAL -->
   <script id="searchPartial" type="text/html">
     <div class='search'>
-      <select decorator='chosen:geoSearch' value="{{geoSearchValue}}" data-observe='parties' data-placeholder="Search party, region">
+      <select decorator='chosen:geoSearch' value="{{geoSearch}}" data-observe='parties' data-placeholder="Search party, region">
         <option value=""></option>
-        {{#each geo_search}}
+        {{#each geoSearchOptions}}
           <optgroup label="{{titleCase(name)}}">
             {{#each choices}}
               <option value="{{id}}">{{title}}</option>
@@ -210,7 +210,7 @@
           </optgroup>
         {{/each}}
       </select>
-      {{#if geoSearchValue != ''}}
+      {{#if geoSearch != ''}}
         <div on-click='resetGeoSearch' class="reset-geoSearch"><span class='reset-x'>x</span>Show all</div>
       {{/if}}
     </div>    

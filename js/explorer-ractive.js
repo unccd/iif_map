@@ -33,15 +33,17 @@ function initRactive(collection, filters, views) {
     },
     // COMPUTED DATA
     computed: {
-      geoSearchType: function(){
-        return this.get('geoSearchValue').split(':')[0];
+      geoSearchAttribute: function(){
+        return this.get('geoSearch').split(':')[0];
       },
       detailForParty: function() {
         var selectedParty = this.get('selectedParty');
         var views = this.get('views');
 
         if (selectedParty == '') { return };
+        // For some reason it's not always passed as a Party model...
         if (selectedParty instanceof Backbone.Model) {
+          console.debug('Creating Party model from object for display')
           selectedParty = new Party(selectedParty.toJSON())
         }
         return selectedParty.decorateForDetailView(views);
@@ -57,17 +59,8 @@ function initRactive(collection, filters, views) {
         }).length;
       },
       // Filters
-      geo_search: function() {
+      geoSearchOptions: function() {
         return this.get('filters').decorateForGeosearch();
-      },
-      filtersFor_iif_or_plan: function() {
-        return this.get('filters').decorateForFiltersList('iif_or_plan');
-      },
-      filtersFor_iif_plan_start: function() {
-        return this.get('filters').decorateForFiltersList('iif_plan_start');
-      },
-      filtersFor_gm_supported: function() {
-        return this.get('filters').decorateForFiltersList('gm_supported');
       },
     },
     // RACTIVE METHODS
