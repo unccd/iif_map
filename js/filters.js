@@ -5,18 +5,18 @@
 function bootstrapFilters(filtersSource, dataCollection) {
   var filtersCollection, definitions;
 
-  filtersCollection = new FilterChoices([], {
-    collectionToFilter: dataCollection
-  });
+  filtersCollection = new FilterChoices([]);
   
   definitions = new FilterDefinitions(filtersSource.definitions, {
     filtersCollection: filtersCollection,
     collectionToFilter: dataCollection
   });
 
+  
   delete definitions.collectionToFilter;
   delete definitions.filtersCollection;
   filtersCollection.definitions = definitions;
+  filtersCollection.collectionToFilter = dataCollection;
 
   return filtersCollection;
 }
@@ -117,13 +117,6 @@ FilterChoice = Backbone.Model.extend({
 
 FilterChoices = Backbone.Collection.extend({
   model: FilterChoice,
-  initialize: function(models, options) {
-    if (options.collectionToFilter) {
-      this.collectionToFilter = options.collectionToFilter;
-    } else {
-      throw 'Need to define collectionToFilter'
-    }
-  },
   // SETTERS and GETTERS
   getForAttribute: function(attribute) {
     return this.where({
