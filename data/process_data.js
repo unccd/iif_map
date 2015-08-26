@@ -1,10 +1,15 @@
-var Process, YAML, fs, json2csv, projectName;
+// 
+// Process the data and definition files into JS files to bootstrap data at load
+// Optionally run with `--csv` flag to generate a CSV version of the data
+// 
 
+var projectName = 'iif_status';
+
+var Process, YAML, fs, json2csv;
 fs = require('fs');
 YAML = require('yamljs');
 json2csv = require('json2csv');
 
-projectName = 'iif_status';
 
 Process = (function() {
   function Process(projectName) {
