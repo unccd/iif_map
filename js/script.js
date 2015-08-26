@@ -35,5 +35,6 @@
   app.ractive = initRactive(app.partiesCollection, app.filters, views);
 
   // jVectormap map, binding the Ractive view
-  app.ractive.set('map', initMap(app.ractive, views[0]));
+  var map = initMap(app.ractive, views[0]);
+  app.ractive.set('map', map);
 })();

@@ -136,8 +136,9 @@ function initRactive(parties, filters, views) {
   ractive.observe('filterView', function(filterView) {
     this.get('map').mapObject.remove();
     this.set('map', initMap(this, filterView));
-    // update map to reshow geoSearch if excluded
     this.get('map').updateMap();
+    // Switch map to passed view definition
+    // 
   }, {init: false})
 
   return ractive;

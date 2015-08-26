@@ -64,7 +64,7 @@ function initMap(ractive, view) {
   
   var map = $(".map").vectorMap(mapDef);
   var mapObject = map.vectorMap('get', 'mapObject');
- 
+
   // Map handling methods
   function prepareMapData (collection) {
     return collection.prepareMapData(filterAttribute);
@@ -98,6 +98,7 @@ function initMap(ractive, view) {
       });
     }
   }
+
 
   return {
     mapObject: mapObject,
