@@ -47,7 +47,7 @@ attributes:
       - title: Western Africa
   - name: party
     title: Party
-    infer_from_data: true
+    infer_options_from_data: true
     title_field: short_name
     value_field: iso2
     description: Some text to describe it
