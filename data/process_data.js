@@ -1,7 +1,9 @@
-var Process, YAML, fs, projectName;
+var Process, YAML, fs, json2csv, projectName;
 
 fs = require('fs');
 YAML = require('yamljs');
+json2csv = require('json2csv');
+
 projectName = 'iif_status';
 
 Process = (function() {
@@ -12,13 +14,26 @@ Process = (function() {
   }
 
   Process.prototype._processDataFile = function(projectName) {
-    var definitions, fileName, output;
+    var data, fileName, output;
     fileName = "" + projectName;
-    definitions = JSON.parse(fs.readFileSync(__dirname + "/source_" + fileName + ".json", 'utf8')).rows;
-    output = "" + this.bootstrapCode + fileName + " = " + (JSON.stringify(definitions)) + ";";
+    data = JSON.parse(fs.readFileSync(__dirname + "/source_" + fileName + ".json", 'utf8')).rows;
+    output = "" + this.bootstrapCode + fileName + " = " + (JSON.stringify(data)) + ";";
     fs.writeFileSync(__dirname + "/" + fileName + ".js", output);
+
+    var ref;
+    if (((ref = process.argv) != null ? ref[2] : void 0) === '--csv') {
+      this._processDataAsCSV(data, fileName)
+    }
     return console.log('Processed and saved data file');
   };
+
+  Process.prototype._processDataAsCSV = function(data, fileName) {
+    json2csv({data: data}, function(err, csv) {
+      if (err) console.log(err);
+      fs.writeFileSync(__dirname + "/" + fileName + ".csv", csv);
+      return console.log('Processed and saved data file as CSV');
+    });
+  }
 
   Process.prototype._processDefinitionFile = function(projectName) {
     var definitions, fileName, output;
@@ -33,5 +48,5 @@ Process = (function() {
 
 })();
 
-new Process(projectName);
 
+new Process(projectName);
