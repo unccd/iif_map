@@ -2,6 +2,8 @@
 // Setup map
 // 
 
+// The ractive passed in needs to have at least 'collection' and 
+// 'filters' defined as properties
 function initMap(ractive, view) {
   var collection, filterAttribute, filtersCollection, scale, legend, initialValues, regionStyle, mapDef, map, mapObject;
 
