@@ -5,13 +5,14 @@
 // The ractive passed in needs to have at least 'collection' and 
 // 'filters' defined as properties
 function initMap(ractive, view) {
-  var collection, filterAttribute, filtersCollection, scale, legend, initialValues, regionStyle, mapDef, map, mapObject;
+  var collection, filterAttribute, map, mapObject;
 
   if (ractive == undefined) {
     throw 'Need to pass ractive and view to the Map creator'
   }
 
   collection = ractive.get('collection');
+  filterAttribute = view.filterAttribute;
 
   // Create scale and legend from view
   map = $(".map").vectorMap(defineMap());
@@ -19,7 +20,7 @@ function initMap(ractive, view) {
 
   // Create map definition object
   function defineMap() {
-    filterAttribute = view.filterAttribute;
+    var filtersCollection, scale, legend, initialValues, regionStyle;
     filtersCollection = new Backbone.Collection(ractive.get('filters').getForAttribute(filterAttribute));
     scale = _.object(filtersCollection.pluck('value'), filtersCollection.pluck('colour'));
     legend = _.object(filtersCollection.pluck('value'), filtersCollection.pluck('title'));
@@ -158,7 +159,20 @@ function initMap(ractive, view) {
   }
 
   ractive.observe('geoSearch', function(filterId) {
-    console.debug('geoSearch observed by map', filterId)
+    var attr = ractive.get('geoSearchAttribute')
+    console.debug('geoSearch observed by map', attr, filterId)
+
+    // // Find the filter from given ID
+    // var filter = this.get('filters').get(filterId);
+
+    // if (filter.get('attribute') == 'party') {
+    //   var party = collection.findWhere({iso2: filter.get('value')});
+    //   this.set('selectedParty', party);
+    // } else {
+    //   filter.set({excluded: true, isGeoSearch: true});
+    // }
+
+
   }, {
     init: false
   });

@@ -128,16 +128,21 @@ function initRactive(collection, filters, views) {
   ractive.observe('geoSearch', function(filterId) {
     // On reset/empty input, remove any geoAttribute filters
     if (filterId == '') {
-      _.each(this.get('filters').where({geosearch: true}), function(model){model.set('excluded', false)});
+      _.each(this.get('filters').where({isGeoSearch: true}), function(model){
+        model.set('excluded', false);
+        model.unset('isGeoSearch');
+      });
       return;
     }
 
+    // Find the filter from given ID
     var filter = this.get('filters').get(filterId);
+
     if (filter.get('attribute') == 'party') {
-      var party = this.get('collection').findWhere({iso2: filter.get('value')});
+      var party = collection.findWhere({iso2: filter.get('value')});
       this.set('selectedParty', party);
     } else {
-      filter.set({excluded: true, geosearch: true});
+      filter.set({excluded: true, isGeoSearch: true});
     }
   }, {init: false});
 
