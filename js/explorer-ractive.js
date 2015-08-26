@@ -76,8 +76,8 @@ function initRactive(parties, filters, views) {
       this.set('geoSearchValue', '');
       this.set('filterView', views[0]);
     },
-    toggleFilter: function(option) {
-      this.get('filters').get(option.id).toggle();
+    toggleFilter: function(choice) {
+      this.get('filters').get(choice.id).toggle();
     },
     setAllNotExcluded: function(attribute) {
       this.get('filters').setAllNotExcluded(attribute);

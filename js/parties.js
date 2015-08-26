@@ -17,26 +17,26 @@ Party = Backbone.Model.extend({
     return _.chain(views).map(function(view) {
       var filterAttribute = view.filterAttribute; // e.g. 'iif_or_plan'
 
-      var filterDef = app.filters.filterDefs.findWhere({
+      var filterDef = app.filters.definitions.findWhere({
         name: filterAttribute
       });
       var attributeTitle = filterDef.get('title'); // e.g. 'IIFs established'
 
-      var optionValue = _this.get(filterAttribute); // e.g. 'iif' - i.e. the model's value for the filterAttribute
-      var option = app.filters.findWhere({
+      var choiceValue = _this.get(filterAttribute); // e.g. 'iif' - i.e. the model's value for the filterAttribute
+      var choice = app.filters.findWhere({
         attribute: filterAttribute,
-        value: optionValue
+        value: choiceValue
       })
-      if (option == undefined || optionTitle == '') {
+      if (choice == undefined || choiceTitle == '') {
         return
       }
 
-      var attributeColour = option.get('colour');
-      var optionTitle = option.get('title');
+      var attributeColour = choice.get('colour');
+      var choiceTitle = choice.get('title');
 
       return {
         attributeTitle: attributeTitle,
-        optionTitle: optionTitle,
+        choiceTitle: choiceTitle,
         colour: attributeColour,
       }
     }).compact().value();

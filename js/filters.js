@@ -2,69 +2,68 @@
 // Init
 // 
 
-function bootstrapFilters(filterDefs, partiesCollection) {
-  var addCountriesToFilter = function(filter, collection) {
-    // Set value and title on options
-    var valueField = filter.value_field;
-    var titleField = filter.title_field;
+function bootstrapFilters(filtersSource, dataCollection) {
+  var filtersCollection, definitions;
 
-    // Extract Countries from provided Parties collection
-    filter.options = collection.map(function(party) {
-      return {
-        id: 'randomId',
-        value: party.get(valueField),
-        title: party.get(titleField),
-      }
-    });
-  }
-  var prepareOption = function(option, attribute) {
-    option.attribute = attribute;
-    option.id = attribute + ':' + option.value;
-    option.excluded = false;
-    return option;
-  }
-
-  // Create FilterOptions by copying properties from the attribute 
-  var filterOptionsObjects = [];
-  _.each(filterDefs.attributes, function(filter){
-    var attribute = filter.name;
-    if (filter.type == 'country') {
-      addCountriesToFilter(filter, partiesCollection)
-    }
-    _.each(filter.options, function(option){
-      filterOptionsObjects.push(prepareOption(option, attribute)) 
-    })
-  })
-
-  var filterOptions = new FilterOptions(filterOptionsObjects, {
-    collectionToFilter: partiesCollection
+  filtersCollection = new FilterChoices([], {
+    collectionToFilter: dataCollection
   });
 
-  // Attach filterDefs
-  filterOptions.filterDefs = new FilterDefs(filterDefs.attributes);
-  return filterOptions;
+  definitions = new FilterDefinitions(filtersSource.definitions, {
+    filtersCollection: filtersCollection,
+    collectionToFilter: dataCollection
+  });
+
+  delete definitions.collectionToFilter;
+  filtersCollection.definitions = definitions;
+
+  return filtersCollection;
 }
-
-
-
-// 
-// Model and Collection
-// 
 
 // 
 // FILTER DEFS
 // 
 
-FilterDef = Backbone.Model.extend({
+FilterDefinition = Backbone.Model.extend({
   idAttribute: 'name',
   initialize: function(attributes) {
-    this.unset('options');
+    // Remove Filter's 'choices'
+    this.unset('choices');
   }
 });
 
-FilterDefs = Backbone.Collection.extend({
-  model: FilterDef,
+FilterDefinitions = Backbone.Collection.extend({
+  model: FilterDefinition,
+  initialize: function(models, options) {
+    if (options.collectionToFilter && options.filtersCollection) {
+      this.collectionToFilter = options.collectionToFilter;
+      this.filtersCollection = options.filtersCollection;
+    } else {
+      throw 'Need to define collectionToFilter and filtersCollection'
+    }
 
+  },
+  _prepareModel: function(model, options) {
+    if (!model.options && model.infer_choices_from_data) {
+
+      var _this = this, definition = _.omit(model, 'choices');
+      var valueField = definition.value_field, titleField = definition.title_field;
+      return this.collectionToFilter.each(function(collectionItem){
+        var filterChoice = {
+          value: collectionItem.get(valueField),
+          title: collectionItem.get(titleField),
+        };
+        _this.filtersCollection.add(filterChoice, {definition: definition});
+      });
+
+    } else {
+
+      var definition = _.omit(model, 'choices');
+      this.filtersCollection.add(model.choices, {definition: definition});
+
+    }
+    return Backbone.Collection.prototype._prepareModel.call(this, model, options);
+  },
   // FILTER QUERY 
   // 
   _prepareFilterQuery: function(collection) {
@@ -98,56 +97,28 @@ FilterDefs = Backbone.Collection.extend({
 // FILTER OPTIONS
 // 
 
-FilterOption = Backbone.Model.extend({
-  toggle: function(attr, silent) {
-    if (!attr) {
-      attr = 'excluded'
+FilterChoice = Backbone.Model.extend({
+  initialize: function (model, options) {
+    if (options.definition.name && model.value) {
+      this.set('id', options.definition.name + ':' + model.value);
     }
-    var data = {},
-      value = this.get(attr);
+  },
+  toggle: function(attr, silent) {
+    if (!attr) {attr = 'excluded'}; 
+    var data = {}, value = this.get(attr);
     data[attr] = !value;
-    this.set(data, {
-      silent: silent
-    });
-    return;
+    this.set(data, {silent: silent});
   }
 });
 
-FilterOptions = Backbone.Collection.extend({
-  model: FilterOption,
+FilterChoices = Backbone.Collection.extend({
+  model: FilterChoice,
   initialize: function(models, options) {
     if (options.collectionToFilter) {
       this.collectionToFilter = options.collectionToFilter;
     } else {
       throw 'Need to define collectionToFilter'
     }
-  },
-  _prepareModel: function(model, options) {
-    // Infer value from title if requested - assumes snake case
-    if (model.value_from_title == 'snake_case') {
-      var attribute = model.name;
-      model.value = app.utils.snake_case(model.title);
-    };
-  //   // Add countries if needed
-  //   if (model.type == 'country') {
-
-  //     var valueField = model.value_field;
-  //     var titleField = model.title_field;
-
-  //     // Extract Countries from provided collection
-  //     model.options = this.collectionToFilter.map(function(party) {
-  //       return {
-  //         id: 'randomId',
-  //         value: party.get(valueField),
-  //         title: party.get(titleField),
-  //       }
-  //     });
-  //   }
-  //   model.attribute = attribute;
-  //   model.id = attribute + ':' + model.value;
-  //   model.excluded = false;
-
-    return Backbone.Collection.prototype._prepareModel.call(this, model, options);
   },
   // SETTERS and GETTERS
   getForAttribute: function(attribute) {
@@ -206,7 +177,7 @@ FilterOptions = Backbone.Collection.extend({
       return jsonModel;
     })
   },
-  decorateForGeosearch: function(collection) {
+  decorateForGeosearch: function() {
     var _this = this;
     var geoAttributes = _.map(this.filterDefs.where({
       geosearch: true
@@ -220,7 +191,7 @@ FilterOptions = Backbone.Collection.extend({
     return _.map(geoAttributes, function(geoAttribute) {
       return {
         name: geoAttribute,
-        options: _this.where({
+        choices: _this.where({
           attribute: geoAttribute
         })
       }

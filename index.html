@@ -204,7 +204,7 @@
         <option value=""></option>
         {{#each geo_search}}
           <optgroup label="{{titleCase(name)}}">
-            {{#each options}}
+            {{#each choices}}
               <option value="{{id}}">{{title}}</option>
             {{/each}}
           </optgroup>
@@ -232,7 +232,7 @@
   <!-- Backbone + Ractive-adaptor -->
   <!-- <script src='ext/backbone.min.js'></script> -->
   <script src='ext/backbone.js'></script>
-  <script src='ext/backbone.query.js'></script>
+  <script src='ext/backbone.query.min.js'></script>
   <script src='ext/ractive-backbone-adaptor.min.js'></script>
 
   <!-- jVectorMap -->

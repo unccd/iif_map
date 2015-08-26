@@ -21,16 +21,16 @@ Ractive.decorators.chosen.type.geoSearch = { width: '100%' };
 app.parties = bootstrapParties(bootstrap_data.iif_status);
 app.filters = bootstrapFilters(bootstrap_data.iif_status_def, app.parties);
 
-// ===========
-// APP LAUNCH
-// ===========
+// // ===========
+// // APP LAUNCH
+// // ===========
 
-// Create Ractive view containing all components
-var views = bootstrap_data.iif_status_def.views;
+// // Create Ractive view containing all components
+// var views = bootstrap_data.iif_status_def.views;
 
-app.ractive = initRactive(app.parties, app.filters, views);
+// app.ractive = initRactive(app.parties, app.filters, views);
 
-// jVectormap map, binding the Ractive view
-app.map = initMap(app.ractive, views[0]);
-app.ractive.map = app.map;
+// // jVectormap map, binding the Ractive view
+// app.map = initMap(app.ractive, views[0]);
+// app.ractive.map = app.map;
 
