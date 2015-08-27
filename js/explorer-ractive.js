@@ -135,24 +135,17 @@ function initRactive(collection, filters, views) {
   // Watch geoSearch
   ractive.observe('geoSearch', function(filterId) {
     // On reset/empty input, remove any geoAttribute filters
-    if (filterId == '') {
-      return filters.setGeoSearchNotExcluded();
-    }
+    if (filterId == '') {return filters.setGeoSearchNotExcluded(); }
 
-    // Find the filter from given ID
-    var filter = this.get('filters').get(filterId);
-
-    // If the filter is a party - then display it, and zoom to it!
-    if (filter.get('attribute') == 'party') {
-      var party = collection.findWhere({iso2: filter.get('value')});
-      this.set('selectedParty', party);
-    } else {
+    // Activate any matching filters
+    var filter;
+    if (filter = this.get('filters').get(filterId)) {
       filter.set({excluded: true, isGeoSearch: true});
     }
   }, {init: false});
 
   ractive.observe('filterView', function(filterView) {
-    // Switch map to passed view definition
+    // Rerender map with passed view definition
     this.get('map').mapObject.remove();
     this.set('map', initMap(this, filterView));
     this.get('map').updateMap();
