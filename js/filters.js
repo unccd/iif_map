@@ -176,7 +176,7 @@ FilterChoices = Backbone.Collection.extend({
   setAllNotExcludedExceptGeoSearch: function(attribute) {
     var filters = this.getExcluded(attribute);
     filters = _.reject(filters, function(i){
-      return i.get('geoSearch') != true;
+      return i.get('geoSearch') === true;
     });
     _.each(filters, function(choice) {
       choice.set('excluded', false);
