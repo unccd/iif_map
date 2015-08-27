@@ -13,6 +13,7 @@ function initRactive(collection, filters, views) {
     data: {
       // State
       geoSearch: '',
+      selectedParty: '',
       filterView: views[0],
 
       // Collections
@@ -35,16 +36,8 @@ function initRactive(collection, filters, views) {
     },
     // COMPUTED DATA
     computed: {
-      selectedParty: function(){
-        var attribute = this.get('geoSearchAttribute');
-        if (attribute == 'party') {
-          return collection.first();
-        }
-      },
       // Filters
-      geoSearchList: function() {
-        return this.get('filters').decorateForGeosearch();
-      },
+      geoSearchList: '${filters}.decorateForGeosearch()',
       geoSearchAttribute: function(){
         return this.get('geoSearch').split(':')[0];
       },
@@ -53,24 +46,20 @@ function initRactive(collection, filters, views) {
       },
       detailForParty: function() {
         var selectedParty = this.get('selectedParty');
-
         if (selectedParty == '') { return };
-        // For some reason it's not always passed as a Party model...
-        if (selectedParty instanceof Backbone.Model) {
-          console.debug('Creating Party model from object for display')
-          selectedParty = new Party(selectedParty.toJSON())
-        }
+
+//         // For some reason it's not always passed as a Party model...
+//         if (!selectedParty instanceof Backbone.Model) {
+//           console.log('Creating Party model from object for display')
+//           selectedParty = new Party(selectedParty.toJSON())
+//         }
         return selectedParty.decorateForDetailView(views);
       },
       partyCount: function() {
-        return this.get('collection').where({
-          srap: false
-        }).length;
+        return this.get('collection').where({srap: false }).length;
       },
       srapCount: function() {
-        return this.get('collection').where({
-          srap: true
-        }).length;
+        return this.get('collection').where({srap: true }).length;
       },
     },
     // RACTIVE METHODS
@@ -78,6 +67,10 @@ function initRactive(collection, filters, views) {
       this.get('filters').setAllNotExcluded();
       this.set('geoSearch', '');
       this.set('filterView', views[0]);
+    },
+    resetGeoSearch: function () {
+      this.set('geoSearch', '');
+      this.set('selectedParty', '');
     },
     toggleFilter: function(choice) {
       this.get('filters').get(choice.id).toggle();
@@ -91,72 +84,39 @@ function initRactive(collection, filters, views) {
   });
 
 
-  // Recalcalculate Parties when filters change
-  // TODO: Move to Filters? Think it's clearer here.
-  // filters.on(['change', 'reset'], function(){
-  //   var query = filters.prepareFilterQuery(); 
-  //   collection.resetWithQuery(query);
-  // })
-
-
   // 
   // Ractive events
   // 
 
-  // TODO: Move to map observers config
+  // Requery when filters change
   ractive.observe('filters.*', function(){
     var query = filters.prepareFilterQuery(); 
-    collection.resetWithQuery(query);
-    this.get('map').updateMap();
+    return collection.resetWithQuery(query);
   }, {init: false})
-
-
-  // ractive.observe('selectedParty', function(party) {
-  //   // When selectedParty is reset, also clear geoSearchValue unless 
-  //   // it's a Party
-  //   if (party === false && this.get('geoSearchType') != 'party') {
-  //     this.set('geoSearchValue', '');
-  //   }
-  
-  //   // Figure zoom on selectedParty
-  //   if (party && party.use_centre_point) {
-  //     return this.get('map').showMarkerFor(party);
-  //   } else if(party) {
-  //     this.get('map').zoomMapTo([party.iso2]);
-  //   } else if (this.get('geoSearchValue')) {
-  //     // If there's already a geoSearchValue then just update map
-  //     this.get('map').updateMap();
-  //    } else {
-  //     // Zoom to everything
-  //     this.get('map').zoomMapTo();
-  //   }
-  // }, {init: false})
 
   // Watch geoSearch
   ractive.observe('geoSearch', function(filterId) {
-    // On reset/empty input, remove any geoAttribute filters
-    if (filterId == '') {
-      _.each(this.get('filters').where({isGeoSearch: true}), function(model){
-        model.set('excluded', false);
-        model.unset('isGeoSearch');
-      });
-      return;
+    var filter;
+
+    // If it's a Party and there's no selectedParty already,
+    // then set the selectedParty to this Party
+    if (this.get('geoSearchAttribute') == 'party') {
+      var party = collection.get(filterId);
+      this.set('selectedParty', party);
     }
 
-    // Find the filter from given ID
-    var filter = this.get('filters').get(filterId);
-
-    // If the filter is a party - then display it, and zoom to it!
-    if (filter.get('attribute') == 'party') {
-      var party = collection.findWhere({iso2: filter.get('value')});
-      this.set('selectedParty', party);
-    } else {
-      filter.set({excluded: true, isGeoSearch: true});
+    // On reset/empty input, remove any geoAttribute filters
+    // Else activate the filter
+    if (filterId == '') {
+      return filters.setGeoSearchNotExcluded(); 
+    } else if (filter = this.get('filters').get(filterId)) {
+      filters.setGeoSearchNotExcluded(); 
+      return filter.set({excluded: true, isGeoSearch: true});
     }
   }, {init: false});
 
   ractive.observe('filterView', function(filterView) {
-    // Switch map to passed view definition
+    // Rerender map with passed view definition
     this.get('map').mapObject.remove();
     this.set('map', initMap(this, filterView));
     this.get('map').updateMap();
