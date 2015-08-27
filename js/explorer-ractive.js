@@ -139,7 +139,6 @@ function initRactive(collection, filters, views) {
 
   // Watch FilterView, and redraw map
   ractive.observe('filterView', function(filterView) {
-    console.debug('filterView');
     // Remove all filters that are not geoSearch
     filters.setAllNotExcludedExceptGeoSearch();
 
