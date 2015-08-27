@@ -113,8 +113,7 @@ function initMap(ractive, view) {
     if (party) {
       var status = party.get(filterAttribute);
       label.html(
-        '<b>' + label.html() + '</b></br>' +
-        '<b>Status: </b>' + status
+        '<b>' + label.html() + '</b></br>'
       );
     }
   }
@@ -126,8 +125,7 @@ function initMap(ractive, view) {
     if (party) {
       var status = party.get(filterAttribute);
       label.html(
-        '<b>' + label.html() + '</b></br>' +
-        '<b>Status: </b>' + name
+        '<b>' + label.html() + '</b></br>'
       );
     }
   }
