@@ -11,7 +11,13 @@ function bootstrapParties(partiesObject) {
 // 
 Party = Backbone.Model.extend({
   initialize: function(attrs, options) {
-    this.set('id', 'party:' + attrs.iso2);
+    if (attrs.iso2 != undefined){
+      this.set('id', 'party:' + attrs.iso2);
+    } else if (attrs.short_name){
+      this.set('id', 'party:' + attrs.short_name);
+    } else {
+      throw 'Cannot create id for Party'
+    }
   },
   decorateForDetailView: function(views, filters) {
     var _this = this;
@@ -53,7 +59,9 @@ Parties = PartiesQueryCollection.extend({
   initialize: function(models, options) {
     this._superset = new PartiesQueryCollection(models);
   },
-  resetWithQuery: function(queryObject) {
+  resetWithQuery: function(queryObject, filterAttribute) {
+    queryObject["$and"] || (queryObject["$and"] = {});
+    queryObject["$and"][filterAttribute]= {$ne: ''};
     var queryResult = this._superset.query(queryObject);
     return this.reset(queryResult);
   },

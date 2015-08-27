@@ -81,11 +81,15 @@ function initRactive(collection, filters, views) {
   // 
   // Ractive events
   // 
+  function triggerRequery(){
+    var filterAttribute = ractive.get('filterView').filterAttribute
+    var query = filters.prepareFilterQuery(); 
+    return collection.resetWithQuery(query, filterAttribute);
+  }
 
   // Requery when filters change
   ractive.observe('filters.*', function(object){
-    var query = filters.prepareFilterQuery(); 
-    return collection.resetWithQuery(query);
+    triggerRequery();
   }, {init: false})
 
   // Watch geoSearch
@@ -111,6 +115,7 @@ function initRactive(collection, filters, views) {
 
   ractive.observe('filterView', function(filterView) {
     // Rerender map with passed view definition
+    triggerRequery();
     this.map.mapObject.remove();
     this.map = initMap(this, filterView);
     this.map.updateMap();

@@ -3702,11 +3702,11 @@
       "lon" : null,
       "lat" : null,
       "iso2" : null,
-      "official_name" : null,
+      "official_name" : "COMIFAC Subregional Action Programme",
       "use_centre_point" : null
     },
     {
-      "short_name" : "The Regional Environmental Centre for Central Asia (CAREC) Subregional Action Programme",
+      "short_name" : "CAREC Subregional Action Programme",
       "iso3" : null,
       "region" : "asia",
       "subregion" : "central_asia",
@@ -3721,11 +3721,11 @@
       "lon" : null,
       "lat" : null,
       "iso2" : null,
-      "official_name" : null,
+      "official_name" : "The Regional Environmental Centre for Central Asia (CAREC) Subregional Action Programme",
       "use_centre_point" : null
     },
     {
-      "short_name" : "Network for Mitigation of Desertification, Land Degradation and Drought Subregional Action Programme (DLDDNEAN)",
+      "short_name" : "DLDDNEAN Subregional Action Programme",
       "iso3" : null,
       "region" : "asia",
       "subregion" : "east_asia",
@@ -3740,7 +3740,7 @@
       "lon" : null,
       "lat" : null,
       "iso2" : null,
-      "official_name" : null,
+      "official_name" : "Network for Mitigation of Desertification, Land Degradation and Drought Subregional Action Programme (DLDDNEAN)",
       "use_centre_point" : null
     }
   ]
