@@ -189,10 +189,10 @@ function initMap(ractive, view) {
       return
     };
 
-    setTimeout(zoomMapTo(regionCodes), 0);
+    setTimeout(_zoomMapTo(regionCodes), 0);
   }
 
-  function zoomMapTo(regionCodes) {
+  function _zoomMapTo(regionCodes) {
     if (!mapObject) {
       return
     };
@@ -215,19 +215,8 @@ function initMap(ractive, view) {
     map.addMarker(party.iso2, [party.lat, party.lon]);
   }
 
-  // Map watches filters. When they change, rerender the map.
-  ractive.observe('filters.*', function(){
-    updateMap();
-  }, {init: false});
-
-  ractive.observe('selectedParty', function(){
-    updateMap();
-  }, {init: false})
-
   return {
     mapObject: mapObject,
     updateMap: updateMap,
-    zoomMapTo: zoomMapTo,
-    _addMarkerFor: _addMarkerFor
   }
 }

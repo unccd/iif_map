@@ -104,7 +104,7 @@ FilterChoice = Backbone.Model.extend({
   initialize: function (model, options) {
     // Create value from title provided
     if (options.definition.infer_value_from_title) {
-      model.value = snake_case(model.title);
+      model.value = app.utils.snake_case(model.title);
       this.set('value', model.value);
     }
     // Create ID from the provided attribute name and the value

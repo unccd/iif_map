@@ -64,8 +64,6 @@ Parties = PartiesQueryCollection.extend({
     queryObject["$and"][filterAttribute]= {$ne: ''};
     var queryResult = this._superset.query(queryObject);
     this.reset(queryResult);
-    console.debug('resetWithQuery');
-    return 
   },
   prepareMapRegionsData: function(attribute) {
     var partiesJSON = this.toJSON();
