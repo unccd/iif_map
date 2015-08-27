@@ -148,14 +148,18 @@ function initMap(ractive, view) {
     };
     mapObject.reset();
     mapObject.series.regions[0].setValues(_prepareRegionsData(collection));
-    // mapObject.series.markers[0].setValues(_prepareMarkersData(collection));
+    mapObject.series.markers[0].setValues(_prepareMarkersData(collection));
     return _zoomToFiltered();
   }
 
   function _zoomToFiltered() {
     var party, geoSearch, regionCodes;
 
-    regionCodes = _.chain(collection.toJSON()).pluck('iso2').compact().value();
+    regionCodes = _.chain(collection.toJSON())
+      .where({use_centre_point: false})
+      .pluck('iso2')
+      .compact()
+      .value();
 
     if (_.isEmpty(regionCodes)) {
       return
