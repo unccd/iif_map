@@ -13,6 +13,7 @@ function initRactive(collection, filters, views) {
     data: {
       // State
       geoSearch: '',
+      selectedParty: '',
       filterView: views[0],
 
       // Collections
@@ -35,29 +36,21 @@ function initRactive(collection, filters, views) {
     },
     // COMPUTED DATA
     computed: {
-      selectedParty: function(){
-        var attribute = this.get('geoSearchAttribute');
-        if (attribute == 'party') {
-          return collection.first();
-        }
-      },
       // Filters
-      geoSearchList: function() {
-        return this.get('filters').decorateForGeosearch();
-      },
+      geoSearchList: '${filters}.decorateForGeosearch()',
       geoSearchAttribute: function(){
-        return this.get('geoSearch').split(':')[0];
+        this.get('geoSearch').split(':')[0];
       },
-      geoSearchValue: function(){
-        return this.get('geoSearch').split(':')[1];
+      geoSearchValue:function(){
+        this.get('geoSearch').split(':')[1];
       },
       detailForParty: function() {
-        if (selectedParty == '') { return };
         var selectedParty = this.get('selectedParty');
+        if (selectedParty == '') { return };
 
         // For some reason it's not always passed as a Party model...
         if (selectedParty instanceof Backbone.Model) {
-          console.debug('Creating Party model from object for display')
+          console.log('Creating Party model from object for display')
           selectedParty = new Party(selectedParty.toJSON())
         }
         return selectedParty.decorateForDetailView(views);
@@ -95,13 +88,20 @@ function initRactive(collection, filters, views) {
   ractive.observe('filters.*', function(){
     var query = filters.prepareFilterQuery(); 
     collection.resetWithQuery(query);
-    this.get('map').updateMap();
   }, {init: false})
-
 
   // Watch geoSearch
   ractive.observe('geoSearch', function(filterId) {
     var filter;
+
+    // If it's a Party and there's no selectedParty already,
+    // then set the selectedParty to this Party
+    if ((this.get('geoSearchAttribute') == 'party') &&
+      (this.get('selectedParty') == '')
+      ){
+      var party = collection.findWhere({iso2: this.get('geoSearchValue')});
+      this.set('selectedParty', party);
+    }
 
     if (filterId == '') {
       // On reset/empty input, remove any geoAttribute filters

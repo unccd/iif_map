@@ -65,18 +65,7 @@ function initMap(ractive, view) {
   }
 
   function _regionClick(event, regionCode) {
-    var party = collection.findWhere({
-      iso2: regionCode
-    });
-    if (party == undefined) {
-      return
-    }
-
-    if (ractive.get('selectedParty') == party) {
-      ractive.set('geoSearch', false);
-    } else {
-      ractive.set('geoSearch', party);
-    }
+    // return ractive.set('selectedParty', filterId);
   }
 
   function _markerClick(event, markerCode) {
@@ -108,9 +97,6 @@ function initMap(ractive, view) {
   // 
   updateMap = function () {
     // Update data and re-render map based on current filter state
-    if (app.DEBUG) {
-      console.log('updateMap')
-    }
     if (!mapObject) {
       return
     };
@@ -159,28 +145,14 @@ function initMap(ractive, view) {
     map.addMarker(party.iso2, [party.lat, party.lon]);
   }
 
-  // ractive.observe('filters.*', function(){
-  // }, {init: false});
+  // Map watches filters. When they change, rerender the map.
+  ractive.observe('filters.*', function(){
+    updateMap();
+  }, {init: false});
 
-  ractive.observe('geoSearch', function(filterId) {
-    var attr = ractive.get('geoSearchAttribute')
-    console.log('geoSearch observed by map', attr, filterId)
-
-    // // Find the filter from given ID
-    // var filter = this.get('filters').get(filterId);
-
-    // if (filter.get('attribute') == 'party') {
-    //   var party = collection.findWhere({iso2: filter.get('value')});
-    //   this.set('selectedParty', party);
-    // } else {
-    //   filter.set({excluded: true, isGeoSearch: true});
-    // }
-
-
-  }, {
-    init: false
-  });
-
+  ractive.observe('selectedParty', function(){
+    updateMap()
+  }, {init: false})
 
   return {
     mapObject: mapObject,

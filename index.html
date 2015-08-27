@@ -170,8 +170,8 @@
   <script id='partyDetailPartial' type="text/html">
     {{#if selectedParty}}
       <div class="detail">
-        <button on-click='set("geoSearch", "")' class='back'>&lt; Back</button>
-        <div class='party-name'>{{selectedParty.get('short_name')}}</div>
+        <button on-click='set("selectedParty", "")' class='back'>&lt; Back</button>
+        <div class='party-name'>{{selectedParty ? selectedParty.get('short_name') : ''}}</div>
 
         <div class='choices-summary filters-list'>
           {{#detailForParty}}
