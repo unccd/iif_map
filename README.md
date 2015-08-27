@@ -18,6 +18,9 @@ The application is just HTML, CSS and plain JavaScript.
 
 You can optionally use [Gulp](http://gulpjs.com/) to help speed up development, but it's not required. To get it working, you'll need [NodeJS](https://nodejs.org/) installed. Install dependencies with `npm install`, then `gulp` to start serving a local version at <http://localhost:3000>. It uses [Browsersync](http://www.browsersync.io/) to autoreload the pages on file changes.
 
+# Browser support
+
+The application is designed to work in all [modern browsers](http://browsehappy.com/). It has been tested and works with IE versions 9+.
 
 # Mapping
 
