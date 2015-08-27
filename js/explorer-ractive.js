@@ -91,19 +91,11 @@ function initRactive(collection, filters, views) {
   });
 
 
-  // Recalcalculate Parties when filters change
-  // TODO: Move to Filters? Think it's clearer here.
-  // filters.on(['change', 'reset'], function(){
-  //   var query = filters.prepareFilterQuery(); 
-  //   collection.resetWithQuery(query);
-  // })
-
-
   // 
   // Ractive events
   // 
 
-  // TODO: Move to map observers config
+  // Requery when filters change
   ractive.observe('filters.*', function(){
     var query = filters.prepareFilterQuery(); 
     collection.resetWithQuery(query);
@@ -111,36 +103,16 @@ function initRactive(collection, filters, views) {
   }, {init: false})
 
 
-  // ractive.observe('selectedParty', function(party) {
-  //   // When selectedParty is reset, also clear geoSearchValue unless 
-  //   // it's a Party
-  //   if (party === false && this.get('geoSearchType') != 'party') {
-  //     this.set('geoSearchValue', '');
-  //   }
-  
-  //   // Figure zoom on selectedParty
-  //   if (party && party.use_centre_point) {
-  //     return this.get('map').showMarkerFor(party);
-  //   } else if(party) {
-  //     this.get('map').zoomMapTo([party.iso2]);
-  //   } else if (this.get('geoSearchValue')) {
-  //     // If there's already a geoSearchValue then just update map
-  //     this.get('map').updateMap();
-  //    } else {
-  //     // Zoom to everything
-  //     this.get('map').zoomMapTo();
-  //   }
-  // }, {init: false})
-
   // Watch geoSearch
   ractive.observe('geoSearch', function(filterId) {
-    // On reset/empty input, remove any geoAttribute filters
-    if (filterId == '') {return filters.setGeoSearchNotExcluded(); }
-
-    // Activate any matching filters
     var filter;
-    if (filter = this.get('filters').get(filterId)) {
-      filter.set({excluded: true, isGeoSearch: true});
+
+    if (filterId == '') {
+      // On reset/empty input, remove any geoAttribute filters
+      return filters.setGeoSearchNotExcluded(); 
+    } else if (filter = this.get('filters').get(filterId)) {
+      // Activate any matching filters
+      return filter.set({excluded: true, isGeoSearch: true});
     }
   }, {init: false});
 
