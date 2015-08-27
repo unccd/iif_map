@@ -91,7 +91,6 @@ Parties = PartiesQueryCollection.extend({
       var marker = {
         name: model.short_name,
         latLng: [model.lat, model.lon],
-        style: {fill: 'yellow'},
         value: model[attribute]
       };
       markers[model.iso2] = marker;

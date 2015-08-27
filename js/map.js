@@ -15,18 +15,19 @@ function initMap(ractive, view) {
   collection = ractive.get('collection');
   filterAttribute = view.filterAttribute;
 
-  // Create scale and legend from view
+  // Create map from view
   map = $(".map").vectorMap(defineMap());
   mapObject = map.vectorMap('get', 'mapObject');
 
   // Create map definition object
   function defineMap() {
-    var filtersCollection, scale, legend, initialRegionValues, regionStyle, initialMarkerValues, markerStyle;
+    var filtersCollection, scale, initialRegionValues, regionStyle, initialMarkerValues, markerStyle;
+
     filtersCollection = new Backbone.Collection(ractive.get('filters').getForAttribute(filterAttribute));
     scale = _.object(filtersCollection.pluck('value'), filtersCollection.pluck('colour'));
-    legend = _.object(filtersCollection.pluck('value'), filtersCollection.pluck('title'));
+
     initialRegionValues = _prepareRegionsData(collection);
-    // initialMarkerValues = _prepareMarkersData(collection);
+    initialMarkerValues = _prepareMarkersData(collection);
 
     regionStyle = {
       initial: {
@@ -36,6 +37,17 @@ function initMap(ractive, view) {
         stroke: 'green',
         'stroke-width': 1,
         fill: 'pink'
+      },
+      hover: {
+        fill: 'grey'
+      }
+    }
+
+    markerStyle = {
+      initial: {
+        fill: '#E2E2E2',
+        // stroke: 'darkgrey',
+        'stroke-width': 1
       },
       hover: {
         fill: 'grey'
@@ -56,11 +68,12 @@ function initMap(ractive, view) {
           scale: scale,
           normalizeFunction: 'ordinal',
           attribute: 'fill',
-          values: initialMarkerValues
+          values: _.reduce(initialMarkerValues, function(p, c, i){ p[i] = c.value; return p }, {}),
         }],
       },
       markers: initialMarkerValues,
       regionStyle: regionStyle,
+      markerStyle: markerStyle,
       onRegionClick: function(event, regionCode) {
         _regionClick(event, regionCode);
       },
@@ -142,7 +155,7 @@ function initMap(ractive, view) {
   function updateMap() {
     // Update data and re-render map based on current filter state
     if (!mapObject) {
-      return
+      throw ('Missing map object'); return;
     };
     mapObject.reset();
     mapObject.series.regions[0].setValues(_prepareRegionsData(collection));
