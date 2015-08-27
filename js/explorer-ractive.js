@@ -3,6 +3,8 @@
 // 
 
 function initRactive(collection, filters, views) {
+  var _requery;
+
   // Init Ractive object
   var ractive = new Ractive({
     // CONFIG
@@ -80,23 +82,30 @@ function initRactive(collection, filters, views) {
   });
 
 
+  // Initial requery of data
+  _requery();
+
+
   // 
   // Ractive events
   // 
+
+  function _requery() {
+    var filterAttribute = ractive.get('filterView').filterAttribute;
+    var query = ractive.get('filters').prepareFilterQuery(); 
+    return collection.resetWithQuery(query, filterAttribute);
+  }
 
   // Requery collection when filters change
   // TODO: Could put this observer on the Filters or Collection 
   //       themselves
   ractive.observe('filters.*', function(object){
-    var filterAttribute = this.get('filterView').filterAttribute;
-    var query = filters.prepareFilterQuery(); 
-    return collection.resetWithQuery(query, filterAttribute);
+    _requery();
   }, {init: false})
 
 
   // Update map everytime collection is updated/requeried
   ractive.observe('collection', function(collection){
-    console.debug('collection changed', collection.length);
     this.map.updateMap();
   }, {init: false})
 
@@ -130,8 +139,11 @@ function initRactive(collection, filters, views) {
 
   // Watch FilterView, and redraw map
   ractive.observe('filterView', function(filterView) {
+    // Remove all filters that are not geoSearch
+    filters.setAllNotExcludedExceptGeoSearch();
+
     // Requery the data to limit to just Parties with the given attribute
-    
+    _requery();
 
     // Rerender map with passed view definition
     this.map.mapObject.remove();

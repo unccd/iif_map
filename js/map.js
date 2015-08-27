@@ -18,6 +18,10 @@ function initMap(ractive, view) {
   // Create map from view
   map = $(".map").vectorMap(defineMap());
   mapObject = map.vectorMap('get', 'mapObject');
+  // Immediately zoom to filtered
+  _zoomToFiltered();
+
+
 
   // Create map definition object
   function defineMap() {
