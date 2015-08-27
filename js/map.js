@@ -70,7 +70,7 @@ function initMap(ractive, view) {
     // If no Party, then ignore click
     if (!party) { return };
     
-    if (ractive.get('selectedParty') == party) {
+    if (ractive.get('selectedParty').id == party.id) {
       // If it's the same as existing, then undo
       ractive.set('selectedParty', '');
     } else {
@@ -117,13 +117,13 @@ function initMap(ractive, view) {
   }
 
   function _zoomToFiltered() {
-    if (app.DEBUG) {
-      // console.log('_zoomToFiltered')
-    }
-    var regionCodes = _.compact(collection.pluck('iso2'));
+    var party, geoSearch, regionCodes = _.compact(collection.pluck('iso2'));
     if (_.isEmpty(regionCodes)) {
       return
     };
+    if (party = ractive.get('selectedParty')) {
+      regionCodes = [party.get('iso2')]
+    }
     setTimeout(zoomMapTo(regionCodes), 0);
   }
 

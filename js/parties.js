@@ -10,6 +10,9 @@ function bootstrapParties(partiesObject) {
 // Parties
 // 
 Party = Backbone.Model.extend({
+  initialize: function(attrs, options) {
+    this.set('id', 'party:' + attrs.iso2);
+  },
   decorateForDetailView: function(views) {
     var _this = this;
     return _.chain(views).map(function(view) {
@@ -41,11 +44,14 @@ Party = Backbone.Model.extend({
   }
 })
 
-Parties = Backbone.Collection.extend({
+PartiesQueryCollection = Backbone.QueryCollection.extend({
   comparator: 'short_name',
-  model: Party,
+  model: Party
+})
+
+Parties = PartiesQueryCollection.extend({
   initialize: function(models, options) {
-    this._superset = new Backbone.QueryCollection(models);
+    this._superset = new PartiesQueryCollection(models);
   },
   resetWithQuery: function(queryObject) {
     return this.reset(this._superset.query(queryObject));
