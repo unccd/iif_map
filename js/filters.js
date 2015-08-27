@@ -127,7 +127,8 @@ FilterChoice = Backbone.Model.extend({
 FilterChoices = Backbone.Collection.extend({
   model: FilterChoice,
   _prepareModel: function (model, options) {
-    if (model.disabled) { return };
+    // Don't create Choices for attributes with `disabled` flag set true
+    if (model.disabled) {return };
     return Backbone.Collection.prototype._prepareModel.call(this, model, options);
   },
   // SETTERS and GETTERS

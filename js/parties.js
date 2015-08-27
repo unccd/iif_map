@@ -63,18 +63,22 @@ Parties = PartiesQueryCollection.extend({
     queryObject["$and"] || (queryObject["$and"] = {});
     queryObject["$and"][filterAttribute]= {$ne: ''};
     var queryResult = this._superset.query(queryObject);
-    return this.reset(queryResult);
+    this.reset(queryResult);
+    console.debug('resetWithQuery');
+    return 
   },
   prepareMapRegionsData: function(attribute) {
     var partiesJSON = this.toJSON();
     // Get models with attribute
     // Reject SRAPs
     var models = _.chain(partiesJSON)
-      .select(function(i) {return i[attribute] != ''})
+      .reject(function(i) {return i[attribute] === ''})
       .where({use_centre_point: false, srap: false })
       .value();
     // return mapped to ISO2
-    return _.object(_.pluck(models, 'iso2'), _.pluck(models, attribute))
+    var iso2s = _.pluck(models, 'iso2');
+    var attributes = _.pluck(models, attribute);
+    return _.object(iso2s, attributes)
   },
   prepareMapMarkersData: function(attribute) {
     var partiesJSON = this.toJSON();

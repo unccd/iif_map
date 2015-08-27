@@ -15,8 +15,13 @@
   // BOOTSTRAP DATA
   // ===============
 
-  // Parties collection from ACP/DCP countries and SRAPs. 
-  app.partiesCollection = bootstrapParties(bootstrap_data.iif_status);
+  var data;
+  data = bootstrap_data.iif_status;
+  // data = _.reject(data, function(model){return model.iso2=='PG'})
+  app.partiesCollection = bootstrapParties(data);
+
+  // // Parties collection from ACP/DCP countries and SRAPs. 
+  // app.partiesCollection = bootstrapParties(bootstrap_data.iif_status);
   // Combined FilterDefinitions and FilterChoices
   app.filters = bootstrapFilters(bootstrap_data.iif_status_def, app.partiesCollection);
 

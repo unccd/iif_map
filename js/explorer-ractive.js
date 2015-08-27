@@ -116,12 +116,14 @@ function initRactive(collection, filters, views) {
     }
   }, {init: false});
 
+  ractive.observe('collection', function(collection){
+    console.debug('collection changed', collection.length)
+  }, {init: false})
+
   ractive.observe('filterView', function(filterView) {
     // Rerender map with passed view definition
-    triggerRequery();
     this.map.mapObject.remove();
     this.map = initMap(this, filterView);
-    this.map.updateMap();
   }, {init: false})
 
   return ractive;

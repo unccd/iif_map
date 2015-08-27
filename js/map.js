@@ -26,7 +26,7 @@ function initMap(ractive, view) {
     scale = _.object(filtersCollection.pluck('value'), filtersCollection.pluck('colour'));
     legend = _.object(filtersCollection.pluck('value'), filtersCollection.pluck('title'));
     initialRegionValues = _prepareRegionsData(collection);
-    initialMarkerValues = _prepareMarkersData(collection);
+    // initialMarkerValues = _prepareMarkersData(collection);
 
     regionStyle = {
       initial: {
