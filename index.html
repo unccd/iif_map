@@ -168,10 +168,10 @@
 
   <!-- COUNTRY DETAIL PARTIAL -->
   <script id='partyDetailPartial' type="text/html">
-    {{#selectedParty}}
+    {{#if selectedParty}}
       <div class="detail">
         <button on-click='set("geoSearch", "")' class='back'>&lt; Back</button>
-        <div class='party-name'>{{selectedParty ? selectedParty.get('short_name') : ''}}</div>
+        <div class='party-name'>{{selectedParty.get('short_name')}}</div>
 
         <div class='choices-summary filters-list'>
           {{#detailForParty}}
@@ -194,7 +194,7 @@
         </div>
 
       </div>
-    {{/selectedParty}}
+    {{/if}}
   </script>
 
   <!-- SEARCH PARTIAL -->

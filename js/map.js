@@ -109,7 +109,7 @@ function initMap(ractive, view) {
   updateMap = function () {
     // Update data and re-render map based on current filter state
     if (app.DEBUG) {
-      console.debug('updateMap')
+      console.log('updateMap')
     }
     if (!mapObject) {
       return
@@ -121,7 +121,7 @@ function initMap(ractive, view) {
 
   function _zoomToFiltered() {
     if (app.DEBUG) {
-      console.debug('_zoomToFiltered')
+      // console.log('_zoomToFiltered')
     }
     var regionCodes = _.compact(collection.pluck('iso2'));
     if (_.isEmpty(regionCodes)) {
@@ -132,7 +132,7 @@ function initMap(ractive, view) {
 
   function zoomMapTo(regionCodes) {
     if (app.DEBUG) {
-      console.debug('zoomMapTo', regionCodes)
+      // console.log('zoomMapTo', regionCodes)
     }
     if (!mapObject) {
       return
@@ -152,7 +152,7 @@ function initMap(ractive, view) {
   }
 
   function _addMarkerFor(party) {
-    if (app.DEBUG) {console.debug('_addMarkerFor', party) }
+    if (app.DEBUG) {console.log('_addMarkerFor', party) }
 
     var map = ractive.get('map').mapObject;
     map.removeAllMarkers();
@@ -164,7 +164,7 @@ function initMap(ractive, view) {
 
   ractive.observe('geoSearch', function(filterId) {
     var attr = ractive.get('geoSearchAttribute')
-    console.debug('geoSearch observed by map', attr, filterId)
+    console.log('geoSearch observed by map', attr, filterId)
 
     // // Find the filter from given ID
     // var filter = this.get('filters').get(filterId);

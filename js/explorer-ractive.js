@@ -52,9 +52,9 @@ function initRactive(collection, filters, views) {
         return this.get('geoSearch').split(':')[1];
       },
       detailForParty: function() {
+        if (selectedParty == '') { return };
         var selectedParty = this.get('selectedParty');
 
-        if (selectedParty == '') { return };
         // For some reason it's not always passed as a Party model...
         if (selectedParty instanceof Backbone.Model) {
           console.debug('Creating Party model from object for display')
@@ -63,14 +63,10 @@ function initRactive(collection, filters, views) {
         return selectedParty.decorateForDetailView(views);
       },
       partyCount: function() {
-        return this.get('collection').where({
-          srap: false
-        }).length;
+        return this.get('collection').where({srap: false }).length;
       },
       srapCount: function() {
-        return this.get('collection').where({
-          srap: true
-        }).length;
+        return this.get('collection').where({srap: true }).length;
       },
     },
     // RACTIVE METHODS
