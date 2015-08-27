@@ -200,7 +200,7 @@
   <!-- SEARCH PARTIAL -->
   <script id="searchPartial" type="text/html">
     <div class='search'>
-      <select decorator='chosen:geoSearch' value="{{geoSearch}}" data-observe='parties' data-placeholder="Search party, region">
+      <select decorator='chosen:geoSearch' value="{{geoSearch}}" data-observe='collection' data-placeholder="Search party, region">
         <option value=""></option>
         {{#each geoSearchList}}
           <optgroup label="{{titleCase(name)}}">

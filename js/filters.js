@@ -204,6 +204,21 @@ FilterChoices = Backbone.Collection.extend({
       console.log('Filters: no geosearch attributes found');
       return;
     }
+
+    // return _.map(geoAttributes, function(geoAttribute) {
+    //   var choices =  _.chain(_this.collectionToFilter.toJSON())
+    //     .select(function(model){
+    //       return model[geoAttribute] != '' && model[geoAttribute] != undefined;
+    //     })
+    //     .pluck(geoAttribute)
+    //     .uniq()
+    //     .sort()
+    //     .value();
+    //   return {
+    //     name: geoAttribute,
+    //     choices: choices
+    //   }
+    // });
     return _.map(geoAttributes, function(geoAttribute) {
       return {
         name: geoAttribute,

@@ -95,6 +95,7 @@
         if (!setting) {
           setting = true;
           window.setTimeout(function() {
+            console.log('seen observed data change - update chosen');
             if (newvalue === '' || newvalue !== oldvalue)
               $(node).trigger('chosen:updated');
 

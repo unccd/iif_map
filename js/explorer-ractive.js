@@ -37,7 +37,10 @@ function initRactive(collection, filters, views) {
     // COMPUTED DATA
     computed: {
       // Filters
-      geoSearchList: '${filters}.decorateForGeosearch()',
+      geoSearchList: function(){
+        console.log('geoSearchList');
+        return this.get('filters').decorateForGeosearch();
+      },
       geoSearchAttribute: function(){
         return this.get('geoSearch').split(':')[0];
       },
