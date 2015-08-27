@@ -156,6 +156,7 @@ a {
 }
 .clickable-text {
   cursor: pointer;
+  color: green;
 }
 .clickable-text:hover {
   text-decoration: underline;
