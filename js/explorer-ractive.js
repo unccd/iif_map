@@ -136,11 +136,7 @@ function initRactive(collection, filters, views) {
   ractive.observe('geoSearch', function(filterId) {
     // On reset/empty input, remove any geoAttribute filters
     if (filterId == '') {
-      _.each(this.get('filters').where({isGeoSearch: true}), function(model){
-        model.set('excluded', false);
-        model.unset('isGeoSearch');
-      });
-      return;
+      return filters.setGeoSearchNotExcluded();
     }
 
     // Find the filter from given ID

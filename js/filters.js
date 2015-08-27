@@ -172,6 +172,12 @@ FilterChoices = Backbone.Collection.extend({
       choice.set('excluded', false);
     });
   },
+  setGeoSearchNotExcluded: function(){
+    _.each(this.where({isGeoSearch: true}), function(model){
+      model.set('excluded', false);
+      model.unset('isGeoSearch');
+    });
+  },
   // PRESENTERS
   decorateForFiltersList: function(attribute) {
     var filterModels = this.where({
