@@ -13,18 +13,18 @@ Party = Backbone.Model.extend({
   initialize: function(attrs, options) {
     this.set('id', 'party:' + attrs.iso2);
   },
-  decorateForDetailView: function(views) {
+  decorateForDetailView: function(views, filters) {
     var _this = this;
     return _.chain(views).map(function(view) {
       var filterAttribute = view.filterAttribute; // e.g. 'iif_or_plan'
 
-      var filterDef = app.filters.definitions.findWhere({
+      var filterDef = filters.definitions.findWhere({
         name: filterAttribute
       });
       var attributeTitle = filterDef.get('title'); // e.g. 'IIFs established'
 
       var choiceValue = _this.get(filterAttribute); // e.g. 'iif' - i.e. the model's value for the filterAttribute
-      var choice = app.filters.findWhere({
+      var choice = filters.findWhere({
         attribute: filterAttribute,
         value: choiceValue
       })

@@ -47,13 +47,7 @@ function initRactive(collection, filters, views) {
       detailForParty: function() {
         var selectedParty = this.get('selectedParty');
         if (selectedParty == '') { return };
-
-//         // For some reason it's not always passed as a Party model...
-//         if (!selectedParty instanceof Backbone.Model) {
-//           console.log('Creating Party model from object for display')
-//           selectedParty = new Party(selectedParty.toJSON())
-//         }
-        return selectedParty.decorateForDetailView(views);
+        return new Party(selectedParty).decorateForDetailView(views, filters);
       },
       partyCount: function() {
         return this.get('collection').where({srap: false }).length;
@@ -102,7 +96,7 @@ function initRactive(collection, filters, views) {
     // then set the selectedParty to this Party
     if (this.get('geoSearchAttribute') == 'party') {
       var party = collection.get(filterId);
-      this.set('selectedParty', party);
+      this.set('selectedParty', party.toJSON());
     }
 
     // On reset/empty input, remove any geoAttribute filters

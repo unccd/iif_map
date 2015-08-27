@@ -87,7 +87,7 @@ function initMap(ractive, view) {
       ractive.set('selectedParty', '');
     } else {
       // Otherwise set selectedParty
-      ractive.set('selectedParty', party);
+      ractive.set('selectedParty', party.toJSON());
     }
   }
 
@@ -102,7 +102,7 @@ function initMap(ractive, view) {
       ractive.set('selectedParty', '');
     } else {
       // Otherwise set selectedParty
-      ractive.set('selectedParty', party);
+      ractive.set('selectedParty', party.toJSON());
     }
   }
 
@@ -156,8 +156,8 @@ function initMap(ractive, view) {
     var party, geoSearch, regionCodes;
 
     if (party = ractive.get('selectedParty')) {
-      if (!party.get('use_centre_point')) { 
-        regionCodes = [party.get('iso2')]
+      if (!party.use_centre_point) { 
+        regionCodes = [party.iso2]
       } else { return }
     } else {
       regionCodes = _.chain(collection.toJSON())
@@ -175,9 +175,6 @@ function initMap(ractive, view) {
   }
 
   function zoomMapTo(regionCodes) {
-    if (app.DEBUG) {
-      // console.log('zoomMapTo', regionCodes)
-    }
     if (!mapObject) {
       return
     };
@@ -196,8 +193,6 @@ function initMap(ractive, view) {
   }
 
   function _addMarkerFor(party) {
-    if (app.DEBUG) {console.log('_addMarkerFor', party) }
-
     map.removeAllMarkers();
     map.addMarker(party.iso2, [party.lat, party.lon]);
   }

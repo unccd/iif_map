@@ -1,15 +1,11 @@
 (function(){
   var app = {};
-  app.DEBUG = true;
-  Ractive.DEBUG = app.DEBUG;
+  Ractive.DEBUG = false;
 
-  // Make app available for debugging
-  if (app.DEBUG) { window.app = app }
+  window.app = app;
 
-  app.utils = {
-    snake_case: function(text) {
-      return text.replace(/([a-z\d])([A-Z]+)/g, '$1_$2').replace(/[-\s]+/g, '_').toLowerCase();
-    }
+  snake_case = function(text) {
+    return text.replace(/([a-z\d])([A-Z]+)/g, '$1_$2').replace(/[-\s]+/g, '_').toLowerCase();
   };
 
   // Init Ractive decorators
