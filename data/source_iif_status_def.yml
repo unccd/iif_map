@@ -82,21 +82,12 @@ definitions:
         title: 'Planned 2018-2019'
         colour: '#9FDBB3'
   - name: gm_supported
-    title: GM supported
+    title: GM support for IIF/IFS
     description: Parties receiving GM support
     choices:
-      - value: received
-        title: 'IIF established, received GM support'
+      - value: true
+        title: 'GM has provided support'
         colour: '#7DC078'
-        disabled: false
-      - value: not_required
-        title: 'No IIF, not receiving GM support'
-        colour: '#B08CC5'
-        disabled: true
-      - value: not_received
-        title: 'IIF established without GM support'
-        colour: 'pink'
-        disabled: true
 views:
   - name: iifs_established
     title: IIFs established
@@ -107,6 +98,6 @@ views:
     description: These are Voluntary National Targets.
     filterAttribute: iif_plan_start
   - name: gm_support
-    title: GM support
+    title: GM support for IIF/IFS
     description: "The map shows country Parties, where the GM has supported or facilitated development of an IIF and/or IFS"
     filterAttribute: gm_supported
