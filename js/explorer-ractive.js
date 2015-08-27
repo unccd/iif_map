@@ -90,6 +90,16 @@ function initRactive(collection, filters, views) {
     collection.resetWithQuery(query);
   }, {init: false})
 
+  ractive.observe('selectedParty', function(party) {
+    // Set/unset filters for selectedParty
+    if (party != undefined && this.get('selectedParty') != party){
+      var filter = filters.findWhere({attribute: 'party', value: party.iso2});
+      filter.set({excluded: true, geoSearch: true})
+    } else {
+      filters.setGeoSearchNotExcluded()
+    }
+  }, {init: false});
+
   // Watch geoSearch
   ractive.observe('geoSearch', function(filterId) {
     var filter;

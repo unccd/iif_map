@@ -65,7 +65,18 @@ function initMap(ractive, view) {
   }
 
   function _regionClick(event, regionCode) {
-    // return ractive.set('selectedParty', filterId);
+    // Get Party matching regionCode
+    var party = collection.findWhere({iso2: regionCode});
+    // If no Party, then ignore click
+    if (!party) { return };
+    
+    if (ractive.get('selectedParty') == party) {
+      // If it's the same as existing, then undo
+      ractive.set('selectedParty', '');
+    } else {
+      // Otherwise set selectedParty
+      ractive.set('selectedParty', party);
+    }
   }
 
   function _markerClick(event, markerCode) {
