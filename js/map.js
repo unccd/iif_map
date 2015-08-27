@@ -155,18 +155,22 @@ function initMap(ractive, view) {
   function _zoomToFiltered() {
     var party, geoSearch, regionCodes;
 
-    regionCodes = _.chain(collection.toJSON())
-      .where({use_centre_point: false})
-      .pluck('iso2')
-      .compact()
-      .value();
+    if (party = ractive.get('selectedParty')) {
+      if (!party.get('use_centre_point')) { 
+        regionCodes = [party.get('iso2')]
+      } else { return }
+    } else {
+      regionCodes = _.chain(collection.toJSON())
+        .where({use_centre_point: false})
+        .pluck('iso2')
+        .compact()
+        .value();
+    }
 
     if (_.isEmpty(regionCodes)) {
       return
     };
-    if (party = ractive.get('selectedParty')) {
-      regionCodes = [party.get('iso2')]
-    }
+
     setTimeout(zoomMapTo(regionCodes), 0);
   }
 
