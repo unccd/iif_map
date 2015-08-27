@@ -54,7 +54,8 @@ Parties = PartiesQueryCollection.extend({
     this._superset = new PartiesQueryCollection(models);
   },
   resetWithQuery: function(queryObject) {
-    return this.reset(this._superset.query(queryObject));
+    var queryResult = this._superset.query(queryObject);
+    return this.reset(queryResult);
   },
   prepareMapRegionsData: function(attribute) {
     var partiesJSON = this.toJSON();

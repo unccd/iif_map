@@ -36,6 +36,6 @@
 
   // jVectormap map, binding the Ractive view
   var map = initMap(app.ractive, views[0]);
-  app.map = map; // For debugging only
-  app.ractive.set('map', map);
+  // app.map = map; // For debugging only
+  app.ractive.map = map;
 })();

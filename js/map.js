@@ -198,7 +198,6 @@ function initMap(ractive, view) {
   function _addMarkerFor(party) {
     if (app.DEBUG) {console.log('_addMarkerFor', party) }
 
-    var map = ractive.get('map').mapObject;
     map.removeAllMarkers();
     map.addMarker(party.iso2, [party.lat, party.lon]);
   }

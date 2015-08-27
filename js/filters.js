@@ -201,7 +201,7 @@ FilterChoices = Backbone.Collection.extend({
       return filterDef.get('name')
     });
     if (_.isEmpty(geoAttributes)) {
-      console.debug('Filters: no geosearch attributes found');
+      console.log('Filters: no geosearch attributes found');
       return;
     }
     return _.map(geoAttributes, function(geoAttribute) {

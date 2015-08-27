@@ -89,7 +89,7 @@ function initRactive(collection, filters, views) {
   // 
 
   // Requery when filters change
-  ractive.observe('filters.*', function(){
+  ractive.observe('filters.*', function(object){
     var query = filters.prepareFilterQuery(); 
     return collection.resetWithQuery(query);
   }, {init: false})
@@ -117,9 +117,9 @@ function initRactive(collection, filters, views) {
 
   ractive.observe('filterView', function(filterView) {
     // Rerender map with passed view definition
-    this.get('map').mapObject.remove();
-    this.set('map', initMap(this, filterView));
-    this.get('map').updateMap();
+    this.map.mapObject.remove();
+    this.map = initMap(this, filterView);
+    this.map.updateMap();
   }, {init: false})
 
   return ractive;
