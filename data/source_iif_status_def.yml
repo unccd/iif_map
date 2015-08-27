@@ -104,9 +104,9 @@ views:
     filterAttribute: iif_or_plan
   - name: iifs_planned
     title: IIFs planned
-    description: These are Voluntary National Targets. These include IIFs with no specific date.
+    description: These are Voluntary National Targets.
     filterAttribute: iif_plan_start
   - name: gm_support
     title: GM support
-    description: The map shows parties with IIFs established which have received support from GM. The GM has also supported development or facilitation of IFS/IIF in Palestine, Limpopo Basin, EFIR (as a text, as in case with SRAPs).
+    description: "The map shows country Parties, where the GM has supported or facilitated development of an IIF and/or IFS"
     filterAttribute: gm_supported

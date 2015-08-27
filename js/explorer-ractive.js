@@ -35,6 +35,12 @@ function initRactive(collection, filters, views) {
     },
     // COMPUTED DATA
     computed: {
+      selectedParty: function(){
+        var attribute = this.get('geoSearchAttribute');
+        if (attribute == 'party') {
+          return collection.first();
+        }
+      },
       // Filters
       geoSearchList: function() {
         return this.get('filters').decorateForGeosearch();
@@ -140,6 +146,7 @@ function initRactive(collection, filters, views) {
     // Find the filter from given ID
     var filter = this.get('filters').get(filterId);
 
+    // If the filter is a party - then display it, and zoom to it!
     if (filter.get('attribute') == 'party') {
       var party = collection.findWhere({iso2: filter.get('value')});
       this.set('selectedParty', party);

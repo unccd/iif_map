@@ -73,9 +73,9 @@ function initMap(ractive, view) {
     }
 
     if (ractive.get('selectedParty') == party) {
-      ractive.set('selectedParty', false);
+      ractive.set('geoSearch', false);
     } else {
-      ractive.set('selectedParty', party);
+      ractive.set('geoSearch', party);
     }
   }
 
