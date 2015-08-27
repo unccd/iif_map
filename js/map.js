@@ -6,7 +6,7 @@
 // 'filters' defined as properties
 function initMap(ractive, view) {
   var collection, filterAttribute, map, mapObject;
-  var updateMap, updateMapData, _prepareRegionsData, _prepareMarkersData;
+  var updateMap, updateMapData, _prepareRegionsData, _prepareMarkersData, _prepareMarkersArrayForViz;
 
   if (ractive == undefined) {
     throw 'Need to pass ractive and view to the Map creator'
@@ -21,13 +21,13 @@ function initMap(ractive, view) {
 
   // Create map definition object
   function defineMap() {
-    var filtersCollection, scale, initialRegionValues, regionStyle, initialMarkerValues, markerStyle;
+    var filtersCollection, scale, initialRegionValues, regionStyle, initialMarkersArray, markerStyle;
 
     filtersCollection = new Backbone.Collection(ractive.get('filters').getForAttribute(filterAttribute));
     scale = _.object(filtersCollection.pluck('value'), filtersCollection.pluck('colour'));
 
     initialRegionValues = _prepareRegionsData(collection);
-    initialMarkerValues = _prepareMarkersData(collection);
+    initialMarkersArray = _prepareMarkersData(collection);
 
     regionStyle = {
       initial: {
@@ -46,6 +46,7 @@ function initMap(ractive, view) {
     markerStyle = {
       initial: {
         fill: '#E2E2E2',
+        r: '4px',
         // stroke: 'darkgrey',
         'stroke-width': 1
       },
@@ -68,10 +69,10 @@ function initMap(ractive, view) {
           scale: scale,
           normalizeFunction: 'ordinal',
           attribute: 'fill',
-          values: _.reduce(initialMarkerValues, function(p, c, i){ p[i] = c.value; return p }, {}),
+          values: _prepareMarkersArrayForViz(),
         }],
       },
-      markers: initialMarkerValues,
+      markers: initialMarkersArray,
       regionStyle: regionStyle,
       markerStyle: markerStyle,
       onRegionClick: function(event, regionCode) {
@@ -151,6 +152,12 @@ function initMap(ractive, view) {
     return collection.prepareMapMarkersData(filterAttribute);
   }
 
+  function _prepareMarkersArrayForViz(collection) {
+    var array = _prepareMarkersData(collection);
+    return _.reduce(array, function(p, c, i){ 
+      p[i] = c.value; return p }, {})
+  }
+
   // 
   function updateMap() {
     // Update data and re-render map based on current filter state
@@ -159,7 +166,7 @@ function initMap(ractive, view) {
     };
     mapObject.reset();
     mapObject.series.regions[0].setValues(_prepareRegionsData(collection));
-    mapObject.series.markers[0].setValues(_prepareMarkersData(collection));
+    mapObject.series.markers[0].setValues(_prepareMarkersArrayForViz(collection));
     return _zoomToFiltered();
   }
 

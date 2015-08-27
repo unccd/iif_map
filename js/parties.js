@@ -83,6 +83,7 @@ Parties = PartiesQueryCollection.extend({
   prepareMapMarkersData: function(attribute) {
     var partiesJSON = this.toJSON();
     var models = _.chain(partiesJSON)
+      .reject(function(i) {return i[attribute] === ''})
       .where({use_centre_point: true, srap: false, })
       .value();
 
