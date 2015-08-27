@@ -41,7 +41,7 @@ Party = Backbone.Model.extend({
   }
 })
 
-var Parties = Backbone.Collection.extend({
+Parties = Backbone.Collection.extend({
   comparator: 'short_name',
   model: Party,
   initialize: function(models, options) {

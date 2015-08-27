@@ -170,7 +170,7 @@
   <script id='partyDetailPartial' type="text/html">
     {{#selectedParty}}
       <div class="detail">
-        <button on-click='set("selectedParty", "")' class='back'>&lt; Back</button>
+        <button on-click='set("geoSearch", "")' class='back'>&lt; Back</button>
         <div class='party-name'>{{selectedParty ? selectedParty.get('short_name') : ''}}</div>
 
         <div class='choices-summary filters-list'>
@@ -200,9 +200,9 @@
   <!-- SEARCH PARTIAL -->
   <script id="searchPartial" type="text/html">
     <div class='search'>
-      <select decorator='chosen:geoSearch' value="{{geoSearchValue}}" data-observe='parties' data-placeholder="Search party, region">
+      <select decorator='chosen:geoSearch' value="{{geoSearch}}" data-observe='parties' data-placeholder="Search party, region">
         <option value=""></option>
-        {{#each geo_search}}
+        {{#each geoSearchList}}
           <optgroup label="{{titleCase(name)}}">
             {{#each choices}}
               <option value="{{id}}">{{title}}</option>
@@ -210,8 +210,8 @@
           </optgroup>
         {{/each}}
       </select>
-      {{#if geoSearchValue != ''}}
-        <div on-click='resetGeoSearch' class="reset-geoSearch"><span class='reset-x'>x</span>Show all</div>
+      {{#if geoSearch != ''}}
+        <div on-click='set("geoSearch", "")' class="reset-geoSearch"><span class='reset-x'>x</span>Show all</div>
       {{/if}}
     </div>    
   </script>

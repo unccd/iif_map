@@ -5,23 +5,23 @@
 // The ractive passed in needs to have at least 'collection' and 
 // 'filters' defined as properties
 function initMap(ractive, view) {
-  var collection, filterAttribute, filtersCollection, scale, legend, initialValues, regionStyle, mapDef, map, mapObject;
+  var collection, filterAttribute, map, mapObject;
+  var updateMap;
 
   if (ractive == undefined) {
     throw 'Need to pass ractive and view to the Map creator'
   }
 
   collection = ractive.get('collection');
+  filterAttribute = view.filterAttribute;
 
   // Create scale and legend from view
-  mapDef = defineMap(ractive, view, collection);
-
-  map = $(".map").vectorMap(mapDef);
+  map = $(".map").vectorMap(defineMap());
   mapObject = map.vectorMap('get', 'mapObject');
 
   // Create map definition object
-  function defineMap(ractive, view, collection) {
-    filterAttribute = view.filterAttribute;
+  function defineMap() {
+    var filtersCollection, scale, legend, initialValues, regionStyle;
     filtersCollection = new Backbone.Collection(ractive.get('filters').getForAttribute(filterAttribute));
     scale = _.object(filtersCollection.pluck('value'), filtersCollection.pluck('colour'));
     legend = _.object(filtersCollection.pluck('value'), filtersCollection.pluck('title'));
@@ -55,6 +55,9 @@ function initMap(ractive, view) {
       onRegionClick: function(event, regionCode) {
         _regionClick(event, regionCode);
       },
+      onMarkerClick: function(event, regionCode) {
+        _markerClick(event, regionCode);
+      },
       onRegionTipShow: function(event, label, code) {
         _regionTip(event, label, code);
       }
@@ -70,9 +73,18 @@ function initMap(ractive, view) {
     }
 
     if (ractive.get('selectedParty') == party) {
-      ractive.set('selectedParty', false);
+      ractive.set('geoSearch', false);
     } else {
-      ractive.set('selectedParty', party);
+      ractive.set('geoSearch', party);
+    }
+  }
+
+  function _markerClick(event, markerCode) {
+    var party = collection.findWhere({iso2: markerCode});
+    if (party == undefined) { 
+      throw 'No Party found for ' + markerCode; return 
+    } else {
+      ractive.set('geoSearch', party)
     }
   }
 
@@ -89,12 +101,12 @@ function initMap(ractive, view) {
     }
   }
 
-  function _prepareMapData(collection) {
+  function _prepareMapData() {
     return collection.prepareMapData(filterAttribute);
   }
 
   // 
-  function updateMap() {
+  updateMap = function () {
     // Update data and re-render map based on current filter state
     if (app.DEBUG) {
       console.debug('updateMap')
@@ -139,17 +151,32 @@ function initMap(ractive, view) {
     }
   }
 
-  function showMarkerFor(party) {
-    if (app.DEBUG) {
-      console.debug('showMarkerFor', party)
-    }
+  function _addMarkerFor(party) {
+    if (app.DEBUG) {console.debug('_addMarkerFor', party) }
+
     var map = ractive.get('map').mapObject;
     map.removeAllMarkers();
     map.addMarker(party.iso2, [party.lat, party.lon]);
   }
 
+  // ractive.observe('filters.*', function(){
+  // }, {init: false});
+
   ractive.observe('geoSearch', function(filterId) {
-    console.debug('geoSearch observed by map', filterId)
+    var attr = ractive.get('geoSearchAttribute')
+    console.debug('geoSearch observed by map', attr, filterId)
+
+    // // Find the filter from given ID
+    // var filter = this.get('filters').get(filterId);
+
+    // if (filter.get('attribute') == 'party') {
+    //   var party = collection.findWhere({iso2: filter.get('value')});
+    //   this.set('selectedParty', party);
+    // } else {
+    //   filter.set({excluded: true, isGeoSearch: true});
+    // }
+
+
   }, {
     init: false
   });
@@ -158,8 +185,7 @@ function initMap(ractive, view) {
   return {
     mapObject: mapObject,
     updateMap: updateMap,
-    _zoomToFiltered: _zoomToFiltered,
     zoomMapTo: zoomMapTo,
-    showMarkerFor: showMarkerFor
+    _addMarkerFor: _addMarkerFor
   }
 }
