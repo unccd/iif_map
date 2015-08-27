@@ -106,7 +106,7 @@ function initMap(ractive, view) {
   }
 
   // 
-  updateMap = function () {
+  function updateMap() {
     // Update data and re-render map based on current filter state
     if (!mapObject) {
       return
