@@ -34,7 +34,15 @@ function initRactive(collection, filters, views) {
       // Data helpers
       filtersFor: function(view) {
         return this.get('filters').decorateForFiltersList(view.filterAttribute);
-      }
+      },
+      detailForParty: function(party) {
+        console.log(party);
+        if (party === undefined) {
+          party = this.get('selectedParty');
+        }
+        if (party == '') { return };
+        return new Party(party).decorateForDetailView(views, filters);
+      },
     },
     // COMPUTED DATA
     computed: {
@@ -48,17 +56,16 @@ function initRactive(collection, filters, views) {
       geoSearchValue: function(){
         return this.get('geoSearch').split(':')[1];
       },
-      detailForParty: function() {
-        var selectedParty = this.get('selectedParty');
-        if (selectedParty == '') { return };
-        return new Party(selectedParty).decorateForDetailView(views, filters);
-      },
       partyCount: function() {
         return this.get('collection').where({srap: false }).length;
       },
       srapCount: function() {
         return this.get('collection').where({srap: true }).length;
       },
+      sraps: function(){
+        // return this.get('collection').where({srap: true });
+        return _.where(this.get('collection').toJSON(), {srap: true }); // Objects instead of models...
+      }
     },
     // RACTIVE METHODS
     resetAll: function (argument) {

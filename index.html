@@ -157,11 +157,32 @@
       <div class="detail">
         <button on-click='set("showSrapDetail", false)' class='back'>&lt; Back</button>
         <div class='party-name'>Subregional Action Programmes</div>
-        <div class='description'>
-          <div class="description-title">Information on SRAPs</div>
-          <div class='description-text'>
-          </div>
-        </div>
+
+        {{#each sraps:srap}}
+          <div class='srap-detail'>
+            <div class='srap-name'>{{short_name}}</div>
+
+            <div class='choices-summary filters-list'>
+              {{#detailForParty(.)}}
+                <div class='attribute-title'>{{attributeTitle}}</div>
+                <div class='filter-choice included' style='border-left:20px solid {{colour}}'>
+                  <div class='choice-title'>{{choiceTitle}}</div>
+                </div>
+              {{/detailForParty}}
+            </div>
+
+            <div class='attribute'>
+              <div class='attribute-title'>Complimentary information provided</div>
+              <div class='description-text'>
+                {{#if description}}
+                  {{description}}
+                {{else}}
+                  Not provided
+                {{/if}}
+              </div>
+            </div>
+          </div> <!-- srap-detail -->
+        {{/each}} <!-- each sraps -->
       </div>
     {{/showSrapDetail}}
   </script>
