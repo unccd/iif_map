@@ -231,6 +231,9 @@
           </optgroup>
         {{/each}}
       </select>
+<!--       {{#if srapCounts.length != 0}}
+        <div on-click='toggle(showSrapDetail)' class="reset-geoSearch">Show SRAPS</div>
+      {{/if}} -->
       {{#if geoSearch != ''}}
         <div on-click='resetGeoSearch()' class="reset-geoSearch"><span class='reset-x'>x</span>Show all</div>
       {{/if}}
