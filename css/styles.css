@@ -365,14 +365,10 @@ div.excluded-count {
   width: 100%;
 }
 
-.search > .reset-geoSearch {
-  position: absolute;
-  right: 0px;
-  padding-left: 9px;
-  top: 30px;
-  height: 22px;
-  padding-top: 0px;
-  width: 69px;
+.search > .search-controls {
+}
+
+.search-controls > .search-control {
   background: #F2F2F2;
   text-align: center;
   cursor: pointer;
@@ -381,6 +377,24 @@ div.excluded-count {
   font-size: 12px;
   color: #BDB0B0;
   box-shadow: 0 0 5px rgba(0,0,0,.3);
+  height: 20px;
+  position: absolute;
+  right: 0px;
+  top: 30px;
+  padding-top: 0px;
+}
+
+.search-control.reset-geoSearch {
+  padding-left: 9px;
+  width: 69px;
+}
+
+.search-control.show-srap-detail {
+  width: 95px;
+  right: 90px;
+}
+.search-control.show-srap-detail.active {
+  color: red;
 }
 
 .reset-geoSearch > .reset-x {
