@@ -6,25 +6,35 @@ Dynamic map of information about UNCCD Integrated Investment Frameworks.
 
 [Embedded live version](http://www.unccd.int/en/programmes/Capacity-building/CBW/Resources/Pages/IIF-Map.aspx)
 
-# Serving the application
+# Deploying / Serving the application
 
-It is already live through [Github pages](http://unccd.github.io/iif_map). This version is rebuilt on every commit to the `gh-pages` branch. Any updates to application, data or configuration will be reflected (almost) immediately.
+It is already live through [Github pages](http://unccd.github.io/iif_map). This version is rebuilt on every commit to the `gh-pages` branch. Any updates to application, data or configuration will be reflected here (almost) immediately.
 
-In addition, all files can be [downloaded](https://github.com/unccd/iif_map/archive/gh-pages.zip).
+An zipped archive of the required files can be [downloaded](https://github.com/unccd/iif_map/archive/gh-pages.zip). The whole folder needs to be unzipped and placed on the server. In addition to `index.html`, files in the `js`, `ext`, `css` and `data` folders need to be servable. 
+
+## Embedding in iframe
+
+To embed in an iframe, point the iframe `src` to `index.html` of the application. It is designed to fit in a frame of _700px_ width and _450px_ height.
 
 # Development
 
-The application is just HTML, CSS and plain JavaScript. 
+The application is just HTML, CSS and JavaScript. 
 
 You can optionally use [Gulp](http://gulpjs.com/) to help speed up development, but it's not required. To get it working, you'll need [NodeJS](https://nodejs.org/) installed. Install dependencies with `npm install`, then `gulp` to start serving a local version at <http://localhost:3000>. It uses [Browsersync](http://www.browsersync.io/) to autoreload the pages on file changes.
 
-# Browser support
+## Libraries
 
-The application is designed to work in all [modern browsers](http://browsehappy.com/). It has been tested and works with IE versions 9+.
+The application uses [Ractive](http://ractivejs.org/) to manage views and state. [Backbone](http://backbonejs.org/) and [Backbone.QueryCollection](https://github.com/davidgtonge/backbone_query) are used for manipulating and faceting the data. [jQuery](http://jquery.com) and [Underscore](http://underscorejs.org) are also used. The application includes locally-served versions of these libraries.
+
 
 # Mapping
 
 The maps use [jVectormap](http://jvectormap.com/). This is vector mapping library, which includes boundaries for most countries. There are some discrepancies which are handled to ensure the map is accurate (see [below](#country_data_discrepancies)).
+
+
+# Browser support
+
+The application is designed to work in all [modern browsers](http://browsehappy.com/). It has been tested and works with IE versions 9+.
 
 # Data processing
 
@@ -32,7 +42,7 @@ The raw data files (in `/data/original` folder) were processed using [OpenRefine
 
 This data was compared to and combined with the official list of [Member States of the United Nations](http://un.org/en/members/), and [FAO's Country codes/names data](http://www.fao.org/countryprofiles/iso3list/en/), with additional location data (e.g. lat/lon centre-points) added for countries too small to appear in the jVectormap boundaries.
 
-The example below shows the final data model created. It's designed to be fast to load and lightweight, containing all required data - and not requiring any joins to display the data. The file is bootstrapped into the application at load through `/data/iff_status.js`.
+The example below shows the final data model created. It's designed to be fast to load and lightweight, containing all required data - and not requiring any joins to display the data. The file is bootstrapped into the application at load through `/data/iff_status.json`.
 
 ## Data model and field options
 
@@ -64,7 +74,7 @@ The dataset includes 3 SRAPS in the same table. As they are a different type of 
 
 ## Updating the data
 
-You can edit the `data/source_iif_status.json` file. It then needs to be recompiled into the `data/iif_status.js` file by running `node data/process_data.js`.
+You can edit the `data/source_iif_status.json` file.
 
 For reference, an example of the OpenRefine project used to prepare the initial data is included in the `/data/original` folder, but it is not likely to be up to date. 
 
