@@ -38,7 +38,7 @@ The application is designed to work in all [modern browsers](http://browsehappy.
 
 # Data processing
 
-The raw data files (in `/data/original` folder) were processed using [OpenRefine](http://openrefine.org). 
+The raw data files (in `/data/original` folder) were processed using [OpenRefine](http://openrefine.org). This was exported to `/data/source_iif_status.json`, and converted into a JavaScript file for bootstrapping by running `node data/process_data.js`. (Optionally this script can produce a CSV output by appending a `--csv` flag.)
 
 This data was compared to and combined with the official list of [Member States of the United Nations](http://un.org/en/members/), and [FAO's Country codes/names data](http://www.fao.org/countryprofiles/iso3list/en/), with additional location data (e.g. lat/lon centre-points) added for countries too small to appear in the jVectormap boundaries.
 
@@ -74,7 +74,7 @@ The dataset includes 3 SRAPS in the same table. As they are a different type of 
 
 ## Updating the data
 
-You can edit the `data/source_iif_status.json` file.
+You can edit the `data/source_iif_status.json` file. It then needs to be recompiled into the `data/iif_status.js` file by running `node data/process_data.js`.
 
 For reference, an example of the OpenRefine project used to prepare the initial data is included in the `/data/original` folder, but it is not likely to be up to date. 
 
