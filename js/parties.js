@@ -19,34 +19,51 @@ Party = Backbone.Model.extend({
       throw 'Cannot create id for Party'
     }
   },
+  decorateRegionSubregion: function(filters){
+    var region, regionTitle, subregion, subregionTitle;
+
+    region = this.get('region');
+    regionTitle = filters.findWhere({attribute: 'region', value: region}).get('title')
+
+    subregion = this.get('subregion');
+    subregionTitle = filters.findWhere({attribute: 'subregion', value: subregion}).get('title')
+
+    return {
+      regionTitle: regionTitle,
+      subregionTitle: subregionTitle
+    }
+  },
   decorateForDetailView: function(views, filters) {
     var _this = this;
-    return _.chain(views).map(function(view) {
-      var filterAttribute = view.filterAttribute; // e.g. 'iif_or_plan'
+    return _.chain(views)
+      .map(function(view) {
+        var filterAttribute = view.filterAttribute; // e.g. 'iif_or_plan'
 
-      var filterDef = filters.definitions.findWhere({
-        name: filterAttribute
-      });
-      var attributeTitle = filterDef.get('title'); // e.g. 'IIFs established'
+        var filterDef = filters.definitions.findWhere({
+          name: filterAttribute
+        });
+        var attributeTitle = filterDef.get('title'); // e.g. 'IIFs established'
 
-      var choiceValue = _this.get(filterAttribute); // e.g. 'iif' - i.e. the model's value for the filterAttribute
-      var choice = filters.findWhere({
-        attribute: filterAttribute,
-        value: choiceValue
+        var choiceValue = _this.get(filterAttribute); // e.g. 'iif' - i.e. the model's value for the filterAttribute
+        var choice = filters.findWhere({
+          attribute: filterAttribute,
+          value: choiceValue
+        })
+        if (choice == undefined || choiceTitle == '') {
+          return
+        }
+
+        var attributeColour = choice.get('colour');
+        var choiceTitle = choice.get('title');
+
+        return {
+          attributeTitle: attributeTitle,
+          choiceTitle: choiceTitle,
+          colour: attributeColour,
+        }
       })
-      if (choice == undefined || choiceTitle == '') {
-        return
-      }
-
-      var attributeColour = choice.get('colour');
-      var choiceTitle = choice.get('title');
-
-      return {
-        attributeTitle: attributeTitle,
-        choiceTitle: choiceTitle,
-        colour: attributeColour,
-      }
-    }).compact().value();
+      .compact()
+      .value();
   }
 })
 

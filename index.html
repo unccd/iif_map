@@ -195,14 +195,24 @@
       <div class="detail">
         <button on-click='set("selectedParty","")' class='back'>X Close</button>
         <div class='party-name'>{{selectedParty.short_name}}</div>
+        {{#with decorateRegionSubregionForParty(selectedParty)}}
+          <div class='party-region'>
+            <span class='attribute-title'>Region</span>
+            {{regionTitle}}
+          </div>
+          <div class='party-subregion'>
+            <span class='attribute-title'>Sub-region</span>
+            {{subregionTitle}}
+          </div>
+        {{/with}}
 
         <div class='choices-summary filters-list'>
-          {{#detailForParty(selectedParty)}}
+          {{#each detailForParty(selectedParty)}}
             <div class='attribute-title'>{{attributeTitle}}</div>
             <div class='filter-choice included' style='border-left:20px solid {{colour}}'>
               <div class='choice-title'>{{choiceTitle}}</div>
             </div>
-          {{/detailForParty}}
+          {{/each}}
         </div>
 
         <div class='attribute'>

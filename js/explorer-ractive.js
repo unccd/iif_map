@@ -42,6 +42,15 @@ function initRactive(collection, filters, views) {
         if (party == '') { return };
         return new Party(party).decorateForDetailView(views, filters);
       },
+      decorateRegionSubregionForParty: function(party){
+        if (party === undefined) {
+          party = this.get('selectedParty');
+        }
+        if (party == '') { return };
+        reply = new Party(party).decorateRegionSubregion(filters);
+        console.debug(reply);
+        return reply;
+      },
     },
     // COMPUTED DATA
     computed: {
