@@ -124,9 +124,10 @@ function initRactive(collection, filters, views) {
 
   // Update map when a Party is selected
   ractive.observe('selectedParty', function(){
+    // Close SRAP detail tab is it's open
+    this.set('showSrapDetail', false);
     this.map.updateMap();
   }, {init: false})
-
 
   // Watch geoSearch and set Party if a Party is selected
   // Also reset filters if it's empty!

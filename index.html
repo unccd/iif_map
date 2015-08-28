@@ -93,9 +93,13 @@
 
   <script id='explorer' type="text/html">
     <div class="col col-4 controls">
-      {{>srapDetailPartial}}
-      {{>partyDetailPartial}}
-      {{>summaryPartial}}
+      {{#if showSrapDetail}}
+        {{>srapDetailPartial}}
+      {{elseif selectedParty}}
+        {{>partyDetailPartial}}
+      {{else}}
+        {{>summaryPartial}}
+      {{/if}}
     </div>
     <div class="col col-8 content">
       <div class="map">
@@ -156,7 +160,7 @@
   <script id='srapDetailPartial' type="text/html">
     {{#showSrapDetail}}
       <div class="detail">
-        <button on-click='set("showSrapDetail", false)' class='back'>&lt; Filters</button>
+        <button on-click='set("showSrapDetail", false)' class='back'>X Close</button>
         <div class='party-name'>Subregional Action Programmes</div>
 
         {{#each sraps:srap}}
@@ -193,7 +197,7 @@
   <script id='partyDetailPartial' type="text/html">
     {{#selectedParty}}
       <div class="detail">
-        <button on-click='set("selectedParty","")' class='back'>X Close</button>
+        <button on-click='set("selectedParty","")' class='back'>&lt; Filters</button>
         <div class='party-name'>{{selectedParty.short_name}}</div>
         {{#with decorateRegionSubregionForParty(selectedParty)}}
           <div class='party-region'>

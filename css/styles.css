@@ -173,8 +173,8 @@ a {
   padding-left: 0px;
 }
 .detail {
-  min-height: 450px;
-  z-index: 10;
+  /* z-index: 10; */
+  min-height: 430px;
   position: absolute;
   padding: 10px;
   background: inherit;
