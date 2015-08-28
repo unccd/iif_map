@@ -36,7 +36,6 @@ function initRactive(collection, filters, views) {
         return this.get('filters').decorateForFiltersList(view.filterAttribute);
       },
       detailForParty: function(party) {
-        console.log(party);
         if (party === undefined) {
           party = this.get('selectedParty');
         }
