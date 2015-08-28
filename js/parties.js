@@ -74,43 +74,47 @@ PartiesQueryCollection = Backbone.QueryCollection.extend({
 
 Parties = PartiesQueryCollection.extend({
   initialize: function(models, options) {
+    // Create a Backbone.QueryCollection from the original models
     this._superset = new PartiesQueryCollection(models);
   },
   resetWithQuery: function(queryObject, filterAttribute) {
     queryObject["$and"] || (queryObject["$and"] = {});
     queryObject["$and"][filterAttribute]= {$ne: ''};
+
+    // Pass the query to the Backbone.QueryCollection
+    // and reset the Filters Collection to the result
     var queryResult = this._superset.query(queryObject);
     this.reset(queryResult);
   },
   prepareMapRegionsData: function(attribute) {
-    var partiesJSON = this.toJSON();
-    // Get models with attribute
+    // Get models with attribute set
     // Reject SRAPs
-    var models = _.chain(partiesJSON)
+    var models = _.chain(this.toJSON())
       .reject(function(i) {return i[attribute] === ''})
-      .where({use_centre_point: false, srap: false })
+      .where({use_centre_point: false, srap: false})
       .value();
+
     // return mapped to ISO2
     var iso2s = _.pluck(models, 'iso2');
     var attributes = _.pluck(models, attribute);
     return _.object(iso2s, attributes)
   },
   prepareMapMarkersData: function(attribute) {
-    var partiesJSON = this.toJSON();
-    var models = _.chain(partiesJSON)
+    var models, markers;
+
+    models = _.chain(this.toJSON())
       .reject(function(i) {return i[attribute] === ''})
-      .where({use_centre_point: true, srap: false, })
+      .where({use_centre_point: true, srap: false})
       .value();
 
-    var markers = {};
-    _.each(models, function(model){
-      var marker = {
-        name: model.short_name,
-        latLng: [model.lat, model.lon],
-        value: model[attribute]
-      };
-      markers[model.iso2] = marker;
-    });
-    return markers;
+    return _.object(
+      _.map(models, function(model){
+        return [model.iso2, {
+          name: model.short_name,
+          latLng: [model.lat, model.lon],
+          value: model[attribute]
+        }];
+      })
+    );
   }
 });
