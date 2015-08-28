@@ -1,8 +1,3 @@
-.srap-name {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
 body {
   font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
   color: #333;
@@ -195,13 +190,19 @@ a {
   width: 100%;
 }
 .srap-detail {
-
-margin-bottom: 19px;/* border-bottom: 1px #E2E2E2 solid; */}
+  margin-bottom: 19px;
+}
 .srap-name {
   color: #7D5319;
   font-weight: bold;
   border-bottom: 1px #E2E2E2 solid;
   margin-top: 21px;
+}
+.srap-official-name {
+  color: #717171;
+  font-size: 11px;
+  line-height: 150%;
+  margin-top: 5px;
 }
 button.back {
   cursor: pointer;
@@ -365,17 +366,14 @@ div.excluded-count {
   width: 100%;
 }
 
-.search > .search-controls {
-}
-
-.search-controls > .search-control {
+.search-control {
   background: #F2F2F2;
   text-align: center;
   cursor: pointer;
   border: 1px #AAAAAA solid;
   border-radius: 4px;
   font-size: 12px;
-  color: #BDB0B0;
+  color: #989898;
   box-shadow: 0 0 5px rgba(0,0,0,.3);
   height: 20px;
   position: absolute;
@@ -389,19 +387,35 @@ div.excluded-count {
   width: 69px;
 }
 
-.search-control.show-srap-detail {
-  width: 95px;
-  right: 90px;
-}
-.search-control.show-srap-detail.active {
-  color: red;
-}
-
 .reset-geoSearch > .reset-x {
-  color: #D6A3A3;
+  /* color: #D6A3A3; */
   margin-right: 4px;
   /* margin-top: -5px; */
   top: -1px;
   position: absolute;
-  left: 4px;
+  left: 7px;
+}
+
+.srap-toggle-overlay {
+  z-index: 1;
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  height: initial;
+  width: initial;
+}
+
+.search-control.show-srap-detail {
+  width: 100%;
+  padding: 0 5px;
+  /* right: 89px; */
+  color: #757575;
+  /* float: left; */
+  top: 0;
+  position: relative;
+}
+
+.search-control.show-srap-detail.active {
+  color: #C7A900;
+  box-shadow: none;
 }

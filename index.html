@@ -100,6 +100,7 @@
     <div class="col col-8 content">
       <div class="map">
         {{>searchPartial}}
+        {{>srapTogglePartial}}
       </div>
     </div>
   </script>
@@ -161,6 +162,7 @@
         {{#each sraps:srap}}
           <div class='srap-detail'>
             <div class='srap-name'>{{short_name}}</div>
+            <div class='srap-official-name'>{{official_name}}</div>
 
             <div class='choices-summary filters-list'>
               {{#detailForParty(.)}}
@@ -220,8 +222,9 @@
 
   <!-- SEARCH PARTIAL -->
   <script id="searchPartial" type="text/html">
+
     <div class='search'>
-      <select decorator='chosen:geoSearch' value="{{geoSearch}}" data-observe='collection' data-placeholder="Search party, region">
+      <select decorator='chosen:geoSearch' value="{{geoSearch}}" data-observe='collection' data-placeholder="Search Party, region">
         <option value=""></option>
         {{#each geoSearchList}}
           <optgroup label="{{titleCase(name)}}">
@@ -231,15 +234,24 @@
           </optgroup>
         {{/each}}
       </select>
-      <div class='search-controls'>
-        {{#srapCount}}
-          <div on-click='toggle("showSrapDetail")' class="search-control show-srap-detail {{#showSrapDetail}}active{{/showSrapDetail}}">{{srapCount}} SRAPS</div>
-        {{/srapCount}}
-        {{#if geoSearch != ''}}
-          <div on-click='resetGeoSearch()' class="search-control reset-geoSearch"><span class='reset-x'>x</span>Show all</div>
-        {{/if}}
-      </div>
+
+      {{#if geoSearch != ''}}
+        <div on-click='resetGeoSearch()' class="search-control reset-geoSearch"><span class='reset-x'>x</span>Show all</div>
+      {{/if}}
     </div>    
+  </script>
+
+  <!-- SRAP TOGGLE BUTTON MAP OVERAL PARTIAL  -->
+  <script id="srapTogglePartial" type="text/html">
+    <div class='srap-toggle-overlay'>
+      {{#srapCount}}
+        <div 
+          on-click='toggle("showSrapDetail")' 
+          class="search-control show-srap-detail {{#showSrapDetail}}active{{/showSrapDetail}}">
+            Includes {{srapCount}} SRAP
+        </div>
+      {{/srapCount}}
+    </div>
   </script>
 
   <!-- FILTER LIST ITEM PARTIAL -->
