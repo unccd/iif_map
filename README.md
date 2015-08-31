@@ -125,7 +125,7 @@ Tuvalu|TUV|TV|227|798
 
 # License
 
-This software is licensed under MIT license. See [LICENSE.txt](/license.txt) file. The license excludes the files in the `data` folder. These are copyright UNCCD.
+This software is licensed under MIT license. See [LICENSE.txt](/LICENSE.txt) file. The license excludes the files in the `data` folder. These are copyright UNCCD.
 
 In addition, the following libraries were used, and are covered by the following licenses:
 
