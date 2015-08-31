@@ -67,14 +67,14 @@ function initMap(ractive, view) {
           scale: scale,
           normalizeFunction: 'ordinal',
           attribute: 'fill',
-          values: initialRegionValues,
+          values: initialRegionValues
         }],
         markers: [{
           scale: scale,
           normalizeFunction: 'ordinal',
           attribute: 'fill',
-          values: _prepareMarkersArrayForViz(),
-        }],
+          values: _prepareMarkersArrayForViz()
+        }]
       },
       markers: initialMarkersArray,
       regionStyle: regionStyle,
@@ -214,13 +214,8 @@ function initMap(ractive, view) {
     }
   }
 
-  function _addMarkerFor(party) {
-    map.removeAllMarkers();
-    map.addMarker(party.iso2, [party.lat, party.lon]);
-  }
-
   return {
     mapObject: mapObject,
-    updateMap: updateMap,
+    updateMap: updateMap
   }
 }

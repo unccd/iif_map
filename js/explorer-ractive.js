@@ -48,7 +48,7 @@ function initRactive(collection, filters, views) {
         }
         if (party == '') { return };
         return new Party(party).decorateRegionSubregion(filters);
-      },
+      }
     },
     // COMPUTED DATA
     computed: {

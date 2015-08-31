@@ -59,7 +59,7 @@ Party = Backbone.Model.extend({
         return {
           attributeTitle: attributeTitle,
           choiceTitle: choiceTitle,
-          colour: attributeColour,
+          colour: attributeColour
         }
       })
       .compact()
