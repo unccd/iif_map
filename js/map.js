@@ -50,7 +50,7 @@ function initMap(ractive, view) {
     markerStyle = {
       initial: {
         fill: '#E2E2E2',
-        r: '4px',
+        r: '4',
         // stroke: 'darkgrey',
         'stroke-width': 1
       },
@@ -193,7 +193,7 @@ function initMap(ractive, view) {
       return
     };
 
-    setTimeout(_zoomMapTo(regionCodes), 0);
+    window.setTimeout(function(){_zoomMapTo(regionCodes);}, 0);
   }
 
   function _zoomMapTo(regionCodes) {
