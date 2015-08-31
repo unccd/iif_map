@@ -53,16 +53,19 @@ FilterDefinitions = Backbone.Collection.extend({
     }
     return Backbone.Collection.prototype._prepareModel.call(this, model, options);
   },
+  // This is fairly custom. 
+  // Deals with SRAPs being excluded from GeoSearch options
   _inferChoicesFromCollection: function(model, options) {
     var _this = this, definition = _.omit(model, 'choices');
     var valueField = definition.infer_value_field, titleField = definition.infer_title_field;
-    var lots = this.collectionToFilter.map(function(collectionItem){
+    var collectionChoices = this.collectionToFilter.map(function(collectionItem){
       return {
         value: collectionItem.get(valueField),
         title: collectionItem.get(titleField),
+        srap: collectionItem.get('srap')
       }
     });
-    _this.filtersCollection.add(lots, {definition: definition});
+    _this.filtersCollection.add(collectionChoices, {definition: definition});
   },
   // FILTER QUERY 
   // 
@@ -205,35 +208,27 @@ FilterChoices = Backbone.Collection.extend({
   },
   decorateForGeosearch: function() {
     var _this = this;
+
+    // Find the 'name' of Defintions with 'geoSearch' flag
     var geoAttributes = _.map(this.definitions.where({
       geosearch: true
-    }), function(filterDef) {
-      return filterDef.get('name')
+    }), function(definition) {
+      return definition.get('name')
     });
+
     if (_.isEmpty(geoAttributes)) {
       console.log('Filters: no geosearch attributes found');
       return;
     }
 
-    // return _.map(geoAttributes, function(geoAttribute) {
-    //   var choices =  _.chain(_this.collectionToFilter.toJSON())
-    //     .select(function(model){
-    //       return model[geoAttribute] != '' && model[geoAttribute] != undefined;
-    //     })
-    //     .pluck(geoAttribute)
-    //     .uniq()
-    //     .sort()
-    //     .value();
-    //   return {
-    //     name: geoAttribute,
-    //     choices: choices
-    //   }
-    // });
     return _.map(geoAttributes, function(geoAttribute) {
+      var _geoAttribute = geoAttribute;
       return {
         name: geoAttribute,
-        choices: _this.where({
-          attribute: geoAttribute
+        choices: _this.filter(function(choice){
+          // Exclude SRAPs from geoSearch results
+          if (choice.get('srap')) { return false};
+          return choice.get('attribute') === _geoAttribute;
         })
       }
     });
