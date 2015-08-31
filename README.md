@@ -44,35 +44,37 @@ This data was compared to and combined with the official list of [Member States 
 
 The example below shows the final data model created. It's designed to be fast to load and lightweight, containing all required data - and not requiring any joins to display the data. The file is bootstrapped into the application at load through `/data/iff_status.json`.
 
-## Data model and field options
+# Data model and field options
 
-The options need to match the model definition in `/data/iff_status_def.yml`.
+The options need to match the model definition in `/data/iff_status_def.yml` - see section on [Filters](#filters_and_filter_definitions) below.
 
-Field name            | Options                                              | Example
----                   | ---                                                  | ---
-`short_name`          | Short country name from UN Members List [text]       | Viet Nam
-`iso3`                | Capitalised ISO3 [text]                              | VNM
-`region`              | africa, asia ... [snake_case]                        | asia
-`subregion`           | east_asia, pacific ... [snake_case]                  | south_east_asia
-`acp`                 | Is an ACP: [true / false]                            | true
-`srap`                | Is a SRAP: [true / false]                            | false
-`dcp`                 | Is a DCP: [true / false]                             | null
-`iif_or_plan`         | Status of IIF: iif,plan,no_plan, unknown             | iif
-`iif_plan_start`      | Biennium of plan: 2014_2015,...[snake_case or blank] |
-`gm_supported`        | GM support for IIF/IFS: [true / false]               | true
-`description`         | Descripton of Party activity [text or blank]         | The NAP established in ...
-`lon`                 | WGS 84 [float]                                       | 108.341384
-`lat`                 | WGS 84 [float]                                       | 14.287268
-`iso2`                | Capitalised ISO2/ISO 3166 [text]                     | VN
-`official_name`       | Full name from UN Members List [text]                | the Socialist Republic of Viet Nam
-`use_centre_point`    | [true / false]                                       | false
-`unccd_provided_data` | Part of UNCCD dataset: [true / false]                | true
+Field name            | Options                                                          | Example
+---                   | ---                                                              | ---
+`short_name`          | Official short country name from UN Members List [text]          | Viet Nam
+`iso3`                | Capitalised ISO3 [text]                                          | VNM
+`region`              | africa, asia [snake_case]                                        | asia
+`subregion`           | east_asia, pacific [snake_case]                                  | south_east_asia
+`acp`                 | Is an ACP: [true / false]                                        | true
+`srap`                | Is a SRAP: [true / false]                                        | false
+`dcp`                 | Is a DCP: [true / false]                                         | null
+`iif_or_plan`         | Status of IIF: iif, plan, no_plan, unknown [snake_case or blank] | iif
+`iif_plan_start`      | Biennium of plan: 2014_2015,...[snake_case or blank]             |
+`gm_supported`        | GM support for IIF/IFS: [true / false]                           | true
+`description`         | Descripton of Party activity [text or blank]                     | The NAP established in ...
+`lon`                 | WGS 84 [float]                                                   | 108.341384
+`lat`                 | WGS 84 [float]                                                   | 14.287268
+`iso2`                | Capitalised ISO2/ISO 3166 [text]                                 | VN
+`official_name`       | Full name from UN Members List [text]                            | the Socialist Republic of Viet Nam
+`use_centre_point`    | [true / false]                                                   | false
+`unccd_provided_data` | Part of UNCCD dataset: [true / false]                            | true
 
 ### Note on Subregional Action Programmes (SRAPs)
 
 The dataset includes 3 SRAPS in the same table. As they are a different type of entity, they have slightly different use of these fields: `short_name`, `iso3`, `acp`, `dcp`, `lon`, `lat`, `iso2` and `official_name` fields.
 
 ## Updating the data
+
+You can edit the `data/iif_status.js` file directly. 
 
 You can edit the `data/source_iif_status.json` file. It then needs to be recompiled into the `data/iif_status.js` file by running `node data/process_data.js`.
 
@@ -121,3 +123,26 @@ Tuvalu|TUV|TV|227|798
 
 * The `fao_stat` and `uni_code` fields are from the [FAO Country names data](http://www.fao.org/countryprofiles/iso3list/en/)
 
+# License
+
+This software is licensed under MIT license. See [LICENSE.txt](/license.txt) file. The license excludes the files in the `data` folder. These are copyright UNCCD.
+
+In addition, the following libraries were used, and are covered by the following licenses:
+
+  - jQuery (MIT)
+  - jVectormap (GNU GPL)
+  - Underscore (MIT)
+  - Backbone (MIT)
+  - Backbone-Query (MIT)
+  - Chosen (MIT)
+  - Ractive (MIT)
+  - Ractive-backbone-adaptor (MIT)
+  - Ractive-decorator-chosen (MIT)
+
+## Contact information
+
+This application was built by [Peoplesized](http://www.peoplesized.com). For more information, get in touch via our website or <hello@peoplesized.com>.
+
+# Changes
+
+1.0.6 Fixes for IE8-11, and IE Compatibility View mode
