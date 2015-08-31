@@ -16,7 +16,7 @@ gulp.task('serve', function() {
     open: false,
   })
   // Reloads page when some of the already built files changed:
-  gulp.watch(['*.html', 'js/*'], browserSync.reload);
+  gulp.watch(['*.html', 'js/*', 'data/*.js'], browserSync.reload);
 });
 
 gulp.task('default', ['serve']);
