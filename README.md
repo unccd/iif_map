@@ -145,4 +145,5 @@ This application was built by [Peoplesized](http://www.peoplesized.com). For mor
 
 # Changes
 
+1.0.7 Map colours changed
 1.0.6 Fixes for IE8-11, and IE Compatibility View mode
