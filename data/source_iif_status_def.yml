@@ -87,7 +87,7 @@ definitions:
     choices:
       - value: true
         title: 'GM has provided support'
-        colour: '#5AAE53'
+        colour: '#990032'
 views:
   - name: iifs_established
     title: IIFs established
