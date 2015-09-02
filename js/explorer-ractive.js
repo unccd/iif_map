@@ -137,6 +137,7 @@ function initRactive(collection, filters, views) {
     // If it's a Party and there's no selectedParty already,
     // then set the selectedParty to this Party
     if (this.get('geoSearchAttribute') == 'party') {
+      this.get('filters').setAllNotExcluded();
       var party = collection.get(filterId);
       this.set('selectedParty', party.toJSON());
     }
